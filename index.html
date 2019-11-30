@@ -16,7 +16,50 @@ if (isPassword) {
     error: '复制错误',
     noSupport: '浏览器不支持'
   }
-}</script></head><body><canvas id="universe"></canvas><!--#body--><div id="sidebar"><div class="author-info"><div class="author-info-avatar"><img class="author-info-avatar-img" src="/avatar.png"></div><div class="author-info-name">Rr-shan</div><div class="author-info-description"></div><div class="links-buttons"><a class="links-button button-hover" href="https://github.com/Rr-shan" target="_blank">GitHub<i class="icon-dot bg-color7"></i></a><a class="links-button button-hover" href="mailto:1224559633@qq.com" target="_blank">E-Mail<i class="icon-dot bg-color6"></i></a></div><div class="author-info-articles"><a class="author-info-articles-archives article-meta" href="/archives"><span class="pull-top">日志</span><span class="pull-bottom">18</span></a><a class="author-info-articles-tags article-meta" href="/tags"><span class="pull-top">标签</span><span class="pull-bottom">5</span></a></div></div></div><div id="main-container"><header><div id="menu-outer"><i class="menu-list-icon fas fa-bars"></i><nav id="menu-inner"><a class="menu-item" href="/">首页</a><a class="menu-item" href="/tags">标签</a><a class="menu-item" href="/categories">分类</a><a class="menu-item" href="/archives">归档</a><a class="menu-item" href="/about">关于</a></nav><div class="right-info"><a class="title-name" href="/">Sanzzi</a><span id="now-time"></span></div></div></header><div id="content-outer"><div id="content-inner"><div id="recent-posts"><!-- each post in page.posts.sort('date', -1).limit(10).toArray()--><!-- config中配置按照什么排序--><div class="recent-post-item"><a class="post-title" href="/2019/11/30/pandas(cheat sheet)/">pandas(cheat sheet)</a><div class="container"><time class="button-hover post-date"><i class="fas fa-calendar-alt article-icon" aria-hidden="true"></i> 更新于 2019-11-30</time><div class="button-hover tags"><i class="fa fa-tag article-icon" aria-hidden="true"></i><a class="link-a" href="/tags/Python库/">Python库</a></div></div><div class="post-content"><div class="main-content content"><h2 id="pandas"><a href="#pandas" class="headerlink" title="pandas"></a>pandas</h2><h1 id="basic"><a href="#basic" class="headerlink" title="basic"></a>basic</h1><h2 id="Series"><a href="#Series" class="headerlink" title="Series"></a>Series</h2><p>1.创建</p>
+}</script></head><body><canvas id="universe"></canvas><!--#body--><div id="sidebar"><div class="author-info"><div class="author-info-avatar"><img class="author-info-avatar-img" src="/avatar.png"></div><div class="author-info-name">Rr-shan</div><div class="author-info-description"></div><div class="links-buttons"><a class="links-button button-hover" href="https://github.com/Rr-shan" target="_blank">GitHub<i class="icon-dot bg-color5"></i></a><a class="links-button button-hover" href="mailto:1224559633@qq.com" target="_blank">E-Mail<i class="icon-dot bg-color1"></i></a></div><div class="author-info-articles"><a class="author-info-articles-archives article-meta" href="/archives"><span class="pull-top">日志</span><span class="pull-bottom">19</span></a><a class="author-info-articles-tags article-meta" href="/tags"><span class="pull-top">标签</span><span class="pull-bottom">5</span></a></div></div></div><div id="main-container"><header><div id="menu-outer"><i class="menu-list-icon fas fa-bars"></i><nav id="menu-inner"><a class="menu-item" href="/">首页</a><a class="menu-item" href="/tags">标签</a><a class="menu-item" href="/categories">分类</a><a class="menu-item" href="/archives">归档</a><a class="menu-item" href="/about">关于</a></nav><div class="right-info"><a class="title-name" href="/">Sanzzi</a><span id="now-time"></span></div></div></header><div id="content-outer"><div id="content-inner"><div id="recent-posts"><!-- each post in page.posts.sort('date', -1).limit(10).toArray()--><!-- config中配置按照什么排序--><div class="recent-post-item"><a class="post-title" href="/2019/11/30/BeautifulSoup(cheat sheet)/">BeautifulSoup(cheat sheet)</a><div class="container"><time class="button-hover post-date"><i class="fas fa-calendar-alt article-icon" aria-hidden="true"></i> 更新于 2019-11-30</time><div class="button-hover tags"><i class="fa fa-tag article-icon" aria-hidden="true"></i><a class="link-a" href="/tags/Python库/">Python库</a></div></div><div class="post-content"><div class="main-content content"><h2 id="BeautifulSoup"><a href="#BeautifulSoup" class="headerlink" title="BeautifulSoup"></a>BeautifulSoup</h2><p>正则表达式的退位</p>
+<ol>
+<li><p>soup = BeautifulSoup(html,”lxml”)<br>soup.prettify()</p>
+</li>
+<li><p>soup.title.string  soup.title</p>
+</li>
+<li><p>type(soup.title)</p>
+</li>
+<li><p>soup.p[‘name’]</p>
+</li>
+<li><p>soup.p.contents</p>
+</li>
+<li><p>for i,child in enumerate(soup.p.children):<br> print(i,child)</p>
+<p> for i,child in enumerate(soup.p.descendants):<br> print(i,child)</p>
+</li>
+<li><p>soup.a.parent<br> list(enumerate(soup.a.parent))<br> list(enumerate(soup.a.parents))</p>
+</li>
+<li><p>list(enumerate(soup.a.next_siblings))<br> list(enumerate(soup.a.previous_siblings))</p>
+</li>
+</ol>
+<hr>
+<ol>
+<li><p>将混乱的代码格式化，并且将一些缺失的不规范的代码补全</p>
+</li>
+<li><p>有没有标签的区别</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">The Documouse&apos;s story</span><br><span class="line"></span><br><span class="line">&lt;title&gt;The Documouse&apos;s story&lt;/title&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>类型（没啥用）</p>
+</li>
+<li><p>字段匹配</p>
+</li>
+<li><p>用列表的方式输出p</p>
+</li>
+<li><p>输出子节点，迭代器 下面输出的不同是内容还是会输出来的</p>
+</li>
+<li><p>父节点、list是放到一个array去了，parents是所有的</p>
+</li>
+<li><p>兄弟节点</p>
+</li>
+</ol>
+</div></div><a class="button-hover more" href="/2019/11/30/BeautifulSoup(cheat sheet)/#more">阅读全文</a></div><div class="recent-post-item"><a class="post-title" href="/2019/11/30/pandas(cheat sheet)/">pandas(cheat sheet)</a><div class="container"><time class="button-hover post-date"><i class="fas fa-calendar-alt article-icon" aria-hidden="true"></i> 更新于 2019-11-30</time><div class="button-hover tags"><i class="fa fa-tag article-icon" aria-hidden="true"></i><a class="link-a" href="/tags/Python库/">Python库</a></div></div><div class="post-content"><div class="main-content content"><h2 id="pandas"><a href="#pandas" class="headerlink" title="pandas"></a>pandas</h2><ul>
+<li>basic </li>
+</ul>
+<h2 id="Series"><a href="#Series" class="headerlink" title="Series"></a>Series</h2><p>1.创建</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">s = pd.Series([1,3,6,np.nan,44,1])</span><br><span class="line"></span><br><span class="line">print(s)</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">0     1.0</span><br><span class="line">1     3.0</span><br><span class="line">2     6.0</span><br><span class="line">3     NaN</span><br><span class="line">4    44.0</span><br><span class="line">5     1.0</span><br><span class="line">dtype: float64</span><br><span class="line">&quot;&quot;&quot;</span><br></pre></td></tr></table></figure>
 
 <blockquote>
@@ -33,18 +76,15 @@ if (isPassword) {
 
 <p>查看属性</p>
 <ol start="3">
-<li><p>df2.dtypes</p>
-</li>
-<li><p>df2.index / df2.columns</p>
-</li>
-<li><p>df2.values<br>修改属性</p>
-</li>
-<li><p>df2.describe()</p>
-</li>
-<li><p>df2.T(transpose)</p>
-</li>
-<li><p>df2.sort_index(axis=1, ascending=False)<br>(df2.sort_values(by=’B’)</p>
-</li>
+<li>df2.dtypes</li>
+<li>df2.index / df2.columns</li>
+<li>df2.values<br>修改属性</li>
+<li>df2.describe()</li>
+<li>df2.T(transpose)</li>
+<li>df2.sort_index(axis=1, ascending=False)<br>(df2.sort_values(by=’B’)</li>
+</ol>
+<hr>
+<ol>
 <li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">print(df)</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">                   a         b         c         d</span><br><span class="line">2016-01-01 -0.253065 -2.071051 -0.640515  0.613663</span><br><span class="line">2016-01-02 -1.147178  1.532470  0.989255 -0.499761</span><br><span class="line">2016-01-03  1.221656 -2.390171  1.862914  0.778070</span><br><span class="line">2016-01-04  1.473877 -0.046419  0.610046  0.204672</span><br><span class="line">2016-01-05 -1.584752 -0.700592  1.487264 -1.778293</span><br><span class="line">2016-01-06  0.633675 -1.414157 -0.277066 -0.442545</span><br><span class="line">&quot;&quot;&quot;</span><br></pre></td></tr></table></figure>
 </li>
 <li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">     A          B    C  D      E    F</span><br><span class="line">0  1.0 2013-01-02  1.0  3   test  foo</span><br><span class="line">1  1.0 2013-01-02  1.0  3  train  foo</span><br><span class="line">2  1.0 2013-01-02  1.0  3   test  foo</span><br><span class="line">3  1.0 2013-01-02  1.0  3  train  foo</span><br></pre></td></tr></table></figure>
@@ -64,20 +104,16 @@ if (isPassword) {
 </li>
 </ol>
 </div></div><a class="button-hover more" href="/2019/11/30/pandas(cheat sheet)/#more">阅读全文</a></div><div class="recent-post-item"><a class="post-title" href="/2019/11/30/numpy（cheat sheet）/">numpy(cheat sheet)</a><div class="container"><time class="button-hover post-date"><i class="fas fa-calendar-alt article-icon" aria-hidden="true"></i> 更新于 2019-11-30</time><div class="button-hover tags"><i class="fa fa-tag article-icon" aria-hidden="true"></i><a class="link-a" href="/tags/Python库/">Python库</a></div></div><div class="post-content"><div class="main-content content"><h2 id="numpy-主要应用于矩阵运算"><a href="#numpy-主要应用于矩阵运算" class="headerlink" title="numpy:主要应用于矩阵运算"></a>numpy:主要应用于矩阵运算</h2><h3 id="array01"><a href="#array01" class="headerlink" title="array01"></a>array01</h3><ol>
-<li><p>array.ndim</p>
-</li>
-<li><p>array.shape</p>
-</li>
-<li><p>array.size</p>
-</li>
-<li><p>a.dtype</p>
-</li>
-<li><p>b = np.zeros((3,4)) np.ones((3,4))</p>
-</li>
-<li><p>np.arange(10,20,3)</p>
-</li>
-<li><p>g = np.linspace(1,10,5)</p>
-</li>
+<li>array.ndim</li>
+<li>array.shape</li>
+<li>array.size</li>
+<li>a.dtype</li>
+<li>b = np.zeros((3,4)) np.ones((3,4))</li>
+<li>np.arange(10,20,3)</li>
+<li>g = np.linspace(1,10,5)</li>
+</ol>
+<hr>
+<ol>
 <li><p>输出维度</p>
 </li>
 <li><p>几行几列</p>
@@ -98,50 +134,35 @@ if (isPassword) {
 </li>
 </ol>
 <h3 id="array02"><a href="#array02" class="headerlink" title="array02"></a>array02</h3><ol>
-<li><p>np.array()</p>
-</li>
-<li><p>np.vstack()</p>
-</li>
-<li><p>np.hstack()</p>
-</li>
-<li><p>.shape</p>
-</li>
-<li><p>:,np.newaxis</p>
-</li>
-<li><p>np.newaxis,:</p>
-</li>
-<li><p>np.concatenate()</p>
-</li>
-<li><p>axis=0/1</p>
-</li>
-<li><p>创建</p>
-</li>
-<li><p>合并成矩阵</p>
-</li>
-<li><p>连接</p>
-</li>
-<li><p>查看几行几列</p>
-</li>
-<li><p>划分为单个的列</p>
-</li>
-<li><p>划分为单个的行</p>
-</li>
-<li><p>连接多个array<br>8 行和列的转换</p>
-</li>
+<li>np.array()</li>
+<li>np.vstack()</li>
+<li>np.hstack()</li>
+<li>.shape</li>
+<li>:,np.newaxis</li>
+<li>np.newaxis,:</li>
+<li>np.concatenate()</li>
+<li>axis=0/1</li>
+</ol>
+<hr>
+<ol>
+<li>创建</li>
+<li>合并成矩阵</li>
+<li>连接</li>
+<li>查看几行几列</li>
+<li>划分为单个的列</li>
+<li>划分为单个的行</li>
+<li>连接多个array<br>8 行和列的转换</li>
 </ol>
 <h3 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h3><ol>
-<li><p>np.arange(3,15).reshape((3,4))</p>
-</li>
-<li><p>A[2,1] == A[2][1]</p>
-</li>
-<li><p>A[2,:]  A[1,1:3]</p>
-</li>
-<li><p>for row in A:<br> print(row)<br>for column in A.T:<br> print(column)</p>
-</li>
-<li><p>A.flatten()</p>
-</li>
-<li><p>for item in A.flat:<br> print(item)</p>
-</li>
+<li>np.arange(3,15).reshape((3,4))</li>
+<li>A[2,1] == A[2][1]</li>
+<li>A[2,:]  A[1,1:3]</li>
+<li>for row in A:<br> print(row)<br>for column in A.T:<br> print(column)</li>
+<li>A.flatten()</li>
+<li>for item in A.flat:<br> print(item)</li>
+</ol>
+<hr>
+<ol>
 <li><p>按照顺序生成 并且形成矩阵</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[[ 3  4  5  6]</span><br><span class="line"> [ 7  8  9 10]</span><br><span class="line"> [11 12 13 14]]</span><br></pre></td></tr></table></figure>
 </li>
@@ -182,6 +203,9 @@ if (isPassword) {
 </li>
 <li><p>np.clip(A,5,9)</p>
 </li>
+</ol>
+<hr>
+<ol>
 <li><p>每个元素都平方</p>
 </li>
 <li><p>每个元素都sin()</p>
@@ -398,58 +422,4 @@ if (isPassword) {
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">void Merge(vector&lt;int&gt; &amp;arr,int left,int mid,int right)</span><br><span class="line">&#123;</span><br><span class="line">    if(left &gt;= right)</span><br><span class="line">        return;</span><br><span class="line">    int i = left;</span><br><span class="line">    int j = mid + 1;</span><br><span class="line">    int k = left;</span><br><span class="line">    vector&lt;int&gt; temp(arr.size(),0);</span><br><span class="line">    while(i &lt;= mid &amp;&amp; j &lt;= right)</span><br><span class="line">    &#123;</span><br><span class="line">        if(arr[i] &lt; arr[j])</span><br><span class="line">            temp[k++] = arr[i++];</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            temp[k++] = arr[j++];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    while(i &lt;= mid)</span><br><span class="line">        temp[k++] = arr[i++];</span><br><span class="line">    while(j &lt;= right)</span><br><span class="line">        temp[k++] = arr[j++];</span><br><span class="line">    for(int i = left;i &lt;= right;i++)</span><br><span class="line">        arr[i] = temp[i];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void MergeSort(vector&lt;int&gt; &amp;arr,int left,int right)</span><br><span class="line">&#123;</span><br><span class="line">    if(left &gt;= right)</span><br><span class="line">        return;</span><br><span class="line">    else</span><br><span class="line">    &#123;</span><br><span class="line">        int mid = (left+right)/2;</span><br><span class="line">        MergeSort(arr,left,mid);</span><br><span class="line">        MergeSort(arr,mid+1,right);</span><br><span class="line">        Merge(arr,left,mid,right);</span><br><span class="line">    &#125;</span><br><span class="line">    return;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-</div></div><a class="button-hover more" href="/2019/10/23/排序算法/#more">阅读全文</a></div><div class="recent-post-item"><a class="post-title" href="/2019/10/20/COF23/">GOF23</a><div class="container"><time class="button-hover post-date"><i class="fas fa-calendar-alt article-icon" aria-hidden="true"></i> 更新于 2019-11-09</time><div class="button-hover tags"><i class="fa fa-tag article-icon" aria-hidden="true"></i><a class="link-a" href="/tags/Java/">Java</a></div></div><div class="post-content"><div class="main-content content"><p>创建型模式：单例模式、工厂模式、抽象工厂模式、建造者模式、原型模式</p>
-<p>结构型模式：适配器模式、桥接模式、装饰模式、组合模式、外观模式、享元模式、代理模式</p>
-<p>行为型模式：板块方法模块、命令模式、迭代器模式、观察者模式、中介者模式、备忘录模式、解释器模式、状态模式、策略模式、职责链模式、访问者模式</p>
-<h2 id="1-备忘录模式memento"><a href="#1-备忘录模式memento" class="headerlink" title="1. 备忘录模式memento"></a>1. 备忘录模式memento</h2><blockquote>
-<ul>
-<li>自动保存功能（定时备份）// 方便恢复文档</li>
-<li>撤回功能 </li>
-</ul>
-</blockquote>
-<blockquote>
-<p>核心：某个对象内部 <strong>状态</strong> 的拷贝<br>结构： 源发器类Originator  备忘录类Memento  负责人类 CareTake</p>
-</blockquote>
-<h2 id="2-观察者模式"><a href="#2-观察者模式" class="headerlink" title="2.观察者模式"></a>2.观察者模式</h2><blockquote>
-<ul>
-<li>广播机制的场景</li>
-<li>监控器（见好就收？）</li>
-<li>订阅了某一个栏目或者主题（定时发送）</li>
-<li>AWT事件处理也是！（监听）</li>
-</ul>
-</blockquote>
-<blockquote>
-<p>核心:及时更新(观察者接口就只写updates)<br>JavaSE提供了 util包里面有Observable和Observer来实现观察者模式</p>
-</blockquote>
-<h2 id="3-状态模式"><a href="#3-状态模式" class="headerlink" title="3.状态模式"></a>3.状态模式</h2><blockquote>
-<ul>
-<li>红绿灯</li>
-<li>网上购物，订单状态</li>
-<li>电梯的状态</li>
-<li>审批状态（国奖）</li>
-<li>酒店预定</li>
-</ul>
-</blockquote>
-<blockquote>
-<ul>
-<li>核心：当遇到需要频繁改变状态时，解决复杂对象的状态转换以及不同状态下行为的封装问题</li>
-</ul>
-</blockquote>
-<h2 id="4-策略模式"><a href="#4-策略模式" class="headerlink" title="4.策略模式"></a>4.策略模式</h2><blockquote>
-<ul>
-<li>根据不同客户类型实施不同的报价策略（杀熟的感觉）</li>
-</ul>
-</blockquote>
-<h2 id="5-解释器模式-非常不常用，最好不用，后期难以维护"><a href="#5-解释器模式-非常不常用，最好不用，后期难以维护" class="headerlink" title="5.解释器模式(非常不常用，最好不用，后期难以维护)"></a>5.解释器模式(非常不常用，最好不用，后期难以维护)</h2><blockquote>
-<ul>
-<li>“1+2*3”实现内部的计算 可以直接使用jruby、Groovy、Java的js引擎来代替解释器的作用</li>
-<li>这个都可以做到自己去开发一种语言了</li>
-</ul>
-</blockquote>
-<h2 id="6-命令模式（不重要）"><a href="#6-命令模式（不重要）" class="headerlink" title="6.命令模式（不重要）"></a>6.命令模式（不重要）</h2><h2 id="7-建造者模式"><a href="#7-建造者模式" class="headerlink" title="7.建造者模式"></a>7.建造者模式</h2><blockquote>
-<ul>
-<li>建造一个复杂的产品时</li>
-<li>构建和装配的解耦</li>
-</ul>
-</blockquote>
-<h2 id="8-原型模式（拷贝模式）"><a href="#8-原型模式（拷贝模式）" class="headerlink" title="8.原型模式（拷贝模式）"></a>8.原型模式（拷贝模式）</h2></div></div><a class="button-hover more" href="/2019/10/20/COF23/#more">阅读全文</a></div></div><div id="pagination"><div class="pagination"><span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fas fa-angle-right"></i></a></div></div></div></div><div class="button-hover" id="return-top"><i class="fas fa-arrow-up" aria-hidden="true"></i></div><footer><div id="footer"><div class="button-hover" id="side-button"><i class="fas fa-arrow-right"></i></div><div class="right-content"><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_site_uv"><i class="fas fa-user"></i></span><span id="busuanzi_value_site_uv"></span><span></span><span class="footer-separator">|</span><span id="busuanzi_container_site_pv"><i class="fas fa-eye"></i></span><span id="busuanzi_value_site_pv"></span><span></span></div><div class="copyright">&copy;2017 ～ 2019 By Rr-shan</div></div></div></footer></div><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/thirdparty/jquery-3.3.1.min.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/thirdparty/velocity.min.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/thirdparty/jquery.mCustomScrollbar.concat.min.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/fan.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/canvas_bg.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/utils.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/scroll.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/sidebar.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/copy.js"></script><!--script(src=url)--><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/haruto.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":true},"log":false});</script></body></html>
+</div></div><a class="button-hover more" href="/2019/10/23/排序算法/#more">阅读全文</a></div></div><div id="pagination"><div class="pagination"><span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fas fa-angle-right"></i></a></div></div></div></div><div class="button-hover" id="return-top"><i class="fas fa-arrow-up" aria-hidden="true"></i></div><footer><div id="footer"><div class="button-hover" id="side-button"><i class="fas fa-arrow-right"></i></div><div class="right-content"><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_site_uv"><i class="fas fa-user"></i></span><span id="busuanzi_value_site_uv"></span><span></span><span class="footer-separator">|</span><span id="busuanzi_container_site_pv"><i class="fas fa-eye"></i></span><span id="busuanzi_value_site_pv"></span><span></span></div><div class="copyright">&copy;2017 ～ 2019 By Rr-shan</div></div></div></footer></div><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/thirdparty/jquery-3.3.1.min.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/thirdparty/velocity.min.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/thirdparty/jquery.mCustomScrollbar.concat.min.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/fan.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/canvas_bg.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/utils.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/scroll.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/sidebar.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/copy.js"></script><!--script(src=url)--><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/haruto.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":true},"log":false});</script></body></html>
