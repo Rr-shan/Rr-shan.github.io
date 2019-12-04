@@ -16,7 +16,33 @@ if (isPassword) {
     error: '复制错误',
     noSupport: '浏览器不支持'
   }
-}</script></head><body><canvas id="universe"></canvas><!--#body--><div id="sidebar"><div class="author-info"><div class="author-info-avatar"><img class="author-info-avatar-img" src="/avatar.png"></div><div class="author-info-name">Rr-shan</div><div class="author-info-description"></div><div class="links-buttons"><a class="links-button button-hover" href="https://github.com/Rr-shan" target="_blank">GitHub<i class="icon-dot bg-color8"></i></a><a class="links-button button-hover" href="mailto:1224559633@qq.com" target="_blank">E-Mail<i class="icon-dot bg-color8"></i></a></div><div class="author-info-articles"><a class="author-info-articles-archives article-meta" href="/archives"><span class="pull-top">日志</span><span class="pull-bottom">21</span></a><a class="author-info-articles-tags article-meta" href="/tags"><span class="pull-top">标签</span><span class="pull-bottom">5</span></a></div></div></div><div id="main-container"><header><div id="menu-outer"><i class="menu-list-icon fas fa-bars"></i><nav id="menu-inner"><a class="menu-item" href="/">首页</a><a class="menu-item" href="/tags">标签</a><a class="menu-item" href="/categories">分类</a><a class="menu-item" href="/archives">归档</a><a class="menu-item" href="/about">关于</a></nav><div class="right-info"><a class="title-name" href="/">Sanzzi</a><span id="now-time"></span></div></div></header><div id="content-outer"><div id="content-inner"><div id="recent-posts"><!-- each post in page.posts.sort('date', -1).limit(10).toArray()--><!-- config中配置按照什么排序--><div class="recent-post-item"><a class="post-title" href="/2019/10/24/机器学习初步/">机器学习初步</a><div class="container"><time class="button-hover post-date"><i class="fas fa-calendar-alt article-icon" aria-hidden="true"></i> 更新于 2019-10-24</time></div><div class="post-content"><div class="main-content content"><p><text color="grey">人工智能和大数据关系不是那么大，甚至可以说二者的方向相差比较远！！！难怪会被嘲笑！！！</text></p>
+}</script></head><body><canvas id="universe"></canvas><!--#body--><div id="sidebar"><div class="author-info"><div class="author-info-avatar"><img class="author-info-avatar-img" src="/avatar.png"></div><div class="author-info-name">Rr-shan</div><div class="author-info-description"></div><div class="links-buttons"><a class="links-button button-hover" href="https://github.com/Rr-shan" target="_blank">GitHub<i class="icon-dot bg-color6"></i></a><a class="links-button button-hover" href="mailto:1224559633@qq.com" target="_blank">E-Mail<i class="icon-dot bg-color6"></i></a></div><div class="author-info-articles"><a class="author-info-articles-archives article-meta" href="/archives"><span class="pull-top">日志</span><span class="pull-bottom">22</span></a><a class="author-info-articles-tags article-meta" href="/tags"><span class="pull-top">标签</span><span class="pull-bottom">5</span></a></div></div></div><div id="main-container"><header><div id="menu-outer"><i class="menu-list-icon fas fa-bars"></i><nav id="menu-inner"><a class="menu-item" href="/">首页</a><a class="menu-item" href="/tags">标签</a><a class="menu-item" href="/categories">分类</a><a class="menu-item" href="/archives">归档</a><a class="menu-item" href="/about">关于</a></nav><div class="right-info"><a class="title-name" href="/">Sanzzi</a><span id="now-time"></span></div></div></header><div id="content-outer"><div id="content-inner"><div id="recent-posts"><!-- each post in page.posts.sort('date', -1).limit(10).toArray()--><!-- config中配置按照什么排序--><div class="recent-post-item"><a class="post-title" href="/2019/11/09/大数据学习的基本框架/">大数据学习的基本框架</a><div class="container"><time class="button-hover post-date"><i class="fas fa-calendar-alt article-icon" aria-hidden="true"></i> 更新于 2019-11-09</time><div class="button-hover tags"><i class="fa fa-tag article-icon" aria-hidden="true"></i><a class="link-a" href="/tags/BigData/">BigData</a></div></div><div class="post-content"><div class="main-content content"><ol>
+<li><p>数据收集 ： </p>
+<blockquote>
+<p>多种日志收集工具，如 Flume 、Logstash、Kibana 等，它们都能通过简单的配置完成复杂的数据收集和数据聚合。</p>
+</blockquote>
+</li>
+<li><p>数据存储</p>
+<blockquote>
+<p>解决海量半结构化和非结构化数据的存储，衍生了 Hadoop HDFS 、KFS、GFS 等分布式文件系统<br>一个优秀的数据存储系统需要同时考虑数据存储和访问两方面的问题，比如你希望能够对数据进行随机访问，这是传统的关系型数据库所擅长的，但却不是分布式文件系统所擅长的，那么有没有一种存储方案能够同时兼具分布式文件系统和关系型数据库的优点，基于这种需求，就产生了 HBase、MongoDB。</p>
+</blockquote>
+</li>
+<li><p>数据分析（最关键的部分）</p>
+</li>
+</ol>
+<blockquote>
+<p>批处理：对一段时间内海量的离线数据进行统一的处理，对应的处理框架有 Hadoop MapReduce、Spark、Flink 等；<br>流处理：对运动中的数据进行处理，即在接收数据的同时就对其进行处理，对应的处理框架有 Storm、Spark Streaming、Flink Streaming 等。<br>批处理和流处理各有其适用的场景，时间不敏感或者硬件资源有限，可以采用批处理；时间敏感和及时性要求高就可以采用流处理。随着服务器硬件的价格越来越低和大家对及时性的要求越来越高，流处理越来越普遍，如股票价格预测和电商运营数据分析等。<br>上面的框架都是需要通过编程来进行数据分析，那么如果你不是一个后台工程师，是不是就不能进行数据的分析了？当然不是，大数据是一个非常完善的生态圈，有需求就有解决方案。为了能够让熟悉 SQL 的人员也能够进行数据的分析，查询分析框架应运而生，常用的有 Hive 、Spark SQL 、Flink SQL、 Pig、Phoenix 等。</p>
+</blockquote>
+<ol start="4">
+<li>数据应用<blockquote>
+<p>这取决于你实际的业务需求。比如你可以将数据进行可视化展现，或者将数据用于优化你的推荐算法，这种运用现在很普遍，比如短视频个性化推荐、电商商品推荐、头条新闻推荐等。当然你也可以将数据用于训练你的机器学习模型</p>
+</blockquote>
+</li>
+</ol>
+<blockquote>
+<p>建议：Scala 确实足够的精简和灵活，但其在语言复杂度上略大于 Java，例如隐式转换和隐式参数等概念在初次涉及时会比较难以理解，所以你可以在了解 Spark 后再去学习 Scala，因为类似隐式转换等概念在 Spark 源码中有大量的运用。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">日志收集框架：Flume 、Logstash、Kibana</span><br><span class="line">分布式文件存储系统：Hadoop HDFS</span><br><span class="line">数据库系统：Mongodb、HBase</span><br><span class="line">分布式计算框架：</span><br><span class="line">批处理框架：Hadoop MapReduce</span><br><span class="line">流处理框架：Storm</span><br><span class="line">混合处理框架：Spark、Flink</span><br><span class="line">查询分析框架：Hive 、Spark SQL 、Flink SQL、 Pig、Phoenix</span><br><span class="line">集群资源管理器：Hadoop YARN</span><br><span class="line">分布式协调服务：Zookeeper</span><br><span class="line">数据迁移工具：Sqoop</span><br><span class="line">任务调度框架：Azkaban、Oozie</span><br><span class="line">集群部署和监控：Ambari、Cloudera Manager</span><br></pre></td></tr></table></figure></div></div><a class="button-hover more" href="/2019/11/09/大数据学习的基本框架/#more">阅读全文</a></div><div class="recent-post-item"><a class="post-title" href="/2019/10/24/机器学习初步/">机器学习初步</a><div class="container"><time class="button-hover post-date"><i class="fas fa-calendar-alt article-icon" aria-hidden="true"></i> 更新于 2019-10-24</time></div><div class="post-content"><div class="main-content content"><p><text color="grey">人工智能和大数据关系不是那么大，甚至可以说二者的方向相差比较远！！！难怪会被嘲笑！！！</text></p>
 <p>sklearn Python<br>数据量不大的话，单机用这个就可以实现了。// 基础</p>
 <h2 id="classification"><a href="#classification" class="headerlink" title="classification"></a>classification</h2><ul>
 <li>definationg:identifying to which category an object belongs to.</li>
@@ -756,66 +782,4 @@ i 插入</code></pre><h2 id="1-删除：d命令"><a href="#1-删除：d命令" c
 <p>有点不太明白</p>
 <h2 id="Lucene介绍"><a href="#Lucene介绍" class="headerlink" title="Lucene介绍"></a>Lucene介绍</h2><p>是一款高性能的、可扩展的，纯java语言编写的一个开放源代码的信息检索（IR）工具库。它适合几乎任何需要全文本搜索(特别是跨平台）的应用程序。但它不是一个完整的全文检索引擎，而是一个全文检索引擎的架构，提供了完整的查询引擎和索引引擎，部分文本分析引擎（英文与德文两种西方语言）。Lucene的目的是为软件开发人员提供一个简单易用的工具包，以方便的在目标系统中实现全文检索的功能，或者是以此为基础建立起完整的全文检索引擎。</p>
 <p>lucene-<strong>core</strong>-3.1.0.jar 核心包<br>lucene-highlighter-3.1.0.jar 高亮包<br>lucene-<strong>analyzers</strong>-3.1.0.jar Lucene自带的分词解析包<br>lucene-<strong>queries</strong>-3.1.0.jar搜索条件包<br>IKAnalyzer3.2.3Stable.jar IK中文分词包</p>
-</div></div><a class="button-hover more" href="/2019/09/19/mixture/#more">阅读全文</a></div><div class="recent-post-item"><a class="post-title" href="/2019/09/18/为进云树的准备/">为进云树的准备</a><div class="container"><time class="button-hover post-date"><i class="fas fa-calendar-alt article-icon" aria-hidden="true"></i> 更新于 2019-09-18</time></div><div class="post-content"><div class="main-content content"><h2 id="机器学习的概述："><a href="#机器学习的概述：" class="headerlink" title="机器学习的概述："></a>机器学习的概述：</h2><ol>
-<li>对于某类任务 T 和性能度量 P，如果一个计算机程序在 T 上以 P 衡量的性能随着经验 E 而自我完善，那么我们称这个计算机程序在从经验 E 中学习。<strong>???</strong></li>
-<li>机器学习本质上属于<strong>应用统计学</strong>，更多地关注如何用计算机统计地估计复杂函数，不太关注为这些函数提供置信区间。</li>
-</ol>
-<h3 id="十大常用算法："><a href="#十大常用算法：" class="headerlink" title="十大常用算法："></a>十大常用算法：</h3><ol>
-<li><p>决策树（Decision Trees）</p>
-</li>
-<li><p>朴素贝叶斯分类 (Naive Bayes Classification) <font color="yellow">概率论知识</font></p>
-<blockquote>
-<p>应用到</p>
-<ul>
-<li>一封电子邮件是否是垃圾邮件</li>
-<li>一篇文章应该分到科技、政治，还是体育类</li>
-<li>一段文字表达的是积极的情绪还是消极的情绪？</li>
-<li>人脸识别</li>
-</ul>
-</blockquote>
-</li>
-<li><p>普通最小二乘回归 (Ordinary Least Squares Regression)</p>
-</li>
-<li><p>逻辑回归 (Logistic Regression)</p>
-<blockquote>
-<p>应用到</p>
-<ul>
-<li><em>信用评估</em></li>
-<li>测量市场营销的成功度</li>
-<li>预测某个产品的收益</li>
-<li>特定的某天是否会发生地震</li>
-</ul>
-</blockquote>
-</li>
-<li><p>支持向量机 (Support Vector Machines)  <br>SVM 是一种二分算法</p>
-<blockquote>
-<p>应用到</p>
-<ul>
-<li>广告</li>
-<li>大规模图片分类</li>
-<li>基于图片的性别检测</li>
-</ul>
-</blockquote>
-</li>
-<li><p>集成方法 (Ensemble Methods)</p>
-</li>
-</ol>
-<hr>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">无监督学习</span><br></pre></td></tr></table></figure>
-
-<ol start="7">
-<li>聚类算法 (Clustering Algorithms)  <font color="yellow"><strong>神经网络 / 深度学习</strong></font></li>
-<li>主成分分析 (Principal Component Analysis)</li>
-<li>奇异值分解 (Singular Value Decomposition)</li>
-<li>独立成分分析 (Independent Component Analysis)</li>
-</ol>
-<hr>
-<h2 id="深度学习的概述："><a href="#深度学习的概述：" class="headerlink" title="深度学习的概述："></a>深度学习的概述：</h2><p><font color="pink">机器学习，实现人工智能的方法；深度学习，实现机器学习的技术。</font></p>
-<h3 id="深度学习典型模型："><a href="#深度学习典型模型：" class="headerlink" title="深度学习典型模型："></a>深度学习典型模型：</h3><ol>
-<li>卷积神经网络模型</li>
-<li>深度信任网络模型</li>
-<li>堆栈自编码网络模型</li>
-</ol>
-<hr>
-<h2 id="数据科学"><a href="#数据科学" class="headerlink" title="数据科学"></a>数据科学</h2><p>数据科学（英语：Data Science），又称资料科学，是一门利用数据学习知识的学科，其目标是通过从数据中提取出有价值的部分来生产数据产品。它结合了诸多领域中的理论和技术，包括应用数学、统计、模式识别、机器学习、数据可视化、数据仓库以及高性能计算。数据科学通过运用各种相关的数据来帮助非专业人士理解问题。 数据科学技术可以帮助我们如何正确的处理数据并协助我们在生物学、社会科学、人类学等领域进行研究调研。此外，数据科学也对商业竞争有极大的帮助。</p>
-</div></div><a class="button-hover more" href="/2019/09/18/为进云树的准备/#more">阅读全文</a></div></div><div id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/"><i class="fas fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fas fa-angle-right"></i></a></div></div></div></div><div class="button-hover" id="return-top"><i class="fas fa-arrow-up" aria-hidden="true"></i></div><footer><div id="footer"><div class="button-hover" id="side-button"><i class="fas fa-arrow-right"></i></div><div class="right-content"><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_site_uv"><i class="fas fa-user"></i></span><span id="busuanzi_value_site_uv"></span><span></span><span class="footer-separator">|</span><span id="busuanzi_container_site_pv"><i class="fas fa-eye"></i></span><span id="busuanzi_value_site_pv"></span><span></span></div><div class="copyright">&copy;2017 ～ 2019 By Rr-shan</div></div></div></footer></div><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/thirdparty/jquery-3.3.1.min.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/thirdparty/velocity.min.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/thirdparty/jquery.mCustomScrollbar.concat.min.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/fan.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/canvas_bg.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/utils.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/scroll.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/sidebar.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/copy.js"></script><!--script(src=url)--><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/haruto.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":true},"log":false});</script></body></html>
+</div></div><a class="button-hover more" href="/2019/09/19/mixture/#more">阅读全文</a></div></div><div id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/"><i class="fas fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fas fa-angle-right"></i></a></div></div></div></div><div class="button-hover" id="return-top"><i class="fas fa-arrow-up" aria-hidden="true"></i></div><footer><div id="footer"><div class="button-hover" id="side-button"><i class="fas fa-arrow-right"></i></div><div class="right-content"><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_site_uv"><i class="fas fa-user"></i></span><span id="busuanzi_value_site_uv"></span><span></span><span class="footer-separator">|</span><span id="busuanzi_container_site_pv"><i class="fas fa-eye"></i></span><span id="busuanzi_value_site_pv"></span><span></span></div><div class="copyright">&copy;2017 ～ 2019 By Rr-shan</div></div></div></footer></div><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/thirdparty/jquery-3.3.1.min.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/thirdparty/velocity.min.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/thirdparty/jquery.mCustomScrollbar.concat.min.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/fan.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/canvas_bg.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/utils.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/scroll.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/sidebar.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/copy.js"></script><!--script(src=url)--><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/haruto.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":true},"log":false});</script></body></html>
