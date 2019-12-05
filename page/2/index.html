@@ -16,7 +16,47 @@ if (isPassword) {
     error: '复制错误',
     noSupport: '浏览器不支持'
   }
-}</script></head><body><canvas id="universe"></canvas><!--#body--><div id="sidebar"><div class="author-info"><div class="author-info-avatar"><img class="author-info-avatar-img" src="/avatar.png"></div><div class="author-info-name">Rr-shan</div><div class="author-info-description"></div><div class="links-buttons"><a class="links-button button-hover" href="https://github.com/Rr-shan" target="_blank">GitHub<i class="icon-dot bg-color6"></i></a><a class="links-button button-hover" href="mailto:1224559633@qq.com" target="_blank">E-Mail<i class="icon-dot bg-color6"></i></a></div><div class="author-info-articles"><a class="author-info-articles-archives article-meta" href="/archives"><span class="pull-top">日志</span><span class="pull-bottom">22</span></a><a class="author-info-articles-tags article-meta" href="/tags"><span class="pull-top">标签</span><span class="pull-bottom">5</span></a></div></div></div><div id="main-container"><header><div id="menu-outer"><i class="menu-list-icon fas fa-bars"></i><nav id="menu-inner"><a class="menu-item" href="/">首页</a><a class="menu-item" href="/tags">标签</a><a class="menu-item" href="/categories">分类</a><a class="menu-item" href="/archives">归档</a><a class="menu-item" href="/about">关于</a></nav><div class="right-info"><a class="title-name" href="/">Sanzzi</a><span id="now-time"></span></div></div></header><div id="content-outer"><div id="content-inner"><div id="recent-posts"><!-- each post in page.posts.sort('date', -1).limit(10).toArray()--><!-- config中配置按照什么排序--><div class="recent-post-item"><a class="post-title" href="/2019/11/09/大数据学习的基本框架/">大数据学习的基本框架</a><div class="container"><time class="button-hover post-date"><i class="fas fa-calendar-alt article-icon" aria-hidden="true"></i> 更新于 2019-11-09</time><div class="button-hover tags"><i class="fa fa-tag article-icon" aria-hidden="true"></i><a class="link-a" href="/tags/BigData/">BigData</a></div></div><div class="post-content"><div class="main-content content"><ol>
+}</script></head><body><canvas id="universe"></canvas><!--#body--><div id="sidebar"><div class="author-info"><div class="author-info-avatar"><img class="author-info-avatar-img" src="/avatar.png"></div><div class="author-info-name">Rr-shan</div><div class="author-info-description"></div><div class="links-buttons"><a class="links-button button-hover" href="https://github.com/Rr-shan" target="_blank">GitHub<i class="icon-dot bg-color9"></i></a><a class="links-button button-hover" href="mailto:1224559633@qq.com" target="_blank">E-Mail<i class="icon-dot bg-color5"></i></a></div><div class="author-info-articles"><a class="author-info-articles-archives article-meta" href="/archives"><span class="pull-top">日志</span><span class="pull-bottom">23</span></a><a class="author-info-articles-tags article-meta" href="/tags"><span class="pull-top">标签</span><span class="pull-bottom">5</span></a></div></div></div><div id="main-container"><header><div id="menu-outer"><i class="menu-list-icon fas fa-bars"></i><nav id="menu-inner"><a class="menu-item" href="/">首页</a><a class="menu-item" href="/tags">标签</a><a class="menu-item" href="/categories">分类</a><a class="menu-item" href="/archives">归档</a><a class="menu-item" href="/about">关于</a></nav><div class="right-info"><a class="title-name" href="/">Sanzzi</a><span id="now-time"></span></div></div></header><div id="content-outer"><div id="content-inner"><div id="recent-posts"><!-- each post in page.posts.sort('date', -1).limit(10).toArray()--><!-- config中配置按照什么排序--><div class="recent-post-item"><a class="post-title" href="/2019/11/09/论文初步/">论文初步</a><div class="container"><time class="button-hover post-date"><i class="fas fa-calendar-alt article-icon" aria-hidden="true"></i> 更新于 2019-11-09</time><div class="button-hover tags"><i class="fa fa-tag article-icon" aria-hidden="true"></i><a class="link-a" href="/tags/论文/">论文</a></div></div><div class="post-content"><div class="main-content content"><h2 id="1-调研、入门"><a href="#1-调研、入门" class="headerlink" title="1 调研、入门"></a>1 调研、入门</h2><ol>
+<li><p>确定一个感兴趣的大领域，比如分布式系统或者机器学习，或者深度神经网络。读这个领域<strong>经典算法和技术</strong>，也可以是几本比较好的书，读完然后再实践实践，动手加深理解。这个过程做完就算是初步入门了。</p>
+</li>
+<li><p>找该领域的<strong>顶级会议</strong>，比如系统领域的有OSDI、SOSP，机器学习的领域有ICML、CVPR，深度学习的有NIPS、ICLR等等，可以搜CCF会议推荐列表看各领域的顶会列表。然后看近几年这些顶会的论文，因为这代表了最新的研究热点，咱不是说一味的追热点啊，毕竟对于初学者没有足够的领域专业背景，追热点是最快的方法。<strong>因为热点往往是该领域最亟待解决的问题，往往是发展最快的小方向，也最容易产生新成果。</strong> 如果是老问题，人家都研究十几年了，给你留下的待解决的问题就很少或者不是很重要。当然如果是有几十年经验的研究者就不必追热点，他们知道该领域哪些是fundamental的问题，哪些是最值得研究的问题。</p>
+</li>
+<li><p>读了这些前沿论文后，确定一个<strong>小方向</strong>，比如分布式系统是个大方向，小方向可能是机器学习分布式训练；大方向是深度学习，小方向可能就是graph embedding；大方向是机器学习，小方向可能是半监督学习等等。确定小方向的过程是个知识不断积累的过程，非常重要，这需要你对大方向有很多了解，对小方向有更深入更全面的理解，需要<strong>读好至少100篇以上论文</strong>，需要你知道该小方向的研究进展历史，这需要你知道该小方向别人都在哪方面做工作，做该小方向的顶级研究组都有哪些，他们正在干什么。</p>
+<h2 id="发现问题"><a href="#发现问题" class="headerlink" title="发现问题"></a>发现问题</h2><p>这步超级难，如果发现了个好问题，那就是成功的一半。这个问题最好是重要的、本质的、没有直观解决方法的。</p>
+</li>
+<li><p>确定小方向后，你需要阅读大量的这个小方向的论文和了解开源项目，再不断聚焦，再确定一个要<strong>改进和优化的小小方向</strong>，这个可能就是论文的主题。小小方向可能是机器学习分布式系统中的parameter server通信模型，可能是dynamic graph embedding等。然后就要更聚焦地读这方面的相关论文，这时候论文就比较少了，几篇到几十篇到几百篇都有可能，这些论文要精读，<strong>花几个月时间研究一篇论文也不为过</strong>。</p>
+</li>
+<li><p>挑几个重要的论文工作实现，也可以找开源的运行跑一跑试一试，idea往往从实际运行中来，光靠读是不行的。这个跑一跑可能需要你尝试不同的运行环境，不同的workload数据集，不同的应用场景等。比如，parameter server（PS）模型在本地集群上跑是不是和paper声明的一样、在异构的动态性极强的集群环境下效果怎么样、除了paper提到的算法处理其他算法的时候效果怎么样、除了paper提到的数据集换另外一类数据集怎么样；graph embedding方法处理密集图和稀疏图都怎么样，处理动态变化的图怎么样，等等吧。你要发现X方法仅在a环境下好用，在b环境不好用。这个就是发现问题的过程。当然，没经验的研究者可能很难想到多种环境、多种workload、多种应用场景，这就需要积累。<br>另外一个发现问题的方法是从实际生产中来，这个当然是最好的，但是往往是大企业环境下才有这个条件。</p>
+</li>
+<li><p>确定你发现的问题还没有被解决。这又需要广泛的阅读和调研，但是问题已经很聚焦了，搜索也会很容易，用你特定问题的关键字在google 搜索（这里强烈建议用google，其他搜索引擎基本搜不到），找到解决相关问题的论文。看看这些论文是不是已经解决了该问题，<strong>如果解决了，你有两种方案：第一，该问题已经解决的非常好了，放弃解决该问题。第二，该问题的解决方案还有问题，我还有更好的办法。我建议后者，最起码尽量尝试尝试。</strong><br>5和6步是个迭代的过程…</p>
+<h2 id="分析问题"><a href="#分析问题" class="headerlink" title="分析问题"></a>分析问题</h2></li>
+<li><p>分析问题产生的本质原因。这个往往和第5步发现问题同时进行。这一步靠的是功底和积累，靠的是对问题的理解程度。理解的越深刻，分析的越透测，你之后产生的解决思路就越有可能正确和有效。比如分布式机器学习的PS模型在异构环境下、和在处理数据不均匀的情况下就不好，本质原因是其同步的集中式通信模型，造成PS集中服务器往往需要等待。传统graph embedding方法采用批处理模式，需要graph的全局信息做embedding，当然无法应付动态性非常强的局部更新情况。</p>
+</li>
+<li><p>基于分析，就是对该问题的深刻理解，产生改进的idea。这个可能很难，可能靠运气，但我觉得更多的是靠对问题的理解程度，理解的越深刻，本质原因抓的越准，就越可能产生创新idea。读过一本介绍google企业文化的书，google产品的成功，既不是靠技术能力，也不是靠用户需求，而是靠技术洞见（insight），这就是对问题本质的深刻理解。比如，PS模型在某环境下问题的本质原因是集中式的同步模型，那么我们就可以提出尝试异步通信的模型的idea。<br>分析能力跟个人的批判性思维、独立思考能力都有关，而这正是中国人欠缺的，可以通过读有深刻见地的书籍文章、经常提问来锻炼。</p>
+<h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2></li>
+<li><p>实现你的idea，做大量实验验证。这需要动手能力，<strong>需要编程能力，需要坐得住。</strong></p>
+</li>
+<li><p>验证你的解决方案，根据实验分析不断优化你的方法。做了大量试验后，得到了若干结果，可能是不好的结果，但是不要一下子否定自己的解决方案，这不能说明你的idea不好用。一个好的方法往往经过千锤百炼，同样，你的idea通常不会一下子就成功。需要你根据实验结果分析不好的原因，然后基于你的理解改进方法，这是一个反复不断迭代的过程。<br>比如，你发现异步PS模型效果还不如原来的呢。<strong>那么关键的是，你要问自己为什么？为什么理应提升的却没有提升？你要看实验运行的日志，看看是哪里慢了，差在哪里，</strong> 最后你经过不断的实验、分析、思考，你发现了，你提出的异步PS模型虽然没有了等待开销，但是计算的有效性却降低了，结果整体性能反而下降了。那么你下一次迭代就要想怎么把这个计算有效性提上来。我又有了个方法，可以评估每次计算的有效性，然后把计算资源都投到有效性高的计算上。OK，idea不错，那么怎么评估有效性呢？不能开销太大，否则又得不偿失了，你可能想到了一种近似地评估方法。重新实现后，发现效果还不错。OK，恭喜你！你可以准备发论文了！<br>整个研究过程，导师将起到关键的作用。导师可能会给你个问题，这是难能可贵的，基本帮你做了一半的事了，否则你可能需要花上一年时间找问题。然后整个研究过程，都是在导师的引导下进行，需要定期向导师汇报，与导师讨论idea和请导师分析实验结果。最好自己也要经常找同门讨论，而不是闭门造车。</p>
+<h2 id="撰写论文"><a href="#撰写论文" class="headerlink" title="撰写论文"></a>撰写论文</h2></li>
+<li><p>设计你的论文，草拟论文的骨架。每一章都写啥，每一段都写啥，实验都做啥。论文的逻辑往往比语言重要的多，逻辑合理的论文更易读懂，即使咱华人有天生的英语语言缺陷，但是好的逻辑就可以弥补这个不足。写论文就和讲故事一样，怎么能把一个事说明白，不那么简单，甚至说很难，需要不断锻炼。写完给老师看，老师同意后进行下一步</p>
+</li>
+<li><p>写作论文。这个就是根据骨架填肉的过程，但是这一步也不简单，特别对于英语不好的同学，写出来的东西简直是不忍直视、不堪入目、毁人三观。最近上海某高校老师辱骂学生这事就是因为这个，我可以说，我每次看到学生论文也都是这个心情，给学生通宵改论文在家里一边改一边骂，但是当面对学生还是要以鼓励为主，要耐心，要耐心，要耐心，尽力压制自己的怒火，以平和的心态帮助学生提高，期望他下次能给个更好的版本。但是往往事与愿违，看淡点吧，仅求写作态度好点就行了，毕竟这不是一朝一夕能提高的，需要你不断积累。<br>有几个写作的方法吧。第一，不要自己想当然，对于不确定的句型，用“”扩上上google搜，看看你这句型有多少人用过，如果没有几个人用，那就别用，换个写法。第二，读别人论文时，<strong>遇到好的句型就记下来，</strong> 不断积累才能提高。第三，<strong>避免一切语法错误，</strong> 我觉得这个是可以做到的，现在网上那么多工具都可以用。语法错误都避免不了那基本就是态度问题。遗憾的是，我很少遇到能避免语法错误的学生，我生气往往是因为态度问题，而不是能力问题。第四，<strong>尽量用短句用简单句子，</strong> 别用长句。你写论文是为了让别人理解你的方法，不是写文艺作品，能说明白就行。</p>
+</li>
+<li><p>提炼总结，改进方法。写作的过程也是屡顺自己思路的过程，写作的过程中往往也能发现自己方法的漏洞，那么就要继续回到8，重新思考解决方案，又或者你发现需要补实验来支撑你的论点，那么就继续实现系统做实验，得到实验结果。</p>
+</li>
+<li><p>关于实验。怎么做实验是学生总问的问题，怎么做科学实验也是一个很重要的问题，<strong>有对照组、无偏的、定量的，这些都是科学实验的重要要素。</strong> 如果有解决该问题的其他方法你首先要说明你的方法更好，至少在某一方面更好，这其中可能要涉及到不同的执行环境，或不同的算法数据集。然后设计实验说明你的方法好在哪里，用实验数据说明，比如异步PS和同步PS对比。然后你要进一步用实验数据说明，异步PS的有效性也提高了，如果不考虑有效性的话那么结果就不好。然后你的方法是否有些重要的超参数，试试variation导致各种结果。在实验结果展示方面，要学会用各种工具画各种图，把重要的因素用可视化方式体现出来。</p>
+<h2 id="投稿和看待审稿意见"><a href="#投稿和看待审稿意见" class="headerlink" title="投稿和看待审稿意见"></a>投稿和看待审稿意见</h2></li>
+<li><p>接下来就是投稿。选一个合适的会议或期刊投稿，这个可以听老师的，老师基本有这方面的常识，根据你工作的方向和档次选择合适的去处。确定好了哪个会议期刊后，就需要按照会议期刊要求来整理论文格式，<strong>latex</strong> 是必会的工具了。之后赶在deadline之前提交论文，这个最后的几天可能很痛苦，因为你的论文和方法总有改进的地方，老师的要求会让你最后几天是最忙的几天。但是需要认识到，凡事无完美，你总也改不到完美，你需要一个deadline来督促你完成一个milestone。开始进一步工作或下一个工作。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LaTeX（LATEX，音译“拉泰赫”）是一种基于ΤΕΧ的排版系统，由美国计算机学家莱斯利·兰伯特（Leslie Lamport）在20世纪80年代初期开发，利用这种格式，即使使用者没有排版和程序设计的知识也可以充分发挥由TeX所提供的强大功能，能在几天，甚至几小时内生成很多具有书籍质量的印刷品。对于生成复杂表格和数学公式，这一点表现得尤为突出。因此它非常适用于生成高印刷质量的科技和数学类文档。这个系统同样适用于生成从简单的信件到完整书籍的所有其他种类的文档</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>看待评审意见。接下来是漫长的等待，会议一般是2-3个月的时间，结果可能是接收也可能是拒掉，相比于结果，更应该看评审意见，看看这些意见是否合理，是否能解决，无论是接收还是拒绝，然后接下来就再次回到解决问题的部分，再次开始优化方法的过程。如果是接收了，那就可以准备订机票开会旅游去了。如果是拒掉那一般是有比较大的问题，那就再仔细深思下一下你的方法。继续优化，还是降低档次投个差点的会，就看你导师的了。</p>
+<h2 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h2></li>
+<li><p>宣传你的工作，扩大影响力。首先你可能是要去参加会议，做个漂亮的ppt，反复演练，争取有比较好的演讲效果。有时你导师有机会去一些地方做报告，把这个工作介绍一下，都是扩大影响力的方法。</p>
+</li>
+<li><p>开放源码。还有是尽量把自己工作的代码和数据开放，挂到网上，让别人来使用，接受别人的改进意见或者是简单的debug。咱不是专业的工程人员，也不用指望你的成果可以马上用于生产，个人觉得开放代码主要是为了让别人更好滴了解你的方法，这有助于扩大影响力，产生后续研究工作。如果有人引用你的论文、或咨询论文内容、又或是使用了你的代码和数据，这也算是你对整个科研事业有那么一丁点的贡献了，这比水论文有意义多了。<br>整体来说，发表论文需要你有：<strong>批判思维能力，动手能力，知识面，写作能力，表达能力，英语，韧劲（抗打击能力）</strong> 等等一系列能力，如果在研究生期间真能发表一篇论文，经历了以上这么多磨难和锻炼，我想你的能力也是不知不觉提高了很多，成为了该小小方向的一个小小的专家了。这对你来说，是最最重要的。<br>这里我提到了韧劲，就是说，在解决问题过程中，你会受到不断的打击，包括来自导师的、来自自己的实验结果方面的、来自评审意见的，但是你要做的就是，站起来，继续凿，直到导师满意，知道reviewer满意，直到大家满意。别把这事想简单了，当你想象一下周围好多人都发好多sci了，而你还在为这么一篇完全未知结果的论文而这么努力的时候，我觉得大部分人可能就是缺少这个韧劲才最终以失败告终的…</p>
+</li>
+</ol>
+</div></div><a class="button-hover more" href="/2019/11/09/论文初步/#more">阅读全文</a></div><div class="recent-post-item"><a class="post-title" href="/2019/11/09/大数据学习的基本框架/">大数据学习的基本框架</a><div class="container"><time class="button-hover post-date"><i class="fas fa-calendar-alt article-icon" aria-hidden="true"></i> 更新于 2019-11-09</time><div class="button-hover tags"><i class="fa fa-tag article-icon" aria-hidden="true"></i><a class="link-a" href="/tags/BigData/">BigData</a></div></div><div class="post-content"><div class="main-content content"><ol>
 <li><p>数据收集 ： </p>
 <blockquote>
 <p>多种日志收集工具，如 Flume 、Logstash、Kibana 等，它们都能通过简单的配置完成复杂的数据收集和数据聚合。</p>
@@ -565,221 +605,4 @@ i 插入</code></pre><h2 id="1-删除：d命令"><a href="#1-删除：d命令" c
 <li>《核心技术卷一》第七章</li>
 <li>专供算法和数据结构，看自己能学到多少</li>
 </ol>
-</div></div><a class="button-hover more" href="/2019/09/22/一周一记/#more">阅读全文</a></div><div class="recent-post-item"><a class="post-title" href="/2019/09/19/mixture/">mixture</a><div class="container"><time class="button-hover post-date"><i class="fas fa-calendar-alt article-icon" aria-hidden="true"></i> 更新于 2019-12-01</time><div class="button-hover tags"><i class="fa fa-tag article-icon" aria-hidden="true"></i><a class="link-a" href="/tags/Java/">Java</a></div></div><div class="post-content"><div class="main-content content"><ul>
-<li><h3 id="IDE查看源码-阅读源码非常有必要，高手才能写JDK"><a href="#IDE查看源码-阅读源码非常有必要，高手才能写JDK" class="headerlink" title="IDE查看源码 (阅读源码非常有必要，高手才能写JDK)"></a>IDE查看源码 (阅读源码非常有必要，高手才能写JDK)</h3><blockquote>
-<p><strong>shift*2</strong> ——&gt; 寻找想要查找的类<br><br>查找方法细节 ——&gt; <strong>Ctrl</strong> +点击方法 </p>
-</blockquote>
-</li>
-</ul>
-<hr>
-<ul>
-<li>减少代码重用的方法：</li>
-</ul>
-<hr>
-<ul>
-<li><h3 id="事件监听器的四种处理方式"><a href="#事件监听器的四种处理方式" class="headerlink" title="事件监听器的四种处理方式"></a>事件监听器的四种处理方式</h3></li>
-</ul>
-<ol>
-<li>自身类</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">class ThisClassEvent extends JFrame implement&#123; </span><br><span class="line">ActionListener </span><br><span class="line">button.addActionListener(this);</span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>外部类</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">class OuterClassEvent extends JFrame&#123; </span><br><span class="line">button.addActionListener(new OuterClass(this)); </span><br><span class="line">class OuterClass implements ActionListener&#123;</span><br></pre></td></tr></table></figure>
-
-<ol start="3">
-<li>匿名内部类 <font color="yellow"> <em>prefer</em> </font></li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">btn.addActionListener( </span><br><span class="line">new ActionListener()&#123;&#125;</span><br><span class="line">); </span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">4. 内部类</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">``` </span><br><span class="line">class InnerClass implements ActionListener&#123;  </span><br><span class="line">button.addActionListener(new InnerClass());</span><br></pre></td></tr></table></figure>
-
-<hr>
-<ul>
-<li><h2 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h2><h4 id="正则匹配的实现"><a href="#正则匹配的实现" class="headerlink" title="正则匹配的实现"></a>正则匹配的实现</h4></li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">	String line = &quot;6414636447&quot;;</span><br><span class="line">	String pattern = &quot;^\\d+$&quot;;</span><br><span class="line">	Pattern p = Pattern.compile(pattern);</span><br><span class="line">	Matcher matcher = p.matcher(line);</span><br><span class="line">	if (matcher.matches()) &#123;</span><br><span class="line">		System.out.println(true);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="正则表达式的知识："><a href="#正则表达式的知识：" class="headerlink" title="正则表达式的知识："></a>正则表达式的知识：</h4><p>作用：</p>
-<ol>
-<li>严谨的验证页面（防止黑客）<blockquote>
-<ul>
-<li>电话号码\ d {3} - \ d {8} | \ d {4} - {7,8}</li>
-<li>身份证号码  \ {6}）（\ d {4}）（\ d {2}）（\ d {2}）（\ d {3}）（[0-9] | X）$</li>
-<li>邮箱地址:/ \ w + @ \ w +。[a-zA-Z] {2,3}（。[a-zA-Z] {2,3}）？$ /</li>
-<li>手机号码:0？（13 | 14 | 15 | 18 | 17）[0-9] {9}</li>
-<li>IP（25 [0-5] | 2 [0-4] \ d | [0-1] \ d {2} | [1-9]？\ d）。（25 [0-5] | 2 [0 -4] \ d | [0-1] \ d {2} | [1-9] \ d）（25 [0-5] | 2 [0-4] \ d | [0-1] \ d {2} |？[1-9] \ d）（25 [0-5] | 2 [0-4] \ d | [0-1] \ d {2} |？[1-9] \ d）</li>
-</ul>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// 验证手机号码</span><br><span class="line">var reg = new RegExp(/0?(13|14|15|18|17)[0-9]&#123;9&#125;/);</span><br><span class="line">document.write(reg.test(&quot;13800138000&quot;));</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<ul>
-<li><p>.通配符</p>
-</li>
-<li><p>\d   数字：[0-9]</p>
-</li>
-<li><p>\D  非数字： [^0-9]</p>
-</li>
-<li><p>\w  单词字符：[a-zA-Z_0-9]</p>
-</li>
-<li><p>\W 非单词字符：[^\w]</p>
-<h5 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h5></li>
-<li><p>[a-d[m-p]]   a到 d 或 m 到 p：[a-dm-p]（并集）</p>
-</li>
-<li><p>[a-z&amp;&amp;[def]]  d、e 或 f（交集） // 类似减法</p>
-<h5 id="次数类"><a href="#次数类" class="headerlink" title="次数类"></a>次数类</h5></li>
-<li><p>X?   X，零次或一次 （不能是多次）</p>
-</li>
-<li><p>X*   X，零次或多次 （除了0次）</p>
-</li>
-<li><p>X+   X，一次或多次 （拒绝0次）</p>
-</li>
-<li><p>X{n}  恰好 n 次</p>
-</li>
-<li><p>X{n,} 至少 n 次</p>
-</li>
-<li><p>X{n,m}  至少 n 次，但不超过 m 次<br>（非捕获啥的有点蒙）</p>
-</li>
-<li><p>贪婪匹配和懒惰匹配（尽可能多or尽可能少）</p>
-</li>
-</ul>
-<p>输入含有空格的 nextLine(),也可以有</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">  Scanner scan = new Scanner(System.in).useDelimiter(&quot;\n&quot;);</span><br><span class="line">String year = scan.next();</span><br></pre></td></tr></table></figure>
-
-<p>Scanner(System.in).useDelimiter(“\D”)可以和正则表达式一同使用</p>
-<h4 id="trim（）用法"><a href="#trim（）用法" class="headerlink" title="trim（）用法"></a>trim（）用法</h4><ol>
-<li>trim(String str)</li>
-<li>str.trim()</li>
-</ol>
-<h4 id="assert-用法"><a href="#assert-用法" class="headerlink" title="assert 用法"></a>assert 用法</h4><ol>
-<li>每个assert只检验一个条件,因为同时检验多个条件时,如果断言失败,无法直观的判断是哪个条件失败 </li>
-<li>使用断言捕捉不应该发生的非法情况（错误和非法是不同的）</li>
-<li>宏</li>
-</ol>
-<h4 id="散列、散列码、hascode"><a href="#散列、散列码、hascode" class="headerlink" title="散列、散列码、hascode()"></a>散列、散列码、hascode()</h4><ol>
-<li>存储一组元素最快的是数组，所以用它来表示键的信息，不是键本身，通过键对象生成一个数字，就是散列码，将其作为数组的下标。</li>
-</ol>
-<h4 id="字符串和字符-串-数组的转化"><a href="#字符串和字符-串-数组的转化" class="headerlink" title="字符串和字符(串)数组的转化"></a>字符串和字符(串)数组的转化</h4><ul>
-<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 字符串转化成字符数组</span><br><span class="line">String str = &quot;abcdefg&quot;;</span><br><span class="line">char[] ch = str.toCharArray();</span><br><span class="line"> </span><br><span class="line">//字符数组转化成字符串</span><br><span class="line">String  strs = new String(ch);</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<p>-</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 字符串转化成字符串数组</span><br><span class="line">String str = &quot;hello world&quot;;</span><br><span class="line">String[] array = str.split(&quot; &quot;);</span><br><span class="line"> </span><br><span class="line">//字符串数组转化成字符串，只能通过循环</span><br><span class="line">//StringBuffer主要侧重于对字符串的变化</span><br><span class="line">StringBuffer sb= new StringBuffer();</span><br><span class="line">for(int i=0;i&lt;array.length;i++)&#123;</span><br><span class="line">    sb.append(str[i]);//追加内容到sb的末尾</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="KeyListener接口"><a href="#KeyListener接口" class="headerlink" title="KeyListener接口"></a>KeyListener接口</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public interface KeyListener extends EventListener &#123;</span><br><span class="line"> </span><br><span class="line">    public void keyTyped(KeyEvent e);   //发生击键事件时被触发</span><br><span class="line"></span><br><span class="line">    public void keyPressed(KeyEvent e);   //按键被按下时被触发</span><br><span class="line"> </span><br><span class="line">    public void keyReleased(KeyEvent e);   //按键被释放时被触发</span><br><span class="line"> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>实例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">textArea.addKeyListener(new KeyListener() &#123;</span><br><span class="line">			</span><br><span class="line">    public void keyPressed(KeyEvent e) &#123; // 按键被按下时被触发</span><br><span class="line">	    String keyText = KeyEvent.getKeyTe(e.getKeyCode());</span><br></pre></td></tr></table></figure>
-
-<p>####　抛出错误<br>e.getMessage()<br>只获取异常信息的字符串（不含异常类型）</p>
-<p>e.toString()<br>获取异常类型和异常详细信息</p>
-<p>e.printStackTrace()<br>打印出异常类型和异常详细信息，并且显示异常在后台代码中出现的位置。</p>
-<hr>
-<ul>
-<li><h3 id="Python的性质"><a href="#Python的性质" class="headerlink" title="Python的性质"></a>Python的性质</h3></li>
-</ul>
-<ol>
-<li>优雅（简单易学）</li>
-<li>可移植性强 <blockquote>
-<p>reason：Python语言写的程序不需要编译成二进制代码,可以直接从源代码运行。在计算机内部，Python<strong>解释器</strong>把源代码转换成称为字节码的中间形式，然后再把它翻译成计算机使用的机器语言并运行。不再需要担心如何编译程序，如何确保连接转载正确的库等等，所有这一切使得使用Python更加简单。</p>
-</blockquote>
-</li>
-<li>丰富的库（爬虫的好帮手）<blockquote>
-<p>正则表达式、文档生成、单元测试、线程、数据库、网页浏览器、CGI、FTP、电子邮件、XML、XML-RPC、HTML、WAV文件、密码系统、GUI（图形用户界面）、Tk和其他与系统有关的操作.</p>
-</blockquote>
-</li>
-<li>可扩展性：部分程序用C/C++写 （v提升）</li>
-<li>可嵌入性：把Python嵌入你的C/C++程序，从而提供脚本功能。</li>
-</ol>
-<hr>
-<br>
-
-<h2 id="安装的各种坑"><a href="#安装的各种坑" class="headerlink" title="安装的各种坑"></a>安装的各种坑</h2><h4 id="IDE总是自动关闭"><a href="#IDE总是自动关闭" class="headerlink" title="IDE总是自动关闭"></a>IDE总是自动关闭</h4><p>闪退的原因：编译器内存不足</p>
-<p>操作：<br>安装目录下的bin<br>找到idea.exe.vmoptions   最大的修改下-Xmx1024m<br>找到idea64.exe.vmoptions 最大的修改下-Xmx1024m</p>
-<h4 id="GitHub博客上传乱码问题"><a href="#GitHub博客上传乱码问题" class="headerlink" title="GitHub博客上传乱码问题"></a>GitHub博客上传乱码问题</h4><p>原有有三：</p>
-<ul>
-<li>网页编码问题（谷歌默认UTF-8）</li>
-<li>notePad++比较方便，直接设置UTF-8</li>
-<li>_config.yml 中language 改成 zh-CN</li>
-</ul>
-<hr>
-<br>
-
-<h4 id="运行dart（在vscode）"><a href="#运行dart（在vscode）" class="headerlink" title="运行dart（在vscode）"></a>运行dart（在vscode）</h4><ul>
-<li>在网上下载镜像（SDK）</li>
-<li>在vscode上面安装插件（dart） // 文件后缀是.dart</li>
-<li>Code Running插件的安装<br>每次运行都要先保存，保存是Ctrl+s，</li>
-</ul>
-<h2 id="有意思的一些安装"><a href="#有意思的一些安装" class="headerlink" title="有意思的一些安装"></a>有意思的一些安装</h2><ul>
-<li>VsCode中炫酷写代码插件Power Mode<blockquote>
-<p>文件-&gt;首选项-&gt;设置中搜索setting.json<br><br>加三行代码</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&quot;powermode.enabled&quot;: true,         //是否开启</span><br><span class="line">&quot;powermode.enableShake&quot;: false,    //是否抖动</span><br><span class="line">&quot;powermode.presets&quot;: &quot;fireworks&quot;   //动画效果</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<blockquote>
-<p>“particles”(原子,但是像小水滴一样),“fireworks”, “flames”(火花！), “magic”(这是个粉色迷雾，太扎眼了), “clippy”(有一个悬浮物一直跟着，不是很有意思), “simple-rift”(这个裂谷简直太秀了), “exploding-rift”(这个是巨大的裂谷，不适合！)</p>
-</blockquote>
-<h2 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h2><h4 id="显示屏-wins-p-即可进入选择模式"><a href="#显示屏-wins-p-即可进入选择模式" class="headerlink" title="显示屏 wins+p 即可进入选择模式"></a>显示屏 wins+p 即可进入选择模式</h4><p>扩展后，直接拖过去就好<br>可以实现网页和IDE同在<br>可以实现wins和Linux同在（激动！）</p>
-<h2 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h2><h4 id="echo"><a href="#echo" class="headerlink" title="echo"></a>echo</h4><p>好奇echo的用处（where to use） <br><br>Echo是为用Java开发Web应用程序提供的一个面向对象,事件驱动的框架。使用Echo 框架来编程类似于使用Swing API来开发应用程序或applets。<br><font color="yellow"> 可以暂时不理会</font></p>
-<h2 id="maven"><a href="#maven" class="headerlink" title="maven"></a>maven</h2><h4 id="学习的原因：项目构建过程包括【清理项目】→【编译项目】→【测试项目】→【生成测试报告】→【打包项目】→【部署项目】"><a href="#学习的原因：项目构建过程包括【清理项目】→【编译项目】→【测试项目】→【生成测试报告】→【打包项目】→【部署项目】" class="headerlink" title="学习的原因：项目构建过程包括【清理项目】→【编译项目】→【测试项目】→【生成测试报告】→【打包项目】→【部署项目】"></a>学习的原因：项目构建过程包括【清理项目】→【编译项目】→【测试项目】→【生成测试报告】→【打包项目】→【部署项目】</h4><blockquote>
-<p>理想的项目构建是高度自动化，跨平台，可重用的组件，标准化的，使用 maven就可以帮我们完成上述所说的项目构建过程。</p>
-</blockquote>
-<p>本地仓库统一管理jar包，使jar包与项目分离，减轻项目体积<br>多个项目的时候就能体会到jar包的好处</p>
-<h3>优点：</h3>
-jar包管理
-也称为<strong>依赖管理</strong> <br>
-Maven由Java语言开发，可跨平台使用
-<br><br>
----
-Maven将大型项目按照模块拆分成若干块，不同团队来维护，之间用远程仓库
-中小型项目：一般分为**web、service、dao**层
-Dao层叫做数据访问层，data access object
-Service层用**接口**来定义
-
-<p>用终端跑起来<br>Cd到目录，之后输入 mvn tomcat:run<br>编译过后src目录层会多出target<br>Tip：如果本地仓库没有jar包，就会自动到互联网上下载</p>
-<p>如果用maven，需要打包src文件和pom文件</p>
-<p>Maven的三个仓库<br>本地仓库：自己维护<br>远程仓库：公司维护 私服<br>中央仓库：第三方团队维护 国内一般使用阿里云提供的（到mirror里面去配置，如果不配置，就会到maven官方网站去下载，不挂代理的话，会非常慢）（是啥？）<br>查找顺序如上</p>
-<p>坐标一般是公司提供的，坐标是groupID、artifactid, Version</p>
-<h3>常用命令：</h3>
----
-Mvn **clean** 是清除编译后的文件
-Mvn **compile** 编译：只编译main目录下的代码，不编译test下的
-Mvn **test-compile** 编译test下的代码
-**Test** 是运行test下的代码
-**Package** 打包,包名是由artifactID，version，packaging（war、jar包）来的
-**Install** 是上传到本地仓库
-**Tomcat:run** 一键构建项目
-
-<p>Maven的<strong>生命周期</strong><br>A clean clean命令<br>B default compile、test-compile、test、packaging、install<br>C site 生成项目描述文档静态页面（在target目录下）<br>不同生命周期可以一起执行</p>
-<p>相同生命周期下有执行顺序，优先级<br>Compile&lt;test-compile&lt;test&lt;package&lt;install<br>后面执行了的话，前面的会一并执行</p>
-<p>实现了第一个maven项目</p>
-<h2 id="操作类"><a href="#操作类" class="headerlink" title="操作类"></a>操作类</h2><p>&#10084; Ctrl+H 就是网页历史记录的查找<br>&#9733; 是</p>
-<h2 id="数据库的学习"><a href="#数据库的学习" class="headerlink" title="数据库的学习"></a>数据库的学习</h2><p>怎么每次都是只学习了浅薄的一点啊</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;font color=DarkRed&gt;深红色&lt;/font&gt;</span><br><span class="line">&lt;font color=Red&gt;红色&lt;/font&gt;</span><br><span class="line">&lt;font color=Orange&gt;橘子的颜色&lt;/font&gt;</span><br><span class="line">&lt;font color=SkyBlue&gt;天蓝&lt;/font&gt;   </span><br><span class="line">&lt;font color=Chocolate&gt;巧克力颜色&lt;/font&gt;</span><br><span class="line">&lt;font color=Purple&gt;紫色&lt;/font&gt;</span><br><span class="line">&lt;font color=Green&gt;绿色&lt;/font&gt;</span><br></pre></td></tr></table></figure>
-
-<h2 id="Linux-1"><a href="#Linux-1" class="headerlink" title="Linux"></a>Linux</h2><h2 id="sed"><a href="#sed" class="headerlink" title="sed"></a>sed</h2><pre><code>p 显示
-d 删除
-a 添加
-c 替换
-w 写入
-i 插入</code></pre><h2 id="1-删除：d命令"><a href="#1-删除：d命令" class="headerlink" title="1/ 删除：d命令"></a>1/ 删除：d命令</h2><p><code>$ sed &#39;2d&#39; test.txt</code>                  —–删除example文件的第二行。</p>
-<p><code>$ sed &#39;2,$d&#39; test.txt</code>               —–删除example文件的第二行到末尾所有行。</p>
-<p><code>$ sed **&#39;$d&#39;** test.txt</code>                       —–删除example文件的最后一行。</p>
-<p><code>$ sed **&#39;/test/&#39;d** test.txt</code>         —–删除example文件所有包含test的行。</p>
-<h2 id="2-替换：s命令"><a href="#2-替换：s命令" class="headerlink" title="2/ 替换：s命令"></a>2/ 替换：s命令</h2><pre><code>sed &apos;s/test/mytest/g&apos; test.txt</code></pre><p><strong>在整行范围内把test替换为mytest。</strong>如果没有g标记，则只有每行第一个匹配的test被替换成mytest。</p>
-<pre><code>/sr`v/testesd# sed -n&apos;s/^test/mytest/p&apos; test.txt`</code></pre><p>(-n)选项和p标志一起使用表示只打印那些发生替换的行。也就是说，如果某一行开头的test被替换成mytest，就打印它。<br>并没有办法使用！！！</p>
-<pre><code>sed &apos;s/^192.168.0.1/&amp;localhost/&apos; test.txt</code></pre><p>&amp;符号表示追加一个串到找到的串后。所有以192.168.0.1开头的行都会被替换成它自已加 localhost，变成192.168.0.1localhost。<strong>（想要在某个单词后加东西的时候使用）</strong></p>
-<pre><code>sed -n&apos;s/loveable/\1rs/p&apos; test.txt</code></pre><p>ove被标记为1，所有loveable会被替换成lovers，而且替换的行会被打印出来。（首先语句的意思不太明白，其次存在-n就会报错）</p>
-<p>换新的分隔符，不感兴趣！</p>
-<h2 id="3-从文件读入：r命令"><a href="#3-从文件读入：r命令" class="headerlink" title="3/ 从文件读入：r命令"></a>3/ 从文件读入：r命令</h2><pre><code>sed  &apos;/test/rfile&apos;  test.txt</code></pre><p>—–file里的内容被读进来，显示在与test匹配的行下面，如果匹配多行，则file的内容将显示在所有匹配行的下面。<strong>（不太明白其中的意思！！！）</strong></p>
-<p>还有一大部分</p>
-<hr>
-<p>awk是一个强大的文本分析工具，相对于<strong>grep的查找</strong>，<strong>sed的编辑</strong>，awk在其对数据分析并生成报告时，显得尤为强大。简单来说awk就是把文件逐行的读入，以空格为默认分隔符将每行切片，切开的部分再进行各种分析处理。</p>
-<p>有点不太明白</p>
-<h2 id="Lucene介绍"><a href="#Lucene介绍" class="headerlink" title="Lucene介绍"></a>Lucene介绍</h2><p>是一款高性能的、可扩展的，纯java语言编写的一个开放源代码的信息检索（IR）工具库。它适合几乎任何需要全文本搜索(特别是跨平台）的应用程序。但它不是一个完整的全文检索引擎，而是一个全文检索引擎的架构，提供了完整的查询引擎和索引引擎，部分文本分析引擎（英文与德文两种西方语言）。Lucene的目的是为软件开发人员提供一个简单易用的工具包，以方便的在目标系统中实现全文检索的功能，或者是以此为基础建立起完整的全文检索引擎。</p>
-<p>lucene-<strong>core</strong>-3.1.0.jar 核心包<br>lucene-highlighter-3.1.0.jar 高亮包<br>lucene-<strong>analyzers</strong>-3.1.0.jar Lucene自带的分词解析包<br>lucene-<strong>queries</strong>-3.1.0.jar搜索条件包<br>IKAnalyzer3.2.3Stable.jar IK中文分词包</p>
-</div></div><a class="button-hover more" href="/2019/09/19/mixture/#more">阅读全文</a></div></div><div id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/"><i class="fas fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fas fa-angle-right"></i></a></div></div></div></div><div class="button-hover" id="return-top"><i class="fas fa-arrow-up" aria-hidden="true"></i></div><footer><div id="footer"><div class="button-hover" id="side-button"><i class="fas fa-arrow-right"></i></div><div class="right-content"><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_site_uv"><i class="fas fa-user"></i></span><span id="busuanzi_value_site_uv"></span><span></span><span class="footer-separator">|</span><span id="busuanzi_container_site_pv"><i class="fas fa-eye"></i></span><span id="busuanzi_value_site_pv"></span><span></span></div><div class="copyright">&copy;2017 ～ 2019 By Rr-shan</div></div></div></footer></div><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/thirdparty/jquery-3.3.1.min.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/thirdparty/velocity.min.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/thirdparty/jquery.mCustomScrollbar.concat.min.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/fan.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/canvas_bg.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/utils.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/scroll.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/sidebar.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/copy.js"></script><!--script(src=url)--><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/haruto.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":true},"log":false});</script></body></html>
+</div></div><a class="button-hover more" href="/2019/09/22/一周一记/#more">阅读全文</a></div></div><div id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/"><i class="fas fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fas fa-angle-right"></i></a></div></div></div></div><div class="button-hover" id="return-top"><i class="fas fa-arrow-up" aria-hidden="true"></i></div><footer><div id="footer"><div class="button-hover" id="side-button"><i class="fas fa-arrow-right"></i></div><div class="right-content"><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_site_uv"><i class="fas fa-user"></i></span><span id="busuanzi_value_site_uv"></span><span></span><span class="footer-separator">|</span><span id="busuanzi_container_site_pv"><i class="fas fa-eye"></i></span><span id="busuanzi_value_site_pv"></span><span></span></div><div class="copyright">&copy;2017 ～ 2019 By Rr-shan</div></div></div></footer></div><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/thirdparty/jquery-3.3.1.min.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/thirdparty/velocity.min.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/thirdparty/jquery.mCustomScrollbar.concat.min.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/fan.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/canvas_bg.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/utils.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/scroll.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/sidebar.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/copy.js"></script><!--script(src=url)--><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/haruto.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":true},"log":false});</script></body></html>

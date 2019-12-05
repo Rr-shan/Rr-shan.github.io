@@ -16,7 +16,224 @@ if (isPassword) {
     error: '复制错误',
     noSupport: '浏览器不支持'
   }
-}</script></head><body><canvas id="universe"></canvas><!--#body--><div id="sidebar"><div class="author-info"><div class="author-info-avatar"><img class="author-info-avatar-img" src="/avatar.png"></div><div class="author-info-name">Rr-shan</div><div class="author-info-description"></div><div class="links-buttons"><a class="links-button button-hover" href="https://github.com/Rr-shan" target="_blank">GitHub<i class="icon-dot bg-color9"></i></a><a class="links-button button-hover" href="mailto:1224559633@qq.com" target="_blank">E-Mail<i class="icon-dot bg-color8"></i></a></div><div class="author-info-articles"><a class="author-info-articles-archives article-meta" href="/archives"><span class="pull-top">日志</span><span class="pull-bottom">22</span></a><a class="author-info-articles-tags article-meta" href="/tags"><span class="pull-top">标签</span><span class="pull-bottom">5</span></a></div></div></div><div id="main-container"><header><div id="menu-outer"><i class="menu-list-icon fas fa-bars"></i><nav id="menu-inner"><a class="menu-item" href="/">首页</a><a class="menu-item" href="/tags">标签</a><a class="menu-item" href="/categories">分类</a><a class="menu-item" href="/archives">归档</a><a class="menu-item" href="/about">关于</a></nav><div class="right-info"><a class="title-name" href="/">Sanzzi</a><span id="now-time"></span></div></div></header><div id="content-outer"><div id="content-inner"><div id="recent-posts"><!-- each post in page.posts.sort('date', -1).limit(10).toArray()--><!-- config中配置按照什么排序--><div class="recent-post-item"><a class="post-title" href="/2019/09/18/为进云树的准备/">为进云树的准备</a><div class="container"><time class="button-hover post-date"><i class="fas fa-calendar-alt article-icon" aria-hidden="true"></i> 更新于 2019-09-18</time></div><div class="post-content"><div class="main-content content"><h2 id="机器学习的概述："><a href="#机器学习的概述：" class="headerlink" title="机器学习的概述："></a>机器学习的概述：</h2><ol>
+}</script></head><body><canvas id="universe"></canvas><!--#body--><div id="sidebar"><div class="author-info"><div class="author-info-avatar"><img class="author-info-avatar-img" src="/avatar.png"></div><div class="author-info-name">Rr-shan</div><div class="author-info-description"></div><div class="links-buttons"><a class="links-button button-hover" href="https://github.com/Rr-shan" target="_blank">GitHub<i class="icon-dot bg-color8"></i></a><a class="links-button button-hover" href="mailto:1224559633@qq.com" target="_blank">E-Mail<i class="icon-dot bg-color2"></i></a></div><div class="author-info-articles"><a class="author-info-articles-archives article-meta" href="/archives"><span class="pull-top">日志</span><span class="pull-bottom">23</span></a><a class="author-info-articles-tags article-meta" href="/tags"><span class="pull-top">标签</span><span class="pull-bottom">5</span></a></div></div></div><div id="main-container"><header><div id="menu-outer"><i class="menu-list-icon fas fa-bars"></i><nav id="menu-inner"><a class="menu-item" href="/">首页</a><a class="menu-item" href="/tags">标签</a><a class="menu-item" href="/categories">分类</a><a class="menu-item" href="/archives">归档</a><a class="menu-item" href="/about">关于</a></nav><div class="right-info"><a class="title-name" href="/">Sanzzi</a><span id="now-time"></span></div></div></header><div id="content-outer"><div id="content-inner"><div id="recent-posts"><!-- each post in page.posts.sort('date', -1).limit(10).toArray()--><!-- config中配置按照什么排序--><div class="recent-post-item"><a class="post-title" href="/2019/09/19/mixture/">mixture</a><div class="container"><time class="button-hover post-date"><i class="fas fa-calendar-alt article-icon" aria-hidden="true"></i> 更新于 2019-12-01</time><div class="button-hover tags"><i class="fa fa-tag article-icon" aria-hidden="true"></i><a class="link-a" href="/tags/Java/">Java</a></div></div><div class="post-content"><div class="main-content content"><ul>
+<li><h3 id="IDE查看源码-阅读源码非常有必要，高手才能写JDK"><a href="#IDE查看源码-阅读源码非常有必要，高手才能写JDK" class="headerlink" title="IDE查看源码 (阅读源码非常有必要，高手才能写JDK)"></a>IDE查看源码 (阅读源码非常有必要，高手才能写JDK)</h3><blockquote>
+<p><strong>shift*2</strong> ——&gt; 寻找想要查找的类<br><br>查找方法细节 ——&gt; <strong>Ctrl</strong> +点击方法 </p>
+</blockquote>
+</li>
+</ul>
+<hr>
+<ul>
+<li>减少代码重用的方法：</li>
+</ul>
+<hr>
+<ul>
+<li><h3 id="事件监听器的四种处理方式"><a href="#事件监听器的四种处理方式" class="headerlink" title="事件监听器的四种处理方式"></a>事件监听器的四种处理方式</h3></li>
+</ul>
+<ol>
+<li>自身类</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">class ThisClassEvent extends JFrame implement&#123; </span><br><span class="line">ActionListener </span><br><span class="line">button.addActionListener(this);</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>外部类</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">class OuterClassEvent extends JFrame&#123; </span><br><span class="line">button.addActionListener(new OuterClass(this)); </span><br><span class="line">class OuterClass implements ActionListener&#123;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>匿名内部类 <font color="yellow"> <em>prefer</em> </font></li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">btn.addActionListener( </span><br><span class="line">new ActionListener()&#123;&#125;</span><br><span class="line">); </span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">4. 内部类</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">``` </span><br><span class="line">class InnerClass implements ActionListener&#123;  </span><br><span class="line">button.addActionListener(new InnerClass());</span><br></pre></td></tr></table></figure>
+
+<hr>
+<ul>
+<li><h2 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h2><h4 id="正则匹配的实现"><a href="#正则匹配的实现" class="headerlink" title="正则匹配的实现"></a>正则匹配的实现</h4></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">	String line = &quot;6414636447&quot;;</span><br><span class="line">	String pattern = &quot;^\\d+$&quot;;</span><br><span class="line">	Pattern p = Pattern.compile(pattern);</span><br><span class="line">	Matcher matcher = p.matcher(line);</span><br><span class="line">	if (matcher.matches()) &#123;</span><br><span class="line">		System.out.println(true);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="正则表达式的知识："><a href="#正则表达式的知识：" class="headerlink" title="正则表达式的知识："></a>正则表达式的知识：</h4><p>作用：</p>
+<ol>
+<li>严谨的验证页面（防止黑客）<blockquote>
+<ul>
+<li>电话号码\ d {3} - \ d {8} | \ d {4} - {7,8}</li>
+<li>身份证号码  \ {6}）（\ d {4}）（\ d {2}）（\ d {2}）（\ d {3}）（[0-9] | X）$</li>
+<li>邮箱地址:/ \ w + @ \ w +。[a-zA-Z] {2,3}（。[a-zA-Z] {2,3}）？$ /</li>
+<li>手机号码:0？（13 | 14 | 15 | 18 | 17）[0-9] {9}</li>
+<li>IP（25 [0-5] | 2 [0-4] \ d | [0-1] \ d {2} | [1-9]？\ d）。（25 [0-5] | 2 [0 -4] \ d | [0-1] \ d {2} | [1-9] \ d）（25 [0-5] | 2 [0-4] \ d | [0-1] \ d {2} |？[1-9] \ d）（25 [0-5] | 2 [0-4] \ d | [0-1] \ d {2} |？[1-9] \ d）</li>
+</ul>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// 验证手机号码</span><br><span class="line">var reg = new RegExp(/0?(13|14|15|18|17)[0-9]&#123;9&#125;/);</span><br><span class="line">document.write(reg.test(&quot;13800138000&quot;));</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ul>
+<li><p>.通配符</p>
+</li>
+<li><p>\d   数字：[0-9]</p>
+</li>
+<li><p>\D  非数字： [^0-9]</p>
+</li>
+<li><p>\w  单词字符：[a-zA-Z_0-9]</p>
+</li>
+<li><p>\W 非单词字符：[^\w]</p>
+<h5 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h5></li>
+<li><p>[a-d[m-p]]   a到 d 或 m 到 p：[a-dm-p]（并集）</p>
+</li>
+<li><p>[a-z&amp;&amp;[def]]  d、e 或 f（交集） // 类似减法</p>
+<h5 id="次数类"><a href="#次数类" class="headerlink" title="次数类"></a>次数类</h5></li>
+<li><p>X?   X，零次或一次 （不能是多次）</p>
+</li>
+<li><p>X*   X，零次或多次 （除了0次）</p>
+</li>
+<li><p>X+   X，一次或多次 （拒绝0次）</p>
+</li>
+<li><p>X{n}  恰好 n 次</p>
+</li>
+<li><p>X{n,} 至少 n 次</p>
+</li>
+<li><p>X{n,m}  至少 n 次，但不超过 m 次<br>（非捕获啥的有点蒙）</p>
+</li>
+<li><p>贪婪匹配和懒惰匹配（尽可能多or尽可能少）</p>
+</li>
+</ul>
+<p>输入含有空格的 nextLine(),也可以有</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">  Scanner scan = new Scanner(System.in).useDelimiter(&quot;\n&quot;);</span><br><span class="line">String year = scan.next();</span><br></pre></td></tr></table></figure>
+
+<p>Scanner(System.in).useDelimiter(“\D”)可以和正则表达式一同使用</p>
+<h4 id="trim（）用法"><a href="#trim（）用法" class="headerlink" title="trim（）用法"></a>trim（）用法</h4><ol>
+<li>trim(String str)</li>
+<li>str.trim()</li>
+</ol>
+<h4 id="assert-用法"><a href="#assert-用法" class="headerlink" title="assert 用法"></a>assert 用法</h4><ol>
+<li>每个assert只检验一个条件,因为同时检验多个条件时,如果断言失败,无法直观的判断是哪个条件失败 </li>
+<li>使用断言捕捉不应该发生的非法情况（错误和非法是不同的）</li>
+<li>宏</li>
+</ol>
+<h4 id="散列、散列码、hascode"><a href="#散列、散列码、hascode" class="headerlink" title="散列、散列码、hascode()"></a>散列、散列码、hascode()</h4><ol>
+<li>存储一组元素最快的是数组，所以用它来表示键的信息，不是键本身，通过键对象生成一个数字，就是散列码，将其作为数组的下标。</li>
+</ol>
+<h4 id="字符串和字符-串-数组的转化"><a href="#字符串和字符-串-数组的转化" class="headerlink" title="字符串和字符(串)数组的转化"></a>字符串和字符(串)数组的转化</h4><ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 字符串转化成字符数组</span><br><span class="line">String str = &quot;abcdefg&quot;;</span><br><span class="line">char[] ch = str.toCharArray();</span><br><span class="line"> </span><br><span class="line">//字符数组转化成字符串</span><br><span class="line">String  strs = new String(ch);</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>-</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 字符串转化成字符串数组</span><br><span class="line">String str = &quot;hello world&quot;;</span><br><span class="line">String[] array = str.split(&quot; &quot;);</span><br><span class="line"> </span><br><span class="line">//字符串数组转化成字符串，只能通过循环</span><br><span class="line">//StringBuffer主要侧重于对字符串的变化</span><br><span class="line">StringBuffer sb= new StringBuffer();</span><br><span class="line">for(int i=0;i&lt;array.length;i++)&#123;</span><br><span class="line">    sb.append(str[i]);//追加内容到sb的末尾</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="KeyListener接口"><a href="#KeyListener接口" class="headerlink" title="KeyListener接口"></a>KeyListener接口</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public interface KeyListener extends EventListener &#123;</span><br><span class="line"> </span><br><span class="line">    public void keyTyped(KeyEvent e);   //发生击键事件时被触发</span><br><span class="line"></span><br><span class="line">    public void keyPressed(KeyEvent e);   //按键被按下时被触发</span><br><span class="line"> </span><br><span class="line">    public void keyReleased(KeyEvent e);   //按键被释放时被触发</span><br><span class="line"> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>实例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">textArea.addKeyListener(new KeyListener() &#123;</span><br><span class="line">			</span><br><span class="line">    public void keyPressed(KeyEvent e) &#123; // 按键被按下时被触发</span><br><span class="line">	    String keyText = KeyEvent.getKeyTe(e.getKeyCode());</span><br></pre></td></tr></table></figure>
+
+<p>####　抛出错误<br>e.getMessage()<br>只获取异常信息的字符串（不含异常类型）</p>
+<p>e.toString()<br>获取异常类型和异常详细信息</p>
+<p>e.printStackTrace()<br>打印出异常类型和异常详细信息，并且显示异常在后台代码中出现的位置。</p>
+<hr>
+<ul>
+<li><h3 id="Python的性质"><a href="#Python的性质" class="headerlink" title="Python的性质"></a>Python的性质</h3></li>
+</ul>
+<ol>
+<li>优雅（简单易学）</li>
+<li>可移植性强 <blockquote>
+<p>reason：Python语言写的程序不需要编译成二进制代码,可以直接从源代码运行。在计算机内部，Python<strong>解释器</strong>把源代码转换成称为字节码的中间形式，然后再把它翻译成计算机使用的机器语言并运行。不再需要担心如何编译程序，如何确保连接转载正确的库等等，所有这一切使得使用Python更加简单。</p>
+</blockquote>
+</li>
+<li>丰富的库（爬虫的好帮手）<blockquote>
+<p>正则表达式、文档生成、单元测试、线程、数据库、网页浏览器、CGI、FTP、电子邮件、XML、XML-RPC、HTML、WAV文件、密码系统、GUI（图形用户界面）、Tk和其他与系统有关的操作.</p>
+</blockquote>
+</li>
+<li>可扩展性：部分程序用C/C++写 （v提升）</li>
+<li>可嵌入性：把Python嵌入你的C/C++程序，从而提供脚本功能。</li>
+</ol>
+<hr>
+<br>
+
+<h2 id="安装的各种坑"><a href="#安装的各种坑" class="headerlink" title="安装的各种坑"></a>安装的各种坑</h2><h4 id="IDE总是自动关闭"><a href="#IDE总是自动关闭" class="headerlink" title="IDE总是自动关闭"></a>IDE总是自动关闭</h4><p>闪退的原因：编译器内存不足</p>
+<p>操作：<br>安装目录下的bin<br>找到idea.exe.vmoptions   最大的修改下-Xmx1024m<br>找到idea64.exe.vmoptions 最大的修改下-Xmx1024m</p>
+<h4 id="GitHub博客上传乱码问题"><a href="#GitHub博客上传乱码问题" class="headerlink" title="GitHub博客上传乱码问题"></a>GitHub博客上传乱码问题</h4><p>原有有三：</p>
+<ul>
+<li>网页编码问题（谷歌默认UTF-8）</li>
+<li>notePad++比较方便，直接设置UTF-8</li>
+<li>_config.yml 中language 改成 zh-CN</li>
+</ul>
+<hr>
+<br>
+
+<h4 id="运行dart（在vscode）"><a href="#运行dart（在vscode）" class="headerlink" title="运行dart（在vscode）"></a>运行dart（在vscode）</h4><ul>
+<li>在网上下载镜像（SDK）</li>
+<li>在vscode上面安装插件（dart） // 文件后缀是.dart</li>
+<li>Code Running插件的安装<br>每次运行都要先保存，保存是Ctrl+s，</li>
+</ul>
+<h2 id="有意思的一些安装"><a href="#有意思的一些安装" class="headerlink" title="有意思的一些安装"></a>有意思的一些安装</h2><ul>
+<li>VsCode中炫酷写代码插件Power Mode<blockquote>
+<p>文件-&gt;首选项-&gt;设置中搜索setting.json<br><br>加三行代码</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&quot;powermode.enabled&quot;: true,         //是否开启</span><br><span class="line">&quot;powermode.enableShake&quot;: false,    //是否抖动</span><br><span class="line">&quot;powermode.presets&quot;: &quot;fireworks&quot;   //动画效果</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<blockquote>
+<p>“particles”(原子,但是像小水滴一样),“fireworks”, “flames”(火花！), “magic”(这是个粉色迷雾，太扎眼了), “clippy”(有一个悬浮物一直跟着，不是很有意思), “simple-rift”(这个裂谷简直太秀了), “exploding-rift”(这个是巨大的裂谷，不适合！)</p>
+</blockquote>
+<h2 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h2><h4 id="显示屏-wins-p-即可进入选择模式"><a href="#显示屏-wins-p-即可进入选择模式" class="headerlink" title="显示屏 wins+p 即可进入选择模式"></a>显示屏 wins+p 即可进入选择模式</h4><p>扩展后，直接拖过去就好<br>可以实现网页和IDE同在<br>可以实现wins和Linux同在（激动！）</p>
+<h2 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h2><h4 id="echo"><a href="#echo" class="headerlink" title="echo"></a>echo</h4><p>好奇echo的用处（where to use） <br><br>Echo是为用Java开发Web应用程序提供的一个面向对象,事件驱动的框架。使用Echo 框架来编程类似于使用Swing API来开发应用程序或applets。<br><font color="yellow"> 可以暂时不理会</font></p>
+<h2 id="maven"><a href="#maven" class="headerlink" title="maven"></a>maven</h2><h4 id="学习的原因：项目构建过程包括【清理项目】→【编译项目】→【测试项目】→【生成测试报告】→【打包项目】→【部署项目】"><a href="#学习的原因：项目构建过程包括【清理项目】→【编译项目】→【测试项目】→【生成测试报告】→【打包项目】→【部署项目】" class="headerlink" title="学习的原因：项目构建过程包括【清理项目】→【编译项目】→【测试项目】→【生成测试报告】→【打包项目】→【部署项目】"></a>学习的原因：项目构建过程包括【清理项目】→【编译项目】→【测试项目】→【生成测试报告】→【打包项目】→【部署项目】</h4><blockquote>
+<p>理想的项目构建是高度自动化，跨平台，可重用的组件，标准化的，使用 maven就可以帮我们完成上述所说的项目构建过程。</p>
+</blockquote>
+<p>本地仓库统一管理jar包，使jar包与项目分离，减轻项目体积<br>多个项目的时候就能体会到jar包的好处</p>
+<h3>优点：</h3>
+jar包管理
+也称为<strong>依赖管理</strong> <br>
+Maven由Java语言开发，可跨平台使用
+<br><br>
+---
+Maven将大型项目按照模块拆分成若干块，不同团队来维护，之间用远程仓库
+中小型项目：一般分为**web、service、dao**层
+Dao层叫做数据访问层，data access object
+Service层用**接口**来定义
+
+<p>用终端跑起来<br>Cd到目录，之后输入 mvn tomcat:run<br>编译过后src目录层会多出target<br>Tip：如果本地仓库没有jar包，就会自动到互联网上下载</p>
+<p>如果用maven，需要打包src文件和pom文件</p>
+<p>Maven的三个仓库<br>本地仓库：自己维护<br>远程仓库：公司维护 私服<br>中央仓库：第三方团队维护 国内一般使用阿里云提供的（到mirror里面去配置，如果不配置，就会到maven官方网站去下载，不挂代理的话，会非常慢）（是啥？）<br>查找顺序如上</p>
+<p>坐标一般是公司提供的，坐标是groupID、artifactid, Version</p>
+<h3>常用命令：</h3>
+---
+Mvn **clean** 是清除编译后的文件
+Mvn **compile** 编译：只编译main目录下的代码，不编译test下的
+Mvn **test-compile** 编译test下的代码
+**Test** 是运行test下的代码
+**Package** 打包,包名是由artifactID，version，packaging（war、jar包）来的
+**Install** 是上传到本地仓库
+**Tomcat:run** 一键构建项目
+
+<p>Maven的<strong>生命周期</strong><br>A clean clean命令<br>B default compile、test-compile、test、packaging、install<br>C site 生成项目描述文档静态页面（在target目录下）<br>不同生命周期可以一起执行</p>
+<p>相同生命周期下有执行顺序，优先级<br>Compile&lt;test-compile&lt;test&lt;package&lt;install<br>后面执行了的话，前面的会一并执行</p>
+<p>实现了第一个maven项目</p>
+<h2 id="操作类"><a href="#操作类" class="headerlink" title="操作类"></a>操作类</h2><p>&#10084; Ctrl+H 就是网页历史记录的查找<br>&#9733; 是</p>
+<h2 id="数据库的学习"><a href="#数据库的学习" class="headerlink" title="数据库的学习"></a>数据库的学习</h2><p>怎么每次都是只学习了浅薄的一点啊</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;font color=DarkRed&gt;深红色&lt;/font&gt;</span><br><span class="line">&lt;font color=Red&gt;红色&lt;/font&gt;</span><br><span class="line">&lt;font color=Orange&gt;橘子的颜色&lt;/font&gt;</span><br><span class="line">&lt;font color=SkyBlue&gt;天蓝&lt;/font&gt;   </span><br><span class="line">&lt;font color=Chocolate&gt;巧克力颜色&lt;/font&gt;</span><br><span class="line">&lt;font color=Purple&gt;紫色&lt;/font&gt;</span><br><span class="line">&lt;font color=Green&gt;绿色&lt;/font&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Linux-1"><a href="#Linux-1" class="headerlink" title="Linux"></a>Linux</h2><h2 id="sed"><a href="#sed" class="headerlink" title="sed"></a>sed</h2><pre><code>p 显示
+d 删除
+a 添加
+c 替换
+w 写入
+i 插入</code></pre><h2 id="1-删除：d命令"><a href="#1-删除：d命令" class="headerlink" title="1/ 删除：d命令"></a>1/ 删除：d命令</h2><p><code>$ sed &#39;2d&#39; test.txt</code>                  —–删除example文件的第二行。</p>
+<p><code>$ sed &#39;2,$d&#39; test.txt</code>               —–删除example文件的第二行到末尾所有行。</p>
+<p><code>$ sed **&#39;$d&#39;** test.txt</code>                       —–删除example文件的最后一行。</p>
+<p><code>$ sed **&#39;/test/&#39;d** test.txt</code>         —–删除example文件所有包含test的行。</p>
+<h2 id="2-替换：s命令"><a href="#2-替换：s命令" class="headerlink" title="2/ 替换：s命令"></a>2/ 替换：s命令</h2><pre><code>sed &apos;s/test/mytest/g&apos; test.txt</code></pre><p><strong>在整行范围内把test替换为mytest。</strong>如果没有g标记，则只有每行第一个匹配的test被替换成mytest。</p>
+<pre><code>/sr`v/testesd# sed -n&apos;s/^test/mytest/p&apos; test.txt`</code></pre><p>(-n)选项和p标志一起使用表示只打印那些发生替换的行。也就是说，如果某一行开头的test被替换成mytest，就打印它。<br>并没有办法使用！！！</p>
+<pre><code>sed &apos;s/^192.168.0.1/&amp;localhost/&apos; test.txt</code></pre><p>&amp;符号表示追加一个串到找到的串后。所有以192.168.0.1开头的行都会被替换成它自已加 localhost，变成192.168.0.1localhost。<strong>（想要在某个单词后加东西的时候使用）</strong></p>
+<pre><code>sed -n&apos;s/loveable/\1rs/p&apos; test.txt</code></pre><p>ove被标记为1，所有loveable会被替换成lovers，而且替换的行会被打印出来。（首先语句的意思不太明白，其次存在-n就会报错）</p>
+<p>换新的分隔符，不感兴趣！</p>
+<h2 id="3-从文件读入：r命令"><a href="#3-从文件读入：r命令" class="headerlink" title="3/ 从文件读入：r命令"></a>3/ 从文件读入：r命令</h2><pre><code>sed  &apos;/test/rfile&apos;  test.txt</code></pre><p>—–file里的内容被读进来，显示在与test匹配的行下面，如果匹配多行，则file的内容将显示在所有匹配行的下面。<strong>（不太明白其中的意思！！！）</strong></p>
+<p>还有一大部分</p>
+<hr>
+<p>awk是一个强大的文本分析工具，相对于<strong>grep的查找</strong>，<strong>sed的编辑</strong>，awk在其对数据分析并生成报告时，显得尤为强大。简单来说awk就是把文件逐行的读入，以空格为默认分隔符将每行切片，切开的部分再进行各种分析处理。</p>
+<p>有点不太明白</p>
+<h2 id="Lucene介绍"><a href="#Lucene介绍" class="headerlink" title="Lucene介绍"></a>Lucene介绍</h2><p>是一款高性能的、可扩展的，纯java语言编写的一个开放源代码的信息检索（IR）工具库。它适合几乎任何需要全文本搜索(特别是跨平台）的应用程序。但它不是一个完整的全文检索引擎，而是一个全文检索引擎的架构，提供了完整的查询引擎和索引引擎，部分文本分析引擎（英文与德文两种西方语言）。Lucene的目的是为软件开发人员提供一个简单易用的工具包，以方便的在目标系统中实现全文检索的功能，或者是以此为基础建立起完整的全文检索引擎。</p>
+<p>lucene-<strong>core</strong>-3.1.0.jar 核心包<br>lucene-highlighter-3.1.0.jar 高亮包<br>lucene-<strong>analyzers</strong>-3.1.0.jar Lucene自带的分词解析包<br>lucene-<strong>queries</strong>-3.1.0.jar搜索条件包<br>IKAnalyzer3.2.3Stable.jar IK中文分词包</p>
+</div></div><a class="button-hover more" href="/2019/09/19/mixture/#more">阅读全文</a></div><div class="recent-post-item"><a class="post-title" href="/2019/09/18/为进云树的准备/">为进云树的准备</a><div class="container"><time class="button-hover post-date"><i class="fas fa-calendar-alt article-icon" aria-hidden="true"></i> 更新于 2019-09-18</time></div><div class="post-content"><div class="main-content content"><h2 id="机器学习的概述："><a href="#机器学习的概述：" class="headerlink" title="机器学习的概述："></a>机器学习的概述：</h2><ol>
 <li>对于某类任务 T 和性能度量 P，如果一个计算机程序在 T 上以 P 衡量的性能随着经验 E 而自我完善，那么我们称这个计算机程序在从经验 E 中学习。<strong>???</strong></li>
 <li>机器学习本质上属于<strong>应用统计学</strong>，更多地关注如何用计算机统计地估计复杂函数，不太关注为这些函数提供置信区间。</li>
 </ol>
