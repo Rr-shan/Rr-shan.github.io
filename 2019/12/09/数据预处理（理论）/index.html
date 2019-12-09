@@ -1,0 +1,53 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="数据预处理(理论)"><meta name="keywords" content><meta name="author" content="Rr-shan,undefined"><meta name="copyright" content="Rr-shan"><title>数据预处理(理论)【Sanzzi】</title><link rel="stylesheet" href="/css/fan.css"><link rel="stylesheet" href="/css/thirdparty/jquery.mCustomScrollbar.min.css"><link rel="icon" href="/favicon.ico"><!-- script(src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML")--><script src="/js/mathjax/mathjax.js"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+    tex2jax: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
+});
+</script><script>var isPassword = '' || false;
+if (isPassword) {
+    if (prompt('请输入文章密码') !== '') {
+        alert('密码错误！');
+        history.back();
+    }
+}</script><script>window.GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  }
+}</script></head><body><canvas id="universe"></canvas><!--#body--><div id="sidebar"><div class="toggle-sidebar-info button-hover"><span data-toggle="文章目录">站点概览</span></div><div class="sidebar-toc"><div class="sidebar-toc-title">目录</div><div class="sidebar-toc-progress"><span class="progress-notice">您已阅读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc-progress-bar"></div></div><div class="sidebar-toc-content" id="sidebar-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据质量"><span class="toc-number">1.</span> <span class="toc-text">数据质量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据审计"><span class="toc-number">2.</span> <span class="toc-text">数据审计</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据清洗"><span class="toc-number">3.</span> <span class="toc-text">数据清洗</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据变换"><span class="toc-number">4.</span> <span class="toc-text">数据变换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据集成"><span class="toc-number">5.</span> <span class="toc-text">数据集成</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他预处理方法"><span class="toc-number">6.</span> <span class="toc-text">其他预处理方法</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info-avatar"><img class="author-info-avatar-img" src="/avatar.png"></div><div class="author-info-name">Rr-shan</div><div class="author-info-description"></div><div class="links-buttons"><a class="links-button button-hover" href="https://github.com/Rr-shan" target="_blank">GitHub<i class="icon-dot bg-color5"></i></a><a class="links-button button-hover" href="mailto:1224559633@qq.com" target="_blank">E-Mail<i class="icon-dot bg-color3"></i></a></div><div class="author-info-articles"><a class="author-info-articles-archives article-meta" href="/archives"><span class="pull-top">日志</span><span class="pull-bottom">25</span></a><a class="author-info-articles-tags article-meta" href="/tags"><span class="pull-top">标签</span><span class="pull-bottom">5</span></a></div></div></div><div id="main-container"><header><div id="menu-outer"><i class="menu-list-icon fas fa-bars"></i><nav id="menu-inner"><a class="menu-item" href="/">首页</a><a class="menu-item" href="/tags">标签</a><a class="menu-item" href="/categories">分类</a><a class="menu-item" href="/archives">归档</a><a class="menu-item" href="/about">关于</a></nav><div class="right-info"><a class="title-name" href="/">Sanzzi</a><span id="now-time"></span></div></div></header><div id="content-outer"><div id="content-inner"><article id="post"><div class="post-header"><div class="title">数据预处理(理论)</div><div class="container"><time class="button-hover post-date"><i class="fas fa-calendar-alt article-icon" aria-hidden="true"></i> 发表于 2019-12-09 | 更新于 2019-12-09</time><!--time.button-hover.post-date #[i.fas.fa-calendar-alt.article-icon(aria-hidden="true")] #[=__('post.modified')] #[=date(page['updated'], config.date_format)]--><div class="button-hover categories"></div><div class="button-hover tags"></div></div></div><div class="main-content"><blockquote>
+<p>数据预处理：Data Prep（数据预处理）, Data Munging（数据加工、数据清<br>理）, Data Transformation（数据转换）、 数据打磨（Data Wrangling）</p>
+</blockquote>
+<ul>
+<li>数据预处理的输出决定了下游的分析</li>
+<li>粒度: 评估键值，变换（分组）</li>
+<li>忠诚度: 发现并处理异常值</li>
+</ul>
+<h2 id="数据质量"><a href="#数据质量" class="headerlink" title="数据质量"></a>数据质量</h2><h2 id="数据审计"><a href="#数据审计" class="headerlink" title="数据审计"></a>数据审计</h2><blockquote>
+<p>数据审计是指按照数据质量的一般规律与评价方法，对数据内容及其<br>元数据进行审计，发现其中存在的“问题”，例如：<br>➢ 缺失值（缺少数据）<br>➢ 学生信息表中少一条记录<br>➢ 噪声值（异常数据）<br>➢ 出生年份为100<br>➢ 不一致值（相互矛盾的数据）<br>➢ 出生年份不一致<br>➢ 不完整值（被篡改或无法溯源的数据）</p>
+</blockquote>
+<p>缺失值的类型：</p>
+<ul>
+<li><p>完全随机缺失<br>（ （MCAR） ）<br>某变量的缺失数据与其他任何观测或<br>未观测变量都不相关<br>问卷调查</p>
+</li>
+<li><p>随机缺失<br>（ （MAR） ）<br>某变量的缺失数据与其他观测相关，<br>但与未观测变量不相关<br>全球领导风格调<br>查（学历）</p>
+</li>
+<li><p>非随机缺失<br>（ （NMAR） ）<br>缺失数据不属于上述“完全随机缺失”<br>或“随机缺失”<br>抑郁症（不愿承<br>认、忽略）</p>
+</li>
+</ul>
+<h2 id="数据清洗"><a href="#数据清洗" class="headerlink" title="数据清洗"></a>数据清洗</h2><p>噪声数据的存在形式<br>错误数据<br>• 虚假数据<br>• 异常数据<br>• 离群数据或孤立数据<br>噪声数据的存在形式<br>• 分箱（Binning）<br>• 聚类（Clustering）<br>• 回归（Regression</p>
+<p>通过聚类发现离群点/孤立点<br>通过回归方法发现噪声数据<br>分箱处理的步骤与类型！！！<br>均值平滑与边界值平滑</p>
+<blockquote>
+<p>解决方法<br>就近补齐<br>K近邻<br>模型预测</p>
+</blockquote>
+<p>间隔(Interval)量<br>➢ 按间隔表示的定量数据，没有真零值。 如，温度。<br>➢ 除了具有次序量的特点外，间隔量相互之间还可以比较大小，并且它们之间的<br>差值大小是有意义的。</p>
+<p>比率(Ratio)量<br>➢ 除了具有间隔量的特点外，其初始零值有意义。如，身高<br>➢ 定量数据，且有真零值。</p>
+<h2 id="数据变换"><a href="#数据变换" class="headerlink" title="数据变换"></a>数据变换</h2><h2 id="数据集成"><a href="#数据集成" class="headerlink" title="数据集成"></a>数据集成</h2><p>Normalization！！！</p>
+<p>内容集成<br>结构集成</p>
+<p>数据集成的3个基本问题<br>• 模式集成<br>• 数据冗余<br>• 冲突检测与消除</p>
+<h2 id="其他预处理方法"><a href="#其他预处理方法" class="headerlink" title="其他预处理方法"></a>其他预处理方法</h2><p>数据脱敏原则</p>
+<p>单向性： 原始数据-&gt;  脱敏数据<br>无残留 ：无法通过其他途径还原敏感数据</p>
+<p>维归约（Dimensionality<br>reduction ）<br>•主成分分析（Principal<br>Component Analysis，PCA）<br>•线性判别分析（Linear<br>Discriminant Analysis,LDA）<br>•奇异值分解（Singular Value<br>Decomposition，SVD）<br>•离散小波转换（Discrete<br>Wavelet Transform，DWT）</p>
+<p>值规约（Numerosity<br>Reduction ）<br>•参数模型(如简单线性回归模型<br>和对数线性模型等)<br>•非参数模型(如抽样、聚类、直<br>方图等)</p>
+</div><div class="post-copyright"><div class="post-copyright-author"><span class="post-copyright-meta">本文作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Rr-shan</a></span></div><div class="post-copyright-type"><span class="post-copyright-meta">本文链接: </span><span class="post-copyright-info"><a href="https://rr-shan.github.io/2019/12/09/数据预处理（理论）/">https://rr-shan.github.io/2019/12/09/数据预处理（理论）/</a></span></div><div class="post-copyright-notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://rr-shan.github.io">Sanzzi</a>！</span></div></div></article><div id="pagination"><div class="next-post pull-right"><span class="line line-top"></span><span class="line line-right"></span><span class="line line-bottom"></span><span class="line line-left"></span><a href="/2019/12/06/聚类的评估指标/"><span>聚类的评估指标</span><span>&nbsp;</span><i class="fas fa-angle-right"></i></a></div></div><!--div!= paginator()--></div></div><div class="button-hover" id="return-top"><i class="fas fa-arrow-up" aria-hidden="true"></i></div><footer><div id="footer"><div class="button-hover" id="side-button"><i class="fas fa-arrow-right"></i></div><div class="right-content"><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fas fa-file-o"></i></span><span id="busuanzi_value_page_pv"></span><span></span></div><div class="copyright">&copy;2017 ～ 2019 By Rr-shan</div></div></div></footer></div><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/thirdparty/jquery-3.3.1.min.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/thirdparty/velocity.min.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/thirdparty/jquery.mCustomScrollbar.concat.min.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/fan.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/canvas_bg.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/utils.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/scroll.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/sidebar.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/copy.js"></script><!--script(src=url)--><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/haruto.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":true},"log":false});</script></body></html>
