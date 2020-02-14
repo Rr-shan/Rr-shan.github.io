@@ -16,7 +16,195 @@ if (isPassword) {
     error: '复制错误',
     noSupport: '浏览器不支持'
   }
-}</script></head><body><canvas id="universe"></canvas><!--#body--><div id="sidebar"><div class="author-info"><div class="author-info-avatar"><img class="author-info-avatar-img" src="/avatar.png"></div><div class="author-info-name">Rr-shan</div><div class="author-info-description"></div><div class="links-buttons"><a class="links-button button-hover" href="https://github.com/Rr-shan" target="_blank">GitHub<i class="icon-dot bg-color8"></i></a><a class="links-button button-hover" href="mailto:1224559633@qq.com" target="_blank">E-Mail<i class="icon-dot bg-color3"></i></a></div><div class="author-info-articles"><a class="author-info-articles-archives article-meta" href="/archives"><span class="pull-top">日志</span><span class="pull-bottom">20</span></a><a class="author-info-articles-tags article-meta" href="/tags"><span class="pull-top">标签</span><span class="pull-bottom">3</span></a></div></div></div><div id="main-container"><header><div id="menu-outer"><i class="menu-list-icon fas fa-bars"></i><nav id="menu-inner"><a class="menu-item" href="/">首页</a><a class="menu-item" href="/tags">标签</a><a class="menu-item" href="/categories">分类</a><a class="menu-item" href="/archives">归档</a><a class="menu-item" href="/about">关于</a></nav><div class="right-info"><a class="title-name" href="/">Sanzzi</a><span id="now-time"></span></div></div></header><div id="content-outer"><div id="content-inner"><div id="recent-posts"><!-- each post in page.posts.sort('date', -1).limit(10).toArray()--><!-- config中配置按照什么排序--><div class="recent-post-item"><a class="post-title" href="/2019/12/06/聚类的评估指标/">聚类的评估指标</a><div class="container"><time class="button-hover post-date"><i class="fas fa-calendar-alt article-icon" aria-hidden="true"></i> 更新于 2019-12-06</time></div><div class="post-content"><div class="main-content content"><ul>
+}</script></head><body><canvas id="universe"></canvas><!--#body--><div id="sidebar"><div class="author-info"><div class="author-info-avatar"><img class="author-info-avatar-img" src="/avatar.png"></div><div class="author-info-name">Rr-shan</div><div class="author-info-description"></div><div class="links-buttons"><a class="links-button button-hover" href="https://github.com/Rr-shan" target="_blank">GitHub<i class="icon-dot bg-color4"></i></a><a class="links-button button-hover" href="mailto:1224559633@qq.com" target="_blank">E-Mail<i class="icon-dot bg-color10"></i></a></div><div class="author-info-articles"><a class="author-info-articles-archives article-meta" href="/archives"><span class="pull-top">日志</span><span class="pull-bottom">23</span></a><a class="author-info-articles-tags article-meta" href="/tags"><span class="pull-top">标签</span><span class="pull-bottom">3</span></a></div></div></div><div id="main-container"><header><div id="menu-outer"><i class="menu-list-icon fas fa-bars"></i><nav id="menu-inner"><a class="menu-item" href="/">首页</a><a class="menu-item" href="/tags">标签</a><a class="menu-item" href="/categories">分类</a><a class="menu-item" href="/archives">归档</a><a class="menu-item" href="/about">关于</a></nav><div class="right-info"><a class="title-name" href="/">Sanzzi</a><span id="now-time"></span></div></div></header><div id="content-outer"><div id="content-inner"><div id="recent-posts"><!-- each post in page.posts.sort('date', -1).limit(10).toArray()--><!-- config中配置按照什么排序--><div class="recent-post-item"><a class="post-title" href="/2020/02/03/人脸识别的项目/">人脸识别的项目</a><div class="container"><time class="button-hover post-date"><i class="fas fa-calendar-alt article-icon" aria-hidden="true"></i> 更新于 2020-02-14</time></div><div class="post-content"><div class="main-content content"><p><strong>缺失文件haarcascades—各种分类器xml文件下载地址</strong><br>在github上面下载的速度实在是太慢了</p>
+<blockquote>
+<p>链接：<a href="https://pan.baidu.com/s/1UECA2mPDwqMrhLfWaRTi8g" target="_blank" rel="noopener">https://pan.baidu.com/s/1UECA2mPDwqMrhLfWaRTi8g</a><br>提取码：gqvl </p>
+</blockquote>
+<p><strong>安装dlib模块踩坑</strong><br>网上各种各样的方法，boost,cmake,还需要VS，非常十分复杂，我怀着想要简约一些的方式开始bing。</p>
+<p>避开最复杂的做法</p>
+<p>找相对简单的做法：<br><em>conda安装最新的dlib</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda install -c menpo dlib=19.9</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">conda install -c conda-forge dlib</span><br><span class="line">conda install -c conda-forge/label/cf201901 dlib</span><br></pre></td></tr></table></figure>
+
+<h4 id="报错1："><a href="#报错1：" class="headerlink" title="报错1："></a>报错1：</h4><p>网络连接不上</p>
+<p><em>windows 通过whl文件安装dlib</em></p>
+<blockquote>
+<p><a href="https://blog.csdn.net/weixin_39954229/article/details/81878864" target="_blank" rel="noopener">https://blog.csdn.net/weixin_39954229/article/details/81878864</a><br>可以下载这个dlib-19.7.0-cp36-cp36m-win_amd64.whl</p>
+</blockquote>
+<blockquote>
+<p><a href="https://www.jianshu.com/p/8296f2aac1aa" target="_blank" rel="noopener">https://www.jianshu.com/p/8296f2aac1aa</a><br>中可以下载dlib-19.8.1-cp36-cp36m-win_amd64.whl</p>
+</blockquote>
+<blockquote>
+<p><a href="https://pypi.org/simple/dlib/" target="_blank" rel="noopener">https://pypi.org/simple/dlib/</a> 这链接几乎啥版本都有</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip install D:\Downloads\dlib-19.7.0-cp36-cp36m-win_amd64.whl</span><br><span class="line">一定要注意文件的路径</span><br></pre></td></tr></table></figure>
+
+<h4 id="报错2："><a href="#报错2：" class="headerlink" title="报错2："></a>报错2：</h4><p>ERROR: dlib-19.7.0-cp36-cp36m-win_amd64.whl is not a supported wheel on this platform.</p>
+<p>原因1：版本不匹配（Python和包（库）不兼容）<br>如何查看<br>参照博客<a href="https://blog.csdn.net/xiuxiuen_michelle/article/details/81080694" target="_blank" rel="noopener">https://blog.csdn.net/xiuxiuen_michelle/article/details/81080694</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">python</span><br><span class="line">import pip._internal</span><br><span class="line">print(pip._internal.pep425tags.get_supported())</span><br></pre></td></tr></table></figure>
+
+<p>发现了问题，cp37才可以，之前是cp36的，以上提供的版本对Python来说无用。</p>
+<p>感人的是，知乎上Python回答者居然提供了cp37的</p>
+<blockquote>
+<p><a href="https://pan.baidu.com/s/1MKqW7WH2XP-J8MOLeq3cDA" target="_blank" rel="noopener">https://pan.baidu.com/s/1MKqW7WH2XP-J8MOLeq3cDA</a><br>提取码：rfh8</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install D:\Downloads\dlib-19.17.99-cp37-cp37m-win_amd64.whl</span><br></pre></td></tr></table></figure>
+
+<p><strong>安装face_recognition人脸识别库</strong><br>安装了dlib后还是安装不成功</p>
+<p>方法一：先安装cmake再安装face_recognition<br>但是cmake也不能直接pip,cmake的安装非常复杂（stop）<br>方法二：用whl文件<br>官网<a href="https://pypi.org/project/pip/20.0.2/#files下载" target="_blank" rel="noopener">https://pypi.org/project/pip/20.0.2/#files下载</a><br>pip-20.0.2-py2.py3-none-any.whl<br>好蠢啊，看错了，下错了，又因为网速实在不给力</p>
+<p>直接在官网内搜，什么都可以<br>官网<a href="https://pypi.org/project/face_recognition/#files" target="_blank" rel="noopener">https://pypi.org/project/face_recognition/#files</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install D:\Downloads\face_recognition-1.2.3-py2.py3-none-any.whl</span><br></pre></td></tr></table></figure>
+
+<h4 id="报错："><a href="#报错：" class="headerlink" title="报错："></a>报错：</h4><p>Script file ‘D:\Anaconda\Scripts\pip-script.py’ is not present.<br>原因是我下载错了包，安装的时候把原有的pip给卸载了<br>方法一：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">easy_install pip</span><br></pre></td></tr></table></figure>
+
+<p>安装成功</p>
+<h4 id="报错：-1"><a href="#报错：-1" class="headerlink" title="报错："></a>报错：</h4><p>UnicodeDecodeError: ‘gbk’ codec can’t decode byte 0x81 in position 4: illegal multibyte sequence</p>
+<p>都是编码的问题<br>stackoverflow</p>
+<blockquote>
+<p>if you will open file with utf-8,then you need write: open(file_name, ‘r’, encoding=’UTF-8’) if you will open file with GBK,then you need do: open(file_name, ‘rb’) hope to solve your problem!</p>
+</blockquote>
+<blockquote>
+<ul>
+<li>encoding=’UTF-8’出现了utf-8的报错，加入’rb’无效</li>
+<li>没看清楚CSDN博主的错误地方，安装了pip download pyleus<br>pip install pyleus-0.3.0.tar.gz</li>
+<li>修改编码错误的地方，改成gbk，或者神奇的gbk10……</li>
+</ul>
+</blockquote>
+<p> 我好蠢，一大早将笔记中的D:\Anaconda\Lib\site-packages\dlib-data\shape_predictor_68_face_landmarks.dat当成要下载的下载了，以至于编码一直出现错误</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install D:\Downloads\face_recognition-1.2.3-py2.py3-none-any.whl</span><br></pre></td></tr></table></figure>
+
+<p> 下载速度好慢呐<br>翻墙后就安装上了</p>
+<p><strong>缺失文件shape_predictor_68_face_landmarks.dat</strong></p>
+<blockquote>
+<p><a href="https://pan.baidu.com/s/1Z1a_ud__BWXgCWZeSdpL2g" target="_blank" rel="noopener">https://pan.baidu.com/s/1Z1a_ud__BWXgCWZeSdpL2g</a><br>提取码：lzjy</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">D:\\Anaconda\\Lib\\site-packages\\dlib-data\\shape_predictor_68_face_landmarks.dat</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://www.osgeo.cn/pygis/basemap-eqexam.html" target="_blank" rel="noopener">https://www.osgeo.cn/pygis/basemap-eqexam.html</a><br>地图绘制</p>
+<p>需要Python的配置文件，这里都有<br>python!<br><a href="https://my.oschina.net/chenmoxuan/blog/1827753" target="_blank" rel="noopener">https://my.oschina.net/chenmoxuan/blog/1827753</a><br><a href="https://www.lfd.uci.edu/~gohlke/pythonlibs/" target="_blank" rel="noopener">https://www.lfd.uci.edu/~gohlke/pythonlibs/</a></p>
+</div></div><a class="button-hover more" href="/2020/02/03/人脸识别的项目/#more">阅读全文</a></div><div class="recent-post-item"><a class="post-title" href="/2020/02/03/MySQL踩坑手记/">MySQL安装踩坑手记</a><div class="container"><time class="button-hover post-date"><i class="fas fa-calendar-alt article-icon" aria-hidden="true"></i> 更新于 2020-02-03</time></div><div class="post-content"><div class="main-content content"><p>傻瓜式的安装（Windows下）我都能弄得一团糟！还是勉励一句，==踩坑就是要越挫越勇的。==<br>倒叙。[^1]<br>[^1]：倒叙入口</p>
+<ol>
+<li>配置初始化的my.ini文件（在安装根目录下添加 my.ini）<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line"># 设置3306端口</span><br><span class="line">port=3306</span><br><span class="line"># 设置mysql的安装目录</span><br><span class="line">basedir=D:\\Downloads\\mysql-8.0.19-winx64\\mysql-8.0.19-winx64   # 切记此处一定要用双斜杠\\，单斜杠我这里会出错，不过看别人的教程，有的是单斜杠。自己尝试吧</span><br><span class="line"># 设置mysql数据库的数据的存放目录</span><br><span class="line">datadir=D:\\Downloads\\mysql-8.0.19-winx64\\mysql-8.0.19-winx64\\data   # 此处同上</span><br><span class="line"># 允许最大连接数</span><br><span class="line">max_connections=200</span><br><span class="line"># 允许连接失败的次数。这是为了防止有人从该主机试图攻击数据库系统</span><br><span class="line">max_connect_errors=10</span><br><span class="line"># 服务端使用的字符集默认为UTF8</span><br><span class="line">character-set-server=utf8</span><br><span class="line"># 创建新表时将使用的默认存储引擎</span><br><span class="line">default-storage-engine=INNODB</span><br><span class="line"># 默认使用“mysql_native_password”插件认证</span><br><span class="line">default_authentication_plugin=mysql_native_password</span><br><span class="line">[mysql]</span><br><span class="line"># 设置mysql客户端默认字符集</span><br><span class="line">default-character-set=utf8</span><br><span class="line">[client]</span><br><span class="line"># 设置mysql客户端连接服务端时默认使用的端口</span><br><span class="line">port=3306</span><br><span class="line">default-character-set=utf8</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>我的胡来操作，不按照正常的顺序</p>
+<ol start="2">
+<li>在MySQL安装目录的 bin 目录下执行命令：<blockquote>
+<p>mysql -u root -p</p>
+</blockquote>
+</li>
+</ol>
+<h4 id="报错1"><a href="#报错1" class="headerlink" title="报错1:"></a>报错1:</h4><ul>
+<li>无法启动此程序，因为计算机丢失VCRUNTIME140_1.dll。尝试重新安装该程序以解决此问题</li>
+</ul>
+<p>图片</p>
+<p>bing之后发现很可能是昨天在尝试将一些无良广告页面弹出的文件删除的过程中，不小心将一个重要的文件删除掉了，而且还把回收站彻底清空了。于是开始想方设法安装……</p>
+<h4 id="报错2："><a href="#报错2：" class="headerlink" title="报错2："></a>报错2：</h4><ul>
+<li>Visual C++ Redistributable for Visual Studio 2015 下载失败,日志文件中的报错是e000: Error 0x80070666: Cannot install a product when a newer version is installed.</li>
+</ul>
+<p>bing说要新版本，还有2017和2019的，我下载了2019的成功了。</p>
+<blockquote>
+<p><a href="https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads" target="_blank" rel="noopener">https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads</a></p>
+</blockquote>
+<p>重新尝试</p>
+<blockquote>
+<p>mysql -u root -p</p>
+</blockquote>
+<h4 id="报错3："><a href="#报错3：" class="headerlink" title="报错3："></a>报错3：</h4><ul>
+<li>ERROR 2003 (HY000): Can’t connect to MySQL server on ‘localhost’ (10061)</li>
+</ul>
+<p>解决步骤 如网址<a href="https://jingyan.baidu.com/article/a681b0de5ac1dc3b1943467d.html" target="_blank" rel="noopener">https://jingyan.baidu.com/article/a681b0de5ac1dc3b1943467d.html</a><br>关键步骤有<br>打开 <strong>计算机管理</strong>中的<strong>服务</strong>查看MySQL </p>
+<ol>
+<li>是否安装 N —— 手动 mysql -install</li>
+<li>安装后点开后<strong>启动</strong>运行</li>
+</ol>
+<h4 id="报错4："><a href="#报错4：" class="headerlink" title="报错4："></a>报错4：</h4><ul>
+<li>MySQL服务无法启动,服务中点启动报错，还可以在终端中输入<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net start mysql</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>怎么解决MySQL没法启动的问题?<br><a href="https://jingyan.baidu.com/article/b24f6c820a029b86bfe5da3c.html" target="_blank" rel="noopener">https://jingyan.baidu.com/article/b24f6c820a029b86bfe5da3c.html</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">关键步骤：</span><br><span class="line">将my.ini移至bin目录下。</span><br><span class="line">mysqld --initialize --user=mysql --console记录临时密码</span><br><span class="line">再到服务中启动MySQL成功</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>改密码：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqladmin -u USER -p password PASSWORD</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h4 id="报错5："><a href="#报错5：" class="headerlink" title="报错5："></a>报错5：</h4><ul>
+<li><p>mysqladmin: connect to server at ‘localhost’ failed<br>error: ‘Access denied for user ‘root’@’localhost</p>
+<p>进入MySQL去修改密码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALTER USER &apos;root&apos;@&apos;localhost&apos; IDENTIFIED WITH mysql_native_password BY &apos;新密码&apos;;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>终于可以算是大功告成了！撒花完结</p>
+<p>倒叙入口</p>
+<blockquote>
+<p>一开始是准备跟着b站的视频教程安装的（相比各式各样（鱼龙混杂）的博客来说，可行性更强），但是在安装MySQL installer的时候，不小心乱键入，七七八八错了章法。<br>于是想删掉胡乱的设定，重新安装。不幸的是，我把原有的全部情空了，除了Connector/NET怎么也删除不了。<br>之后删了MySQL这个文件，重返官网下载，但是发现已经不会再给初始化设定了，我也只剩Connector/NET。于是念叨着找老版本是不是就可以重新有初始化设定，由于网速的原因，花了五六个小时下载旧版本却发现还是Connector/NET。<br>没有办法了，于是想办法把原有的各种功能加回来，但是发现怎么Add也行不。非常沮丧，觉得Windows下的MySQL是安装不成功的了。<br>暂时放下MySQL Installer，转而翻看博客来找办法。进官网下载了普通的MySQL文件，按照步骤进行 ————</p>
+</blockquote>
+<p>按照这篇博客上面的顺序会比较完整<br><a href="https://blog.csdn.net/qq_43037478/article/details/88976024" target="_blank" rel="noopener">https://blog.csdn.net/qq_43037478/article/details/88976024</a></p>
+</div></div><a class="button-hover more" href="/2020/02/03/MySQL踩坑手记/#more">阅读全文</a></div><div class="recent-post-item"><a class="post-title" href="/2020/02/01/寒假leedcode十题/">leedcode十题</a><div class="container"><time class="button-hover post-date"><i class="fas fa-calendar-alt article-icon" aria-hidden="true"></i> 更新于 2020-02-01</time></div><div class="post-content"><div class="main-content content"><ol>
+<li><p>快乐数字</p>
+<blockquote>
+<p>一个“快乐数”定义为：对于一个正整数，每一次将该数替换为它每个位置上的数字的平方和，然后重复这个过程直到这个数变为 1，也可能是无限循环但始终变不到 1。如果可以变为 1，那么这个数就是快乐数。</p>
+</blockquote>
+</li>
+</ol>
+<p>关键判断：若不是快乐数，会进入死循环，如何终至死循环，将每次变换过后的值存入HashSet中，判断是否出现过重复值，出现则return false;<br>Java<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">    public boolean isHappy(int n) &#123;</span><br><span class="line">        Set&lt;Integer&gt; set = new HashSet&lt;&gt;();</span><br><span class="line">        set.add(n);</span><br><span class="line">        while(n != 1)&#123;</span><br><span class="line">            n = change(n);</span><br><span class="line">            if(set.contains(n)) return false;</span><br><span class="line">            set.add(n);</span><br><span class="line">        &#125;</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    public int change(int n)&#123;</span><br><span class="line">        int sum = 0;</span><br><span class="line">        int num;</span><br><span class="line">        while(n != 0)&#123;</span><br><span class="line">            num = n%10;</span><br><span class="line">            n /= 10;</span><br><span class="line">            sum += num*num;</span><br><span class="line">        &#125;</span><br><span class="line">        return sum;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p> C++</p>
+<blockquote>
+<p>此题不建议用集合记录每次的计算结果来判断是否进入循环，因为这个集合可能大到无法存储；另外，也不建议使用递归，同理，如果递归层次较深，会直接导致调用栈崩溃。不要因为这个题目给出的整数是int型而投机取巧。</p>
+</blockquote>
+<p>python3</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def isHappy(self, n):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type n: int</span><br><span class="line">        :rtype: bool</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        already = set()</span><br><span class="line">        </span><br><span class="line">        while n != 1:</span><br><span class="line">            num = 0</span><br><span class="line">            while n &gt; 0:</span><br><span class="line">                tmp = n % 10</span><br><span class="line">                num += tmp**2</span><br><span class="line">                n //= 10</span><br><span class="line">            </span><br><span class="line">            if num in already:</span><br><span class="line">                return False</span><br><span class="line">            else:</span><br><span class="line">                already.add(num)</span><br><span class="line">            </span><br><span class="line">            n = num</span><br><span class="line">            </span><br><span class="line">        return True</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>旋转字符串</li>
+</ol>
+<blockquote>
+<p>给定两个字符串, A 和 B。A 的旋转操作就是将 A 最左边的字符移动到最右边。 例如, 若 A = ‘abcde’，在移动一次之后结果就是’bcdea’ 。如果在若干次旋转操作之后，A 能变成B，那么返回True。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public static boolean rotateString(String A, String B) &#123;</span><br><span class="line">        return A.length() == B.length() &amp;&amp; (A+A).contains(B);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>两个拼起来就包含了所有的情况</p>
+<ol start="3">
+<li>字母大小写全排列</li>
+</ol>
+<blockquote>
+<p>给定一个字符串S，通过将字符串S中的每个字母转变大小写，我们可以获得一个新的字符串。返回所有可能得到的字符串集合。</p>
+</blockquote>
+<p>回溯算法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">public class Solution &#123;</span><br><span class="line"></span><br><span class="line">    public List&lt;String&gt; letterCasePermutation(String S) &#123;</span><br><span class="line">        int len = S.length();</span><br><span class="line">        List&lt;String&gt; res = new ArrayList&lt;&gt;();</span><br><span class="line">        if (len == 0) &#123;</span><br><span class="line">            return res;</span><br><span class="line">        &#125;</span><br><span class="line">        char[] charArray = new char[len];</span><br><span class="line">        dfs(S, 0, len, charArray, res);</span><br><span class="line">        return res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void dfs(String S, int start, int len, char[] charArray, List&lt;String&gt; res) &#123;</span><br><span class="line">        if (start == len) &#123;</span><br><span class="line">            res.add(new String(charArray));</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        charArray[start] = S.charAt(start);</span><br><span class="line">        dfs(S, start + 1, len, charArray, res);</span><br><span class="line"></span><br><span class="line">        // 如果是字符，就可以派生出一个新分支</span><br><span class="line">        if (Character.isLetter(S.charAt(start))) &#123;</span><br><span class="line">            // 这一步直接修改，相当于回溯</span><br><span class="line">            charArray[start] = (char) (S.charAt(start) ^ (1 &lt;&lt; 5));</span><br><span class="line">            dfs(S, start + 1, len, charArray, res);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>存在重复元素</li>
+</ol>
+<blockquote>
+<p>给定一个整数数组，判断是否存在重复元素。如果任何值在数组中出现至少两次，函数返回 true。如果数组中每个元素都不相同，则返回 false。</p>
+</blockquote>
+<p>哈希表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public boolean containsDuplicate(int[] nums) &#123;</span><br><span class="line">    Set&lt;Integer&gt; set = new HashSet&lt;&gt;(nums.length);</span><br><span class="line">    for (int x: nums) &#123;</span><br><span class="line">        if (set.contains(x)) return true;</span><br><span class="line">        set.add(x);</span><br><span class="line">    &#125;</span><br><span class="line">    return false;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>各位相加</li>
+</ol>
+<blockquote>
+<p>给定一个非负整数 num，反复将各个位上的数字相加，直到结果为一位数。</p>
+</blockquote>
+<p>神奇的算法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public int addDigits(int num) &#123;</span><br><span class="line">    return (num - 1) % 9 + 1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li>柠檬水找零</li>
+</ol>
+<blockquote>
+<p>在柠檬水摊上，每一杯柠檬水的售价为 5 美元。顾客排队购买你的产品，（按账单 bills 支付的顺序）一次购买一杯。每位顾客只买一杯柠檬水，然后向你付 5 美元、10 美元或 20 美元。你必须给每个顾客正确找零，也就是说净交易是每位顾客向你支付 5 美元。注意，一开始你手头没有任何零钱。如果你能给每位顾客正确找零，返回 true ，否则返回 false </p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">    public boolean lemonadeChange(int[] bills) &#123;</span><br><span class="line">        if (bills == null || bills.length &lt; 1) &#123;</span><br><span class="line">            return true;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        if (bills[0] != 5) &#123;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        int money[] = new int[3];// 5 10 15</span><br><span class="line">        money[0]++;</span><br><span class="line">        </span><br><span class="line">        for (int i = 1;i &lt; bills.length;i++) &#123;</span><br><span class="line">            switch (bills[i]) &#123;</span><br><span class="line">                case 5:</span><br><span class="line">                    money[0]++;</span><br><span class="line">                    </span><br><span class="line">                    break;</span><br><span class="line">                case 10:</span><br><span class="line">                    money[1]++;</span><br><span class="line">                    money[0]--;</span><br><span class="line">                    </span><br><span class="line">                    if (money[0] &lt; 0) &#123;</span><br><span class="line">                        return false;</span><br><span class="line">                    &#125;</span><br><span class="line">                    </span><br><span class="line">                    break;</span><br><span class="line">                case 20:</span><br><span class="line">                    money[2]++;</span><br><span class="line">                    if (money[1] &gt; 0) &#123;</span><br><span class="line">                        money[1]--;</span><br><span class="line">                    &#125; else &#123;</span><br><span class="line">                        money[0] -= 2;</span><br><span class="line">                    &#125;</span><br><span class="line">                    </span><br><span class="line">                    money[0]--;</span><br><span class="line">                    </span><br><span class="line">                    if (money[0] &lt; 0) &#123;</span><br><span class="line">                        return false;</span><br><span class="line">                    &#125;</span><br><span class="line">                    </span><br><span class="line">                    break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></div><a class="button-hover more" href="/2020/02/01/寒假leedcode十题/#more">阅读全文</a></div><div class="recent-post-item"><a class="post-title" href="/2019/12/06/聚类的评估指标/">聚类的评估指标</a><div class="container"><time class="button-hover post-date"><i class="fas fa-calendar-alt article-icon" aria-hidden="true"></i> 更新于 2019-12-06</time></div><div class="post-content"><div class="main-content content"><ul>
 <li>轮廓系数（Silhouette Coefficient）</li>
 <li>Calinski-Harabaz 指数</li>
 <li>调整兰德系数（Adjusted Rand index，ARI）</li>
@@ -273,149 +461,4 @@ if (isPassword) {
 <blockquote>
 <p>建议：Scala 确实足够的精简和灵活，但其在语言复杂度上略大于 Java，例如隐式转换和隐式参数等概念在初次涉及时会比较难以理解，所以你可以在了解Spark 后再去学习 Scala ，因为类似隐式转换等概念在 Spark 源码中有大量的运用。</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">日志收集框架：Flume 、Logstash、Kibana</span><br><span class="line">分布式文件存储系统：Hadoop HDFS</span><br><span class="line">数据库系统：Mongodb、HBase</span><br><span class="line">分布式计算框架：</span><br><span class="line">批处理框架：Hadoop MapReduce</span><br><span class="line">流处理框架：Storm</span><br><span class="line">混合处理框架：Spark、Flink</span><br><span class="line">查询分析框架：Hive 、Spark SQL 、Flink SQL、 Pig、Phoenix</span><br><span class="line">集群资源管理器：Hadoop YARN</span><br><span class="line">分布式协调服务：Zookeeper</span><br><span class="line">数据迁移工具：Sqoop</span><br><span class="line">任务调度框架：Azkaban、Oozie</span><br><span class="line">集群部署和监控：Ambari、Cloudera Manager</span><br></pre></td></tr></table></figure></div></div><a class="button-hover more" href="/2019/11/09/大数据学习的基本框架/#more">阅读全文</a></div><div class="recent-post-item"><a class="post-title" href="/2019/10/20/COF23/">GOF23</a><div class="container"><time class="button-hover post-date"><i class="fas fa-calendar-alt article-icon" aria-hidden="true"></i> 更新于 2019-12-01</time><div class="button-hover tags"><i class="fa fa-tag article-icon" aria-hidden="true"></i><a class="link-a" href="/tags/Java/">Java</a></div></div><div class="post-content"><div class="main-content content"><p><font color="yellow"> <strong>创建型模式：</strong> 单例模式、工厂模式、抽象工厂模式、建造者模式、原型模式</font></p>
-<p><font color="yellow"> <strong>结构型模式：</strong> 适配器模式、桥接模式、装饰模式、组合模式、外观模式、享元模式、代理模式</font></p>
-<p><font color="yellow"> <strong>行为型模式：</strong> 板块方法模块、命令模式、迭代器模式、观察者模式、中介者模式、备忘录模式、解释器模式、状态模式、策略模式、职责链模式、访问者模式</font></p>
-<ul>
-<li>模式动机</li>
-<li>模式定义</li>
-<li>模式结构</li>
-<li>模式分析 优点 缺点</li>
-<li>适用环境</li>
-<li>模式扩展（可以相比较的）<br><a href="https://design-patterns.readthedocs.io/zh_CN/latest/creational_patterns/creational.html" target="_blank" rel="noopener">https://design-patterns.readthedocs.io/zh_CN/latest/creational_patterns/creational.html</a></li>
-</ul>
-<h2 id="1-备忘录模式memento"><a href="#1-备忘录模式memento" class="headerlink" title="1. 备忘录模式memento"></a>1. 备忘录模式memento</h2><blockquote>
-<ul>
-<li>自动保存功能（定时备份）// 方便恢复文档</li>
-<li>撤回功能 </li>
-</ul>
-</blockquote>
-<blockquote>
-<p>核心：某个对象内部 <strong>状态</strong> 的拷贝<br>结构： 源发器类Originator  备忘录类Memento  负责人类 CareTake</p>
-</blockquote>
-<h2 id="2-观察者模式"><a href="#2-观察者模式" class="headerlink" title="2.观察者模式"></a>2.观察者模式</h2><blockquote>
-<ul>
-<li>广播机制的场景</li>
-<li>监控器（见好就收？）</li>
-<li>订阅了某一个栏目或者主题（定时发送）</li>
-<li>AWT事件处理也是！（监听）</li>
-</ul>
-</blockquote>
-<blockquote>
-<p>核心:及时更新(观察者接口就只写updates)<br>JavaSE提供了 util包里面有Observable和Observer来实现观察者模式</p>
-</blockquote>
-<h2 id="3-状态模式"><a href="#3-状态模式" class="headerlink" title="3.状态模式"></a>3.状态模式</h2><blockquote>
-<ul>
-<li>红绿灯</li>
-<li>网上购物，订单状态</li>
-<li>电梯的状态</li>
-<li>审批状态（国奖）</li>
-<li>酒店预定</li>
-</ul>
-</blockquote>
-<blockquote>
-<ul>
-<li>核心：当遇到需要频繁改变状态时，解决复杂对象的状态转换以及不同状态下行为的封装问题</li>
-</ul>
-</blockquote>
-<h2 id="4-策略模式"><a href="#4-策略模式" class="headerlink" title="4.策略模式"></a>4.策略模式</h2><blockquote>
-<ul>
-<li>根据不同客户类型实施不同的报价策略（杀熟的感觉）<br>如果系统中某个类的对象存在多种状态，不同状态下行为有差异，而且这些状态之间可以发生转换时使用状态模式；如果系统中某个类的某一行为存在多种实现方式，而且这些实现方式可以互换时使用策略模式。</li>
-</ul>
-</blockquote>
-<h2 id="5-解释器模式-非常不常用，最好不用，后期难以维护"><a href="#5-解释器模式-非常不常用，最好不用，后期难以维护" class="headerlink" title="5.解释器模式(非常不常用，最好不用，后期难以维护)"></a>5.解释器模式(非常不常用，最好不用，后期难以维护)</h2><blockquote>
-<ul>
-<li>“1+2*3”实现内部的计算 可以直接使用jruby、Groovy、Java的js引擎来代替解释器的作用</li>
-<li>这个都可以做到自己去开发一种语言了</li>
-</ul>
-</blockquote>
-<h2 id="6-命令模式（不重要）"><a href="#6-命令模式（不重要）" class="headerlink" title="6.命令模式（不重要）"></a>6.命令模式（不重要）</h2><h2 id="7-建造者模式"><a href="#7-建造者模式" class="headerlink" title="7.建造者模式"></a>7.建造者模式</h2><blockquote>
-<ul>
-<li>建造一个复杂的产品时</li>
-<li>构建和装配的解耦</li>
-</ul>
-</blockquote>
-<h2 id="8-原型模式（拷贝模式）"><a href="#8-原型模式（拷贝模式）" class="headerlink" title="8.原型模式（拷贝模式）"></a>8.原型模式（拷贝模式）</h2></div></div><a class="button-hover more" href="/2019/10/20/COF23/#more">阅读全文</a></div><div class="recent-post-item"><a class="post-title" href="/2019/10/14/Java元注解/">Java元注解</a><div class="container"><time class="button-hover post-date"><i class="fas fa-calendar-alt article-icon" aria-hidden="true"></i> 更新于 2019-11-09</time><div class="button-hover tags"><i class="fa fa-tag article-icon" aria-hidden="true"></i><a class="link-a" href="/tags/Java/">Java</a></div></div><div class="post-content"><div class="main-content content"><h2 id="Target："><a href="#Target：" class="headerlink" title="@Target："></a>@Target：</h2><blockquote>
-<p>@Target说明了Annotation所修饰的对象范围：Annotation可被用于 packages、types（类、接口、枚举、Annotation类型）、类型成员（方法、构造方法、成员变量、枚举值）、方法参数和本地变量（如循环变量、catch参数）。在Annotation类型的声明中使用了target可更加明晰其修饰的目标。</p>
-</blockquote>
-<p>作用：用于描述注解的使用范围（即：被描述的注解可以用在什么地方）</p>
-<p>取值(ElementType)有：</p>
-<ol>
-<li>CONSTRUCTOR:用于描述构造器</li>
-<li>FIELD:用于描述域</li>
-<li>LOCAL_VARIABLE:用于描述局部变量</li>
-<li>METHOD:用于描述方法</li>
-<li>PACKAGE:用于描述包</li>
-<li>PARAMETER:用于描述参数</li>
-<li>TYPE:用于描述类、接口(包括注解类型) 或enum声明</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@Target(ElementType.FIELD)</span><br></pre></td></tr></table></figure>
-
-<h2 id="Retention："><a href="#Retention：" class="headerlink" title="@Retention："></a>@Retention：</h2><blockquote>
-<p>@Retention定义了该Annotation被保留的时间长短：某些Annotation仅出现在源代码中，而被编译器丢弃；而另一些却被编译在class文件中；编译在class文件中的Annotation可能会被虚拟机忽略，而另一些在class被装载时将被读取（请注意并不影响class的执行，因为Annotation与class在使用上是被分离的）。使用这个meta-Annotation可以对 Annotation的“生命周期”限制。</p>
-</blockquote>
-<p>作用：表示需要在什么级别保存该注释信息，用于描述注解的生命周期（即：被描述的注解在什么范围内有效）</p>
-<p>取值（RetentionPoicy）有：</p>
-<ol>
-<li>SOURCE:在源文件中有效（即源文件保留）</li>
-<li>CLASS:在class文件中有效（即class保留）</li>
-<li>RUNTIME:在运行时有效（即运行时保留）</li>
-</ol>
-<p>Retention meta-annotation类型有唯一的value作为成员，它的取值来自java.lang.annotation.RetentionPolicy的枚举类型值。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br></pre></td></tr></table></figure>
-
-<h2 id="Documented"><a href="#Documented" class="headerlink" title="@Documented:"></a>@Documented:</h2><p>@Documented用于描述其它类型的annotation应该被作为被标注的程序成员的公共API，因此可以被例如javadoc此类的工具文档化。Documented是一个标记注解，没有成员。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@Documented</span><br></pre></td></tr></table></figure>
-
-<h2 id="interface"><a href="#interface" class="headerlink" title="@interface"></a>@interface</h2><p>使用@interface自定义注解时，自动继承了java.lang.annotation.Annotation接口，由编译程序自动完成其他细节。在定义注解时，不能继承其他的注解或接口。@interface用来声明一个注解，其中的每一个方法实际上是声明了一个配置参数。方法的名称就是参数的名称，返回值类型就是参数的类型（返回值类型只能是基本类型、Class、String、enum）。可以通过default来声明参数的默认值。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">定义注解格式：</span><br><span class="line">public @interface 注解名 &#123;定义体&#125;</span><br></pre></td></tr></table></figure>
-
-<p>注解参数的可支持数据类型：</p>
-<ol>
-<li>所有基本数据类型（int,float,boolean,byte,double,char,long,short)</li>
-<li>String类型</li>
-<li>Class类型</li>
-<li>enum类型</li>
-<li>Annotation类型</li>
-<li>以上所有类型的数组</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">package annotation;</span><br><span class="line"></span><br><span class="line">import java.lang.annotation.Documented;</span><br><span class="line">import java.lang.annotation.ElementType;</span><br><span class="line">import java.lang.annotation.Retention;</span><br><span class="line">import java.lang.annotation.RetentionPolicy;</span><br><span class="line">import java.lang.annotation.Target;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 水果名称注解</span><br><span class="line"> * @author peida</span><br><span class="line"> *</span><br><span class="line"> */</span><br><span class="line">@Target(ElementType.FIELD)</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Documented</span><br><span class="line">public @interface FruitName &#123;</span><br><span class="line">    String value() default &quot;&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">package annotation;</span><br><span class="line"></span><br><span class="line">import java.lang.annotation.Documented;</span><br><span class="line">import java.lang.annotation.ElementType;</span><br><span class="line">import java.lang.annotation.Retention;</span><br><span class="line">import java.lang.annotation.RetentionPolicy;</span><br><span class="line">import java.lang.annotation.Target;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 水果颜色注解</span><br><span class="line"> * @author peida</span><br><span class="line"> *</span><br><span class="line"> */</span><br><span class="line">@Target(ElementType.FIELD)</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Documented</span><br><span class="line">public @interface FruitColor &#123;</span><br><span class="line">    /**</span><br><span class="line">     * 颜色枚举</span><br><span class="line">     * @author peida</span><br><span class="line">     *</span><br><span class="line">     */</span><br><span class="line">    public enum Color&#123; BULE,RED,GREEN&#125;;</span><br><span class="line">    </span><br><span class="line">    /**</span><br><span class="line">     * 颜色属性</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    Color fruitColor() default Color.GREEN;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">package annotation;</span><br><span class="line"></span><br><span class="line">import annotation.FruitColor.Color;</span><br><span class="line"></span><br><span class="line">public class Apple &#123;</span><br><span class="line">    </span><br><span class="line">    @FruitName(&quot;Apple&quot;)</span><br><span class="line">    private String appleName;</span><br><span class="line">    </span><br><span class="line">    @FruitColor(fruitColor=Color.RED)</span><br><span class="line">    private String appleColor;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    public void setAppleColor(String appleColor) &#123;</span><br><span class="line">        this.appleColor = appleColor;</span><br><span class="line">    &#125;</span><br><span class="line">    public String getAppleColor() &#123;</span><br><span class="line">        return appleColor;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    public void setAppleName(String appleName) &#123;</span><br><span class="line">        this.appleName = appleName;</span><br><span class="line">    &#125;</span><br><span class="line">    public String getAppleName() &#123;</span><br><span class="line">        return appleName;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    public void displayName()&#123;</span><br><span class="line">        System.out.println(&quot;水果的名字是：苹果&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></div><a class="button-hover more" href="/2019/10/14/Java元注解/#more">阅读全文</a></div><div class="recent-post-item"><a class="post-title" href="/2019/10/14/一个非常简单的操作系统/">做一个简单的操作系统和相关知识理解</a><div class="container"><time class="button-hover post-date"><i class="fas fa-calendar-alt article-icon" aria-hidden="true"></i> 更新于 2020-02-02</time></div><div class="post-content"><div class="main-content content"><p>下载：nasm，VMware<br>NASM是一个为可移植性与模块化而设计的一个80x86的汇编器</p>
-<blockquote>
-<p>汇编器（Assembler）是将汇编语言翻译为机器语言的程序。一般而言，汇编生成的是目标代码，需要经链接器（Linker）生成可执行代码才可以执行。</p>
-</blockquote>
-<h3 id="原理性："><a href="#原理性：" class="headerlink" title="原理性："></a>原理性：</h3><p>操作系统如何被启动？</p>
-<ul>
-<li>第一步：读取BIOS<br>按下电源按钮后，计算机首先读取一块ROM芯片，这块芯片里的程序是”基本输入输出系統”<strong>（Basic Input/Output System）</strong>，即BIOS.</li>
-<li>第二步：<strong>硬件</strong>自检<br>BIOS会检查计算机硬件是否满足运行条件，如果硬件出现问题，主板会发出不同含义的蜂鸣，启动中止。</li>
-<li>第三步：启动顺序<br>硬件检查完成后，BIOS会将控制权交给下一阶段的启动程序，注意，“下一阶段的启动程序”可能存放在硬盘中，也可能存放在CD/DVD中，或者软盘中等等，可以设置BIOS选择从哪个设备启动。</li>
-<li>第四步：主引导记录<br>BIOS找到了“下一阶段的启动程序”所在设备，会读取该设备的第一个扇区，即读取最前面的512字节，称为主引导记录。主引导记录会告诉计算机下一步到哪里去找操作系统。</li>
-<li>第五步：bootloader<br>计算机读取”主引导记录”前面446字节的机器码之后，运行事先安装的“启动管理器”bootloader，由用户选择启动哪个操作系统。如果你安装了多个操作系统，那么就要从这步做出选择了。</li>
-<li>第六步：加载内核<br>好了，选择操作系统（内核）后，会加载内核，下面就交给内核去处理了。</li>
-</ul>
-<hr>
-<p>我们使用虚拟机来启动操作系统，上面的第一步和第二步我们不做，由虚拟机去完成；第三步“启动顺序”我们选择从软盘启动（我们用镜像代替，并不是真的软盘），需要对虚拟机做下设置，选择从软盘启动。下面重点来看第四步，我们写一下“主引导记录”，让BIOS读取我们写的主引导记录。</p>
-<hr>
-<h2 id="实践性"><a href="#实践性" class="headerlink" title="实践性"></a>实践性</h2><p>nasm下载地址：// 可能是老版本了</p>
-<blockquote>
-<p><a href="http://www.nasm.us/pub/nasm/releasebuilds/2.11.02/win32/nasm-2.11.02-installer.exe" target="_blank" rel="noopener">http://www.nasm.us/pub/nasm/releasebuilds/2.11.02/win32/nasm-2.11.02-installer.exe</a></p>
-</blockquote>
-<p>文件名  boot.asm</p>
-<blockquote>
-<p> org 7c00h               ; BIOS读入MBR后，从0x7c00h处开始执行<br>; 下面部分和10h有关中断，10h中断用来显示字符<br>mov ax, cs<br>mov es, ax<br>mov ax, msg<br>mov bp, ax                    ; ES:BP表示显示字符串的地址<br>mov cx, msgLen                ; CX存字符长度<br>mov ax, 1301h                 ; AH=13h表示向TTY显示字符，AL=01h表示显示方式（字符串是否包含显示属性，01h表示不包含）<br>mov bx, 000fh                 ; BH=00h表示页号，BL=0fh表示颜色<br>mov dl, 0                     ; 列<br>int 10h<br>msg: db “hello world, welcome to OS!”<br>msgLen: equ $ - msg           ; 字符串长度<br>times 510 - ($ - $$) db 0     ; 填充剩余部分<br>dw 0aa55h                     ; 魔数，必须有这两个字节BIOS才确认是MBR</p>
-</blockquote>
-<p>在nasm中编译</p>
-<blockquote>
-<p>nasm boot.asm -o boot.bin<br>生成 Boot.img文件</p>
-</blockquote>
-<p>在VM上创建新的虚拟机，其余都一样，在软盘驱动器（添加），选择文件，启动便可。</p>
-<p><img src="C:%5CUsers%5CAdministrator%5CDesktop%5CJava%5Chello.png" alt="avatar"></p>
-<p>something：</p>
-<ol>
-<li>底层的计算机语言</li>
-<li>软盘</li>
-</ol>
-</div></div><a class="button-hover more" href="/2019/10/14/一个非常简单的操作系统/#more">阅读全文</a></div></div><div id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/"><i class="fas fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span></div></div></div></div><div class="button-hover" id="return-top"><i class="fas fa-arrow-up" aria-hidden="true"></i></div><footer><div id="footer"><div class="button-hover" id="side-button"><i class="fas fa-arrow-right"></i></div><div class="right-content"><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_site_uv"><i class="fas fa-user"></i></span><span id="busuanzi_value_site_uv"></span><span></span><span class="footer-separator">|</span><span id="busuanzi_container_site_pv"><i class="fas fa-eye"></i></span><span id="busuanzi_value_site_pv"></span><span></span></div><div class="copyright">&copy;2017 ～ 2020 By Rr-shan</div></div></div></footer></div><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/thirdparty/jquery-3.3.1.min.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/thirdparty/velocity.min.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/thirdparty/jquery.mCustomScrollbar.concat.min.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/fan.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/canvas_bg.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/utils.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/scroll.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/sidebar.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/copy.js"></script><!--script(src=url)--><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/haruto.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":true},"log":false});</script></body></html>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">日志收集框架：Flume 、Logstash、Kibana</span><br><span class="line">分布式文件存储系统：Hadoop HDFS</span><br><span class="line">数据库系统：Mongodb、HBase</span><br><span class="line">分布式计算框架：</span><br><span class="line">批处理框架：Hadoop MapReduce</span><br><span class="line">流处理框架：Storm</span><br><span class="line">混合处理框架：Spark、Flink</span><br><span class="line">查询分析框架：Hive 、Spark SQL 、Flink SQL、 Pig、Phoenix</span><br><span class="line">集群资源管理器：Hadoop YARN</span><br><span class="line">分布式协调服务：Zookeeper</span><br><span class="line">数据迁移工具：Sqoop</span><br><span class="line">任务调度框架：Azkaban、Oozie</span><br><span class="line">集群部署和监控：Ambari、Cloudera Manager</span><br></pre></td></tr></table></figure></div></div><a class="button-hover more" href="/2019/11/09/大数据学习的基本框架/#more">阅读全文</a></div></div><div id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/"><i class="fas fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fas fa-angle-right"></i></a></div></div></div></div><div class="button-hover" id="return-top"><i class="fas fa-arrow-up" aria-hidden="true"></i></div><footer><div id="footer"><div class="button-hover" id="side-button"><i class="fas fa-arrow-right"></i></div><div class="right-content"><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_site_uv"><i class="fas fa-user"></i></span><span id="busuanzi_value_site_uv"></span><span></span><span class="footer-separator">|</span><span id="busuanzi_container_site_pv"><i class="fas fa-eye"></i></span><span id="busuanzi_value_site_pv"></span><span></span></div><div class="copyright">&copy;2017 ～ 2020 By Rr-shan</div></div></div></footer></div><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/thirdparty/jquery-3.3.1.min.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/thirdparty/velocity.min.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/thirdparty/jquery.mCustomScrollbar.concat.min.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/fan.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/canvas_bg.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/utils.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/scroll.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/sidebar.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/copy.js"></script><!--script(src=url)--><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/haruto.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":true},"log":false});</script></body></html>
