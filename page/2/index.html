@@ -16,11 +16,40 @@ if (isPassword) {
     error: '复制错误',
     noSupport: '浏览器不支持'
   }
-}</script></head><body><canvas id="universe"></canvas><!--#body--><div id="sidebar"><div class="author-info"><div class="author-info-avatar"><img class="author-info-avatar-img" src="/avatar.png"></div><div class="author-info-name">Rr-shan</div><div class="author-info-description"></div><div class="links-buttons"><a class="links-button button-hover" href="https://github.com/Rr-shan" target="_blank">GitHub<i class="icon-dot bg-color1"></i></a><a class="links-button button-hover" href="mailto:1224559633@qq.com" target="_blank">E-Mail<i class="icon-dot bg-color9"></i></a></div><div class="author-info-articles"><a class="author-info-articles-archives article-meta" href="/archives"><span class="pull-top">日志</span><span class="pull-bottom">25</span></a><a class="author-info-articles-tags article-meta" href="/tags"><span class="pull-top">标签</span><span class="pull-bottom">3</span></a></div></div></div><div id="main-container"><header><div id="menu-outer"><i class="menu-list-icon fas fa-bars"></i><nav id="menu-inner"><a class="menu-item" href="/">首页</a><a class="menu-item" href="/tags">标签</a><a class="menu-item" href="/categories">分类</a><a class="menu-item" href="/archives">归档</a><a class="menu-item" href="/about">关于</a></nav><div class="right-info"><a class="title-name" href="/">Sanzzi</a><span id="now-time"></span></div></div></header><div id="content-outer"><div id="content-inner"><div id="recent-posts"><!-- each post in page.posts.sort('date', -1).limit(10).toArray()--><!-- config中配置按照什么排序--><div class="recent-post-item"><a class="post-title" href="/2020/02/10/惩罚线性回归模型/">惩罚线性回归模型</a><div class="container"><time class="button-hover post-date"><i class="fas fa-calendar-alt article-icon" aria-hidden="true"></i> 更新于 2020-02-10</time></div><div class="post-content"><div class="main-content content"><h1 id="惩罚线性回归"><a href="#惩罚线性回归" class="headerlink" title="惩罚线性回归"></a>惩罚线性回归</h1><p>产生背景：<br>线性回归可以理解为“拟合”，一般采用普通最小二乘方法OLS（ordinary least square），但是对于拟合问题存在一个过拟合的问题，为了避免这种现象，提出了惩罚线性回归模型，要求模型对于训练数据具有较好的<strong>学习能力</strong>，同时也要<strong>平衡系数参数的惯性能量</strong></p>
+}</script></head><body><canvas id="universe"></canvas><!--#body--><div id="sidebar"><div class="author-info"><div class="author-info-avatar"><img class="author-info-avatar-img" src="/avatar.png"></div><div class="author-info-name">Rr-shan</div><div class="author-info-description"></div><div class="links-buttons"><a class="links-button button-hover" href="https://github.com/Rr-shan" target="_blank">GitHub<i class="icon-dot bg-color4"></i></a><a class="links-button button-hover" href="mailto:1224559633@qq.com" target="_blank">E-Mail<i class="icon-dot bg-color9"></i></a></div><div class="author-info-articles"><a class="author-info-articles-archives article-meta" href="/archives"><span class="pull-top">日志</span><span class="pull-bottom">26</span></a><a class="author-info-articles-tags article-meta" href="/tags"><span class="pull-top">标签</span><span class="pull-bottom">3</span></a></div></div></div><div id="main-container"><header><div id="menu-outer"><i class="menu-list-icon fas fa-bars"></i><nav id="menu-inner"><a class="menu-item" href="/">首页</a><a class="menu-item" href="/tags">标签</a><a class="menu-item" href="/categories">分类</a><a class="menu-item" href="/archives">归档</a><a class="menu-item" href="/about">关于</a></nav><div class="right-info"><a class="title-name" href="/">Sanzzi</a><span id="now-time"></span></div></div></header><div id="content-outer"><div id="content-inner"><div id="recent-posts"><!-- each post in page.posts.sort('date', -1).limit(10).toArray()--><!-- config中配置按照什么排序--><div class="recent-post-item"><a class="post-title" href="/2020/02/10/惩罚线性回归模型/">惩罚线性回归模型</a><div class="container"><time class="button-hover post-date"><i class="fas fa-calendar-alt article-icon" aria-hidden="true"></i> 更新于 2020-02-10</time></div><div class="post-content"><div class="main-content content"><h1 id="惩罚线性回归"><a href="#惩罚线性回归" class="headerlink" title="惩罚线性回归"></a>惩罚线性回归</h1><p>产生背景：<br>线性回归可以理解为“拟合”，一般采用普通最小二乘方法OLS（ordinary least square），但是对于拟合问题存在一个过拟合的问题，为了避免这种现象，提出了惩罚线性回归模型，要求模型对于训练数据具有较好的<strong>学习能力</strong>，同时也要<strong>平衡系数参数的惯性能量</strong></p>
 <h2 id="岭回归"><a href="#岭回归" class="headerlink" title="岭回归"></a>岭回归</h2><p>通过设置不同大小的alpha，获得最终的预测结果以及ROC曲线，通过比较ROC曲线下的面积（AUC）获得optimal alpha。AUC越大越好。另外一般就取alpha=0.85吧。</p>
 <h2 id="求解惩罚线性回归问题"><a href="#求解惩罚线性回归问题" class="headerlink" title="求解惩罚线性回归问题"></a>求解惩罚线性回归问题</h2><p>最小角度回归LARS算法<br>10折交叉验证就是将输入数据且分为10份几乎均等的数据（10折表示10%用于测试，5折表示20%用于测试）</p>
 <p>我们采用自己实现的LARS算法，实现求解惩罚线性回归问题。而在python里面有直接的安装包实现lasso（套索）回归型函数。</p>
-</div></div><a class="button-hover more" href="/2020/02/10/惩罚线性回归模型/#more">阅读全文</a></div><div class="recent-post-item"><a class="post-title" href="/2020/02/07/R语言（DrImpute &amp; VIPER）/">R语言（DrImpute &amp; VIPER）</a><div class="container"><time class="button-hover post-date"><i class="fas fa-calendar-alt article-icon" aria-hidden="true"></i> 更新于 2020-02-15</time></div><div class="post-content"><div class="main-content content"><h2 id="VIPER"><a href="#VIPER" class="headerlink" title="VIPER"></a>VIPER</h2><h3 id="技术型的"><a href="#技术型的" class="headerlink" title="技术型的"></a>技术型的</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zero.rate &lt;- apply(xx, 1, function(x)&#123;length(x[x == 0])&#125;)/n</span><br></pre></td></tr></table></figure>
+</div></div><a class="button-hover more" href="/2020/02/10/惩罚线性回归模型/#more">阅读全文</a></div><div class="recent-post-item"><a class="post-title" href="/2020/02/10/系统架构设计大纲 /">leetcode之数组类</a><div class="container"><time class="button-hover post-date"><i class="fas fa-calendar-alt article-icon" aria-hidden="true"></i> 更新于 2020-03-29</time></div><div class="post-content"><div class="main-content content"><h3 id="练习题"><a href="#练习题" class="headerlink" title="练习题"></a>练习题</h3><ol>
+<li>设计一个<strong>压测工具</strong></li>
+<li>设计一个<strong>分布式ID生成器</strong></li>
+<li>设计一个<strong>论坛</strong></li>
+<li>设计一个<strong>微博</strong></li>
+<li>你将如何实现<strong>谷歌搜索</strong>？</li>
+<li>设计一个<strong>C/S应用程序，允许人们互相下棋</strong>。</li>
+<li>如何将<strong>关系存储</strong>在Facebook这样的社交网络中呢？并实现一个当用户的朋友喜欢与他们一样的东西时，用户会收到通知的功能。</li>
+<li>设计<strong>网关</strong>（<a href="https://www.cnblogs.com/rjzheng/p/9220437.html）" target="_blank" rel="noopener">https://www.cnblogs.com/rjzheng/p/9220437.html）</a></li>
+<li>如何设计数据库系统，具体地，可以是设计 taobao/Facebook 或是任何公司的<strong>员工数据库</strong>等；</li>
+<li>如何设计<strong>用户系统</strong>，具体地，可以是 Netflix/Youtube 的用户系统等；</li>
+<li>如何设计<strong>支付系统</strong>，具体地，可以是 alipay 等；</li>
+<li>如何设计<strong>短网址系统</strong>，具体地，可以是新浪的短网址等；</li>
+<li>如何设计<strong>“秒杀”系统</strong>，具体地，可以是淘宝双十一系统等；</li>
+<li><strong>OOD 面向对象系统设计</strong>，具体地，可以是电梯问题、停车问题等；</li>
+<li>如何设计<strong>分布式文件系统</strong>，具体地，可以是 google 的文件分布系统 GFS 等；</li>
+</ol>
+<h2 id="常见方案"><a href="#常见方案" class="headerlink" title="常见方案"></a>常见方案</h2><ul>
+<li>最简单粗暴也是实践中最常用的应对方案就是：升级机器、加机器(所以架构的时候要考虑好水平扩展) </li>
+<li>大多数应用都是<strong>读大于写</strong>，解决方案很简单：<strong>加缓存+读写分离</strong></li>
+<li>对于写大于读的方案，见 (关系型)数据库优化总结</li>
+<li><strong>Nginx：</strong>能轻松的处理c100k问题，内存越大，能处理的并发量越高</li>
+<li><strong>Redis:</strong> <a href="https://redis.io/topics/benchmarks" target="_blank" rel="noopener">https://redis.io/topics/benchmarks</a> 表明，对于GET/SET来说，QPS 10-100k没啥大问题</li>
+<li><strong>MySQL:</strong> <a href="https://www.mysql.com/why-mysql/benchmarks/" target="_blank" rel="noopener">https://www.mysql.com/why-mysql/benchmarks/</a> 表明，对于只读，QPS 几百k没啥问题，<em>对于写，MySQL 5.7 QPS 100k 几乎是上限</em></li>
+<li>PG: <a href="https://www.percona.com/blog/2017/01/06/millions-queries-per-second-postgresql-and-mysql-peaceful-battle-at-modern-demanding-workloads/" target="_blank" rel="noopener">https://www.percona.com/blog/2017/01/06/millions-queries-per-second-postgresql-and-mysql-peaceful-battle-at-modern-demanding-workloads/</a> 也是差不多</li>
+<li>B, M, G, T, PB之间的关系换算要清楚</li>
+<li>需要长时间处理的任务或者是强依赖网络(而网络不确定性大的问题)，妥妥的用队列，例如消息推送</li>
+<li>性能优化套路：<strong>加机器 - 加缓存 - 优化数据库索引 - 垂直拆数据库表 - 水平拆数据库表 - 垂直分库 - 水平分库</strong></li>
+</ul>
+</div></div><a class="button-hover more" href="/2020/02/10/系统架构设计大纲 /#more">阅读全文</a></div><div class="recent-post-item"><a class="post-title" href="/2020/02/07/R语言（DrImpute &amp; VIPER）/">R语言（DrImpute &amp; VIPER）</a><div class="container"><time class="button-hover post-date"><i class="fas fa-calendar-alt article-icon" aria-hidden="true"></i> 更新于 2020-02-15</time></div><div class="post-content"><div class="main-content content"><h2 id="VIPER"><a href="#VIPER" class="headerlink" title="VIPER"></a>VIPER</h2><h3 id="技术型的"><a href="#技术型的" class="headerlink" title="技术型的"></a>技术型的</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zero.rate &lt;- apply(xx, 1, function(x)&#123;length(x[x == 0])&#125;)/n</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zero.matrix &lt;- apply(zero.matrix, 2, as.numeric)</span><br></pre></td></tr></table></figure>
 
@@ -385,75 +414,4 @@ if (isPassword) {
 <li>MySQL或MongoDB数据库</li>
 </ol>
 <h3 id="Robots协议"><a href="#Robots协议" class="headerlink" title="Robots协议"></a>Robots协议</h3><h3 id="基于Scrapy网络爬虫的搭建-http-www-lining0806-com-E5-9F-BA-E4-BA-8Escrapy-E7-BD-91-E7-BB-9C-E7-88-AC-E8-99-AB-E7-9A-84-E6-90-AD-E5-BB-BA"><a href="#基于Scrapy网络爬虫的搭建-http-www-lining0806-com-E5-9F-BA-E4-BA-8Escrapy-E7-BD-91-E7-BB-9C-E7-88-AC-E8-99-AB-E7-9A-84-E6-90-AD-E5-BB-BA" class="headerlink" title="基于Scrapy网络爬虫的搭建 http://www.lining0806.com/%E5%9F%BA%E4%BA%8Escrapy%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB%E7%9A%84%E6%90%AD%E5%BB%BA/"></a>基于Scrapy网络爬虫的搭建 <a href="http://www.lining0806.com/%E5%9F%BA%E4%BA%8Escrapy%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB%E7%9A%84%E6%90%AD%E5%BB%BA/" target="_blank" rel="noopener">http://www.lining0806.com/%E5%9F%BA%E4%BA%8Escrapy%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB%E7%9A%84%E6%90%AD%E5%BB%BA/</a></h3><p><a href="https://github.com/lining0806/PythonSpiderNotes" target="_blank" rel="noopener">https://github.com/lining0806/PythonSpiderNotes</a><br>更详细的资料参考</p>
-</div></div><a class="button-hover more" href="/2019/11/30/爬虫大体结构/#more">阅读全文</a></div><div class="recent-post-item"><a class="post-title" href="/2019/11/30/BeautifulSoup(cheat sheet)/">BeautifulSoup PyQuery(cheat sheet)</a><div class="container"><time class="button-hover post-date"><i class="fas fa-calendar-alt article-icon" aria-hidden="true"></i> 更新于 2019-12-04</time><div class="button-hover tags"><i class="fa fa-tag article-icon" aria-hidden="true"></i><a class="link-a" href="/tags/Python库/">Python库</a></div></div><div class="post-content"><div class="main-content content"><h2 id="BeautifulSoup"><a href="#BeautifulSoup" class="headerlink" title="BeautifulSoup"></a>BeautifulSoup</h2><p>正则表达式的退位</p>
-<ol>
-<li><p>soup = BeautifulSoup(html,”lxml”)<br>soup.prettify()</p>
-</li>
-<li><p>soup.title.string  soup.title</p>
-</li>
-<li><p>type(soup.title)</p>
-</li>
-<li><p>soup.p[‘name’]</p>
-</li>
-<li><p>soup.p.contents</p>
-</li>
-<li><p>for i,child in enumerate(soup.p.children):<br> print(i,child)</p>
-<p> for i,child in enumerate(soup.p.descendants):<br> print(i,child)</p>
-</li>
-<li><p>soup.a.parent<br> list(enumerate(soup.a.parent))<br> list(enumerate(soup.a.parents))</p>
-</li>
-<li><p>list(enumerate(soup.a.next_siblings))<br> list(enumerate(soup.a.previous_siblings))</p>
-</li>
-</ol>
-<hr>
-<ol>
-<li><p>将混乱的代码格式化，并且将一些缺失的不规范的代码补全</p>
-</li>
-<li><p>有没有标签的区别</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">The Documouse&apos;s story</span><br><span class="line"></span><br><span class="line">&lt;title&gt;The Documouse&apos;s story&lt;/title&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>类型（没啥用）</p>
-</li>
-<li><p>字段匹配</p>
-</li>
-<li><p>用列表的方式输出p</p>
-</li>
-<li><p>输出子节点，迭代器 下面输出的不同是内容还是会输出来的</p>
-</li>
-<li><p>父节点、list是放到一个array去了，parents是所有的</p>
-</li>
-<li><p>兄弟节点</p>
-</li>
-</ol>
-<h2 id="PyQuery"><a href="#PyQuery" class="headerlink" title="PyQuery"></a>PyQuery</h2><ol>
-<li><p>字符串初始化</p>
-</li>
-<li><p>URL初始化</p>
-</li>
-<li><p>文件初始化</p>
-</li>
-<li><p>基本CSS选择器 </p>
-</li>
-</ol>
-<p>查找</p>
-<ol start="5">
-<li>子元素</li>
-<li>父元素</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">from pyquery import PyQuery as pq</span><br></pre></td></tr></table></figure>
-
-<p>1.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">doc = pq(html)</span><br><span class="line">print(doc(&apos;li&apos;))</span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">doc01 = pq(url =&apos;http://www.baidu.com&apos;)</span><br><span class="line">print(doc01(&apos;head&apos;))</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<p>4.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(doc(&apos;#container .list li&apos;))</span><br></pre></td></tr></table></figure>
-
-<ol start="5">
-<li>find</li>
-</ol>
-</div></div><a class="button-hover more" href="/2019/11/30/BeautifulSoup(cheat sheet)/#more">阅读全文</a></div></div><div id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/"><i class="fas fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fas fa-angle-right"></i></a></div></div></div></div><div class="button-hover" id="return-top"><i class="fas fa-arrow-up" aria-hidden="true"></i></div><footer><div id="footer"><div class="button-hover" id="side-button"><i class="fas fa-arrow-right"></i></div><div class="right-content"><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_site_uv"><i class="fas fa-user"></i></span><span id="busuanzi_value_site_uv"></span><span></span><span class="footer-separator">|</span><span id="busuanzi_container_site_pv"><i class="fas fa-eye"></i></span><span id="busuanzi_value_site_pv"></span><span></span></div><div class="copyright">&copy;2017 ～ 2020 By Rr-shan</div></div></div></footer></div><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/thirdparty/jquery-3.3.1.min.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/thirdparty/velocity.min.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/thirdparty/jquery.mCustomScrollbar.concat.min.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/fan.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/canvas_bg.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/utils.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/scroll.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/sidebar.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/copy.js"></script><!--script(src=url)--><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/haruto.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":true},"log":false});</script></body></html>
+</div></div><a class="button-hover more" href="/2019/11/30/爬虫大体结构/#more">阅读全文</a></div></div><div id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/"><i class="fas fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fas fa-angle-right"></i></a></div></div></div></div><div class="button-hover" id="return-top"><i class="fas fa-arrow-up" aria-hidden="true"></i></div><footer><div id="footer"><div class="button-hover" id="side-button"><i class="fas fa-arrow-right"></i></div><div class="right-content"><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_site_uv"><i class="fas fa-user"></i></span><span id="busuanzi_value_site_uv"></span><span></span><span class="footer-separator">|</span><span id="busuanzi_container_site_pv"><i class="fas fa-eye"></i></span><span id="busuanzi_value_site_pv"></span><span></span></div><div class="copyright">&copy;2017 ～ 2020 By Rr-shan</div></div></div></footer></div><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/thirdparty/jquery-3.3.1.min.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/thirdparty/velocity.min.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/thirdparty/jquery.mCustomScrollbar.concat.min.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/fan.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/canvas_bg.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/utils.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/scroll.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/sidebar.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="/js/copy.js"></script><!--script(src=url)--><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/haruto.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":true},"log":false});</script></body></html>
