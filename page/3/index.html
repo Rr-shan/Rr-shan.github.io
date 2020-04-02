@@ -1,0 +1,377 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content><meta name="keywords" content><meta name="author" content="Rr-shan,undefined"><meta name="copyright" content="Rr-shan"><title>【Sanzzi】</title><link rel="stylesheet" href="../../css/fan.css"><link rel="stylesheet" href="../../css/thirdparty/jquery.mCustomScrollbar.min.css"><link rel="icon" href="../../favicon.ico"><!-- script(src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML")--><script src="../../js/mathjax/mathjax.js"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+    tex2jax: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
+});
+</script><script>var isPassword = '' || false;
+if (isPassword) {
+    if (prompt('请输入文章密码') !== '') {
+        alert('密码错误！');
+        history.back();
+    }
+}</script><script>window.GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  }
+}</script></head><body><canvas id="universe"></canvas><!--#body--><div id="sidebar"><div class="author-info"><div class="author-info-avatar"><img class="author-info-avatar-img" src="/avatar.png"></div><div class="author-info-name">Rr-shan</div><div class="author-info-description"></div><div class="links-buttons"><a class="links-button button-hover" href="https://github.com/Rr-shan" target="_blank">GitHub<i class="icon-dot bg-color5"></i></a><a class="links-button button-hover" href="mailto:1224559633@qq.com" target="_blank">E-Mail<i class="icon-dot bg-color2"></i></a><a class="links-button button-hover" href="https://www.sanzzi.cn" target="_blank">Mywebsite<i class="icon-dot bg-color8"></i></a></div><div class="author-info-articles"><a class="author-info-articles-archives article-meta" href="../../archives"><span class="pull-top">日志</span><span class="pull-bottom">29</span></a><a class="author-info-articles-tags article-meta" href="../../tags"><span class="pull-top">标签</span><span class="pull-bottom">2</span></a></div><div class="friend-link"><a class="friend-link-text" href="https://chao-yin-github.github.io/" target="_blank">yccccc</a><a class="friend-link-text" href="https://www.jinzong.online/" target="_blank">jinzong</a></div></div></div><div id="main-container"><header><div id="menu-outer"><i class="menu-list-icon fas fa-bars"></i><nav id="menu-inner"><a class="menu-item" href="/">首页</a><a class="menu-item" href="/tags">标签</a><a class="menu-item" href="/categories">分类</a><a class="menu-item" href="/archives">归档</a><a class="menu-item" href="/about">关于</a></nav><div class="right-info"><a class="title-name" href="/">Sanzzi</a><span id="now-time"></span></div></div></header><div id="content-outer"><div id="content-inner"><div id="recent-posts"><!-- each post in page.posts.sort('date', -1).limit(10).toArray()--><!-- config中配置按照什么排序--><div class="recent-post-item"><a class="post-title" href="../../2020/02/03/人脸识别的项目/">人脸识别的项目</a><div class="container"><time class="button-hover post-date"><i class="fas fa-calendar-alt article-icon" aria-hidden="true"></i> 更新于 2020-03-29</time></div><div class="post-content"><div class="main-content content"><p>安装包的过程异常艰难<br><strong>缺失文件haarcascades—各种分类器xml文件下载地址</strong><br>在github上面下载的速度实在是太慢了</p>
+<blockquote>
+<p>链接：<a href="https://pan.baidu.com/s/1UECA2mPDwqMrhLfWaRTi8g" target="_blank" rel="noopener">https://pan.baidu.com/s/1UECA2mPDwqMrhLfWaRTi8g</a><br>提取码：gqvl </p>
+</blockquote>
+<p><strong>安装dlib模块踩坑</strong><br>网上各种各样的方法，boost,cmake,还需要VS，非常十分复杂，我怀着想要简约一些的方式开始bing。</p>
+<p>避开最复杂的做法</p>
+<p>找相对简单的做法：<br><em>conda安装最新的dlib</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda install -c menpo dlib=19.9</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">conda install -c conda-forge dlib</span><br><span class="line">conda install -c conda-forge/label/cf201901 dlib</span><br></pre></td></tr></table></figure>
+
+<h4 id="报错1："><a href="#报错1：" class="headerlink" title="报错1："></a>报错1：</h4><p>网络连接不上</p>
+<p><em>windows 通过whl文件安装dlib</em></p>
+<blockquote>
+<p><a href="https://blog.csdn.net/weixin_39954229/article/details/81878864" target="_blank" rel="noopener">https://blog.csdn.net/weixin_39954229/article/details/81878864</a><br>可以下载这个dlib-19.7.0-cp36-cp36m-win_amd64.whl</p>
+</blockquote>
+<blockquote>
+<p><a href="https://www.jianshu.com/p/8296f2aac1aa" target="_blank" rel="noopener">https://www.jianshu.com/p/8296f2aac1aa</a><br>中可以下载dlib-19.8.1-cp36-cp36m-win_amd64.whl</p>
+</blockquote>
+<blockquote>
+<p><a href="https://pypi.org/simple/dlib/" target="_blank" rel="noopener">https://pypi.org/simple/dlib/</a> 这链接几乎啥版本都有</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip install D:\Downloads\dlib-19.7.0-cp36-cp36m-win_amd64.whl</span><br><span class="line">一定要注意文件的路径</span><br></pre></td></tr></table></figure>
+
+<h4 id="报错2："><a href="#报错2：" class="headerlink" title="报错2："></a>报错2：</h4><p>ERROR: dlib-19.7.0-cp36-cp36m-win_amd64.whl is not a supported wheel on this platform.</p>
+<p>原因1：版本不匹配（Python和包（库）不兼容）<br>如何查看<br>参照博客<a href="https://blog.csdn.net/xiuxiuen_michelle/article/details/81080694" target="_blank" rel="noopener">https://blog.csdn.net/xiuxiuen_michelle/article/details/81080694</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">python</span><br><span class="line">import pip._internal</span><br><span class="line">print(pip._internal.pep425tags.get_supported())</span><br></pre></td></tr></table></figure>
+
+<p>发现了问题，cp37才可以，之前是cp36的，以上提供的版本对Python来说无用。</p>
+<p>感人的是，知乎上Python回答者居然提供了cp37的</p>
+<blockquote>
+<p><a href="https://pan.baidu.com/s/1MKqW7WH2XP-J8MOLeq3cDA" target="_blank" rel="noopener">https://pan.baidu.com/s/1MKqW7WH2XP-J8MOLeq3cDA</a><br>提取码：rfh8</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install D:\Downloads\dlib-19.17.99-cp37-cp37m-win_amd64.whl</span><br></pre></td></tr></table></figure>
+
+<p><strong>安装face_recognition人脸识别库</strong><br>安装了dlib后还是安装不成功</p>
+<p>方法一：先安装cmake再安装face_recognition<br>但是cmake也不能直接pip,cmake的安装非常复杂（stop）<br>方法二：用whl文件<br>官网<a href="https://pypi.org/project/pip/20.0.2/#files下载" target="_blank" rel="noopener">https://pypi.org/project/pip/20.0.2/#files下载</a><br>pip-20.0.2-py2.py3-none-any.whl<br>好蠢啊，看错了，下错了，又因为网速实在不给力</p>
+<p>直接在官网内搜，什么都可以<br>官网<a href="https://pypi.org/project/face_recognition/#files" target="_blank" rel="noopener">https://pypi.org/project/face_recognition/#files</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install D:\Downloads\face_recognition-1.2.3-py2.py3-none-any.whl</span><br></pre></td></tr></table></figure>
+
+<h4 id="报错："><a href="#报错：" class="headerlink" title="报错："></a>报错：</h4><p>Script file ‘D:\Anaconda\Scripts\pip-script.py’ is not present.<br>原因是我下载错了包，安装的时候把原有的pip给卸载了<br>方法一：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">easy_install pip</span><br></pre></td></tr></table></figure>
+
+<p>安装成功</p>
+<h4 id="报错：-1"><a href="#报错：-1" class="headerlink" title="报错："></a>报错：</h4><p>UnicodeDecodeError: ‘gbk’ codec can’t decode byte 0x81 in position 4: illegal multibyte sequence</p>
+<p>都是编码的问题<br>stackoverflow</p>
+<blockquote>
+<p>if you will open file with utf-8,then you need write: open(file_name, ‘r’, encoding=’UTF-8’) if you will open file with GBK,then you need do: open(file_name, ‘rb’) hope to solve your problem!</p>
+</blockquote>
+<blockquote>
+<ul>
+<li>encoding=’UTF-8’出现了utf-8的报错，加入’rb’无效</li>
+<li>没看清楚CSDN博主的错误地方，安装了pip download pyleus<br>pip install pyleus-0.3.0.tar.gz</li>
+<li>修改编码错误的地方，改成gbk，或者神奇的gbk10……</li>
+</ul>
+</blockquote>
+<p> 我好傻，一大早将笔记中的D:\Anaconda\Lib\site-packages\dlib-data\shape_predictor_68_face_landmarks.dat当成要下载的下载了，以至于编码一直出现错误</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install D:\Downloads\face_recognition-1.2.3-py2.py3-none-any.whl</span><br></pre></td></tr></table></figure>
+
+<p> 下载速度好慢呐<br>翻墙后就安装上了</p>
+<p><strong>缺失文件shape_predictor_68_face_landmarks.dat</strong></p>
+<blockquote>
+<p><a href="https://pan.baidu.com/s/1Z1a_ud__BWXgCWZeSdpL2g" target="_blank" rel="noopener">https://pan.baidu.com/s/1Z1a_ud__BWXgCWZeSdpL2g</a><br>提取码：lzjy</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">D:\\Anaconda\\Lib\\site-packages\\dlib-data\\shape_predictor_68_face_landmarks.dat</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://www.osgeo.cn/pygis/basemap-eqexam.html" target="_blank" rel="noopener">https://www.osgeo.cn/pygis/basemap-eqexam.html</a><br>地图绘制</p>
+<p>需要Python的配置文件，这里都有<br>python!<br><a href="https://my.oschina.net/chenmoxuan/blog/1827753" target="_blank" rel="noopener">https://my.oschina.net/chenmoxuan/blog/1827753</a><br><a href="https://www.lfd.uci.edu/~gohlke/pythonlibs/" target="_blank" rel="noopener">https://www.lfd.uci.edu/~gohlke/pythonlibs/</a></p>
+</div></div><a class="button-hover more" href="../../2020/02/03/人脸识别的项目/#more">阅读全文</a></div><div class="recent-post-item"><a class="post-title" href="../../2020/02/03/MySQL踩坑手记/">MySQL安装踩坑手记</a><div class="container"><time class="button-hover post-date"><i class="fas fa-calendar-alt article-icon" aria-hidden="true"></i> 更新于 2020-04-02</time></div><div class="post-content"><div class="main-content content"><p>傻瓜式的安装（Windows下）我都能弄得一团糟！还是勉励一句，==踩坑就是要越挫越勇的。==<br>倒叙[^1]<br>[^1]:倒叙入口</p>
+<ol>
+<li>配置初始化的my.ini文件（在安装根目录下添加 my.ini）<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line"># 设置3306端口</span><br><span class="line">port=3306</span><br><span class="line"># 设置mysql的安装目录</span><br><span class="line">basedir=D:\\Downloads\\mysql-8.0.19-winx64\\mysql-8.0.19-winx64   # 切记此处一定要用双斜杠\\，单斜杠我这里会出错，不过看别人的教程，有的是单斜杠。自己尝试吧</span><br><span class="line"># 设置mysql数据库的数据的存放目录</span><br><span class="line">datadir=D:\\Downloads\\mysql-8.0.19-winx64\\mysql-8.0.19-winx64\\data   # 此处同上</span><br><span class="line"># 允许最大连接数</span><br><span class="line">max_connections=200</span><br><span class="line"># 允许连接失败的次数。这是为了防止有人从该主机试图攻击数据库系统</span><br><span class="line">max_connect_errors=10</span><br><span class="line"># 服务端使用的字符集默认为UTF8</span><br><span class="line">character-set-server=utf8</span><br><span class="line"># 创建新表时将使用的默认存储引擎</span><br><span class="line">default-storage-engine=INNODB</span><br><span class="line"># 默认使用“mysql_native_password”插件认证</span><br><span class="line">default_authentication_plugin=mysql_native_password</span><br><span class="line">[mysql]</span><br><span class="line"># 设置mysql客户端默认字符集</span><br><span class="line">default-character-set=utf8</span><br><span class="line">[client]</span><br><span class="line"># 设置mysql客户端连接服务端时默认使用的端口</span><br><span class="line">port=3306</span><br><span class="line">default-character-set=utf8</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>我的胡来操作，不按照正常的顺序</p>
+<ol start="2">
+<li>在MySQL安装目录的 bin 目录下执行命令：<blockquote>
+<p>mysql -u root -p</p>
+</blockquote>
+</li>
+</ol>
+<h4 id="报错1"><a href="#报错1" class="headerlink" title="报错1:"></a>报错1:</h4><ul>
+<li>无法启动此程序，因为计算机丢失VCRUNTIME140_1.dll。尝试重新安装该程序以解决此问题</li>
+</ul>
+<p>图片</p>
+<p>bing之后发现很可能是昨天在尝试将一些无良广告页面弹出的文件删除的过程中，不小心将一个重要的文件删除掉了，而且还把回收站彻底清空了。于是开始想方设法安装……</p>
+<h4 id="报错2："><a href="#报错2：" class="headerlink" title="报错2："></a>报错2：</h4><ul>
+<li>Visual C++ Redistributable for Visual Studio 2015 下载失败,日志文件中的报错是e000: Error 0x80070666: Cannot install a product when a newer version is installed.</li>
+</ul>
+<p>bing说要新版本，还有2017和2019的，我下载了2019的成功了。</p>
+<blockquote>
+<p><a href="https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads" target="_blank" rel="noopener">https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads</a></p>
+</blockquote>
+<p>重新尝试</p>
+<blockquote>
+<p>mysql -u root -p</p>
+</blockquote>
+<h4 id="报错3："><a href="#报错3：" class="headerlink" title="报错3："></a>报错3：</h4><ul>
+<li>ERROR 2003 (HY000): Can’t connect to MySQL server on ‘localhost’ (10061)</li>
+</ul>
+<p>解决步骤 如网址<a href="https://jingyan.baidu.com/article/a681b0de5ac1dc3b1943467d.html" target="_blank" rel="noopener">https://jingyan.baidu.com/article/a681b0de5ac1dc3b1943467d.html</a><br>关键步骤有<br>打开 <strong>计算机管理</strong>中的<strong>服务</strong>查看MySQL </p>
+<ol>
+<li>是否安装 N —— 手动 mysql -install</li>
+<li>安装后点开后<strong>启动</strong>运行</li>
+</ol>
+<h4 id="报错4："><a href="#报错4：" class="headerlink" title="报错4："></a>报错4：</h4><ul>
+<li>MySQL服务无法启动,服务中点启动报错，还可以在终端中输入<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net start mysql</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>怎么解决MySQL没法启动的问题?<br><a href="https://jingyan.baidu.com/article/b24f6c820a029b86bfe5da3c.html" target="_blank" rel="noopener">https://jingyan.baidu.com/article/b24f6c820a029b86bfe5da3c.html</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">关键步骤：</span><br><span class="line">将my.ini移至bin目录下。</span><br><span class="line">mysqld --initialize --user=mysql --console记录临时密码</span><br><span class="line">再到服务中启动MySQL成功</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>改密码：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqladmin -u USER -p password PASSWORD</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h4 id="报错5："><a href="#报错5：" class="headerlink" title="报错5："></a>报错5：</h4><ul>
+<li><p>mysqladmin: connect to server at ‘localhost’ failed<br>error: ‘Access denied for user ‘root’@’localhost</p>
+<p>进入MySQL去修改密码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALTER USER &apos;root&apos;@&apos;localhost&apos; IDENTIFIED WITH mysql_native_password BY &apos;新密码&apos;;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>终于可以算是大功告成了！撒花完结</p>
+<p>倒叙入口</p>
+<blockquote>
+<p>一开始是准备跟着b站的视频教程安装的（相比各式各样（鱼龙混杂）的博客来说，可行性更强），但是在安装MySQL installer的时候，不小心乱键入，七七八八错了章法。<br>于是想删掉胡乱的设定，重新安装。不幸的是，我把原有的全部情空了，除了Connector/NET怎么也删除不了。<br>之后删了MySQL这个文件，重返官网下载，但是发现已经不会再给初始化设定了，我也只剩Connector/NET。于是念叨着找老版本是不是就可以重新有初始化设定，由于网速的原因，花了五六个小时下载旧版本却发现还是Connector/NET。<br>没有办法了，于是想办法把原有的各种功能加回来，但是发现怎么Add也行不。非常沮丧，觉得Windows下的MySQL是安装不成功的了。<br>暂时放下MySQL Installer，转而翻看博客来找办法。进官网下载了普通的MySQL文件，按照步骤进行 ————</p>
+</blockquote>
+<p>按照这篇博客上面的顺序会比较完整<br><a href="https://blog.csdn.net/qq_43037478/article/details/88976024" target="_blank" rel="noopener">https://blog.csdn.net/qq_43037478/article/details/88976024</a></p>
+</div></div><a class="button-hover more" href="../../2020/02/03/MySQL踩坑手记/#more">阅读全文</a></div><div class="recent-post-item"><a class="post-title" href="../../2019/12/06/聚类的评估指标/">聚类的评估指标</a><div class="container"><time class="button-hover post-date"><i class="fas fa-calendar-alt article-icon" aria-hidden="true"></i> 更新于 2019-12-06</time></div><div class="post-content"><div class="main-content content"><ul>
+<li>轮廓系数（Silhouette Coefficient）</li>
+<li>Calinski-Harabaz 指数</li>
+<li>调整兰德系数（Adjusted Rand index，ARI）</li>
+<li>互信息（Adjusted Mutual Information，AMI）</li>
+<li>V-measure</li>
+<li>Fowlkes-Mallows Index（FMI）</li>
+</ul>
+<h3 id="轮廓系数（Silhouette-Coefficient）"><a href="#轮廓系数（Silhouette-Coefficient）" class="headerlink" title="轮廓系数（Silhouette Coefficient）"></a>轮廓系数（Silhouette Coefficient）</h3><ul>
+<li>内部指标</li>
+<li>选择合适的聚类数目</li>
+<li>根据折线图可直观的找到系数变化幅度最大的点，认为发生畸变幅度最大的点就是最好的聚类数目。</li>
+</ul>
+<h3 id="Calinski-Harabaz-指数"><a href="#Calinski-Harabaz-指数" class="headerlink" title="Calinski-Harabaz 指数"></a>Calinski-Harabaz 指数</h3><ul>
+<li>内部指标</li>
+<li>选择合适的聚类数目，运算速度远高于轮廓系数</li>
+<li>当内部数据的协方差越小，类别之间的协方差越大，Calinski-Harabasz分数越高。 越大越好</li>
+</ul>
+<h3 id="调整兰德系数（Adjusted-Rand-index，ARI）"><a href="#调整兰德系数（Adjusted-Rand-index，ARI）" class="headerlink" title="调整兰德系数（Adjusted Rand index，ARI）"></a>调整兰德系数（Adjusted Rand index，ARI）</h3><ul>
+<li>外部指标</li>
+<li>用来衡量两个分布的吻合程度，取值范围[-1,1],数值越接近于1越好<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">from sklearn.metrics import adjusted_rand_score</span><br><span class="line">labels_true = [0, 0, 1, 1, 0, 1] # 这个值是可以由自己设置的</span><br><span class="line">labels_pred = [0, 0, 1, 1, 1, 2]</span><br><span class="line">ari=adjusted_rand_score(labels_true, labels_pred)  </span><br><span class="line">print(&apos;兰德系数为：%f&apos;%(ari))</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="互信息（Adjusted-Mutual-Information，AMI）"><a href="#互信息（Adjusted-Mutual-Information，AMI）" class="headerlink" title="互信息（Adjusted Mutual Information，AMI）"></a>互信息（Adjusted Mutual Information，AMI）</h3><ul>
+<li>外部指标</li>
+<li>用来衡量两个分布的吻合程度，取值范围[-1,1],数值越接近于1越好<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">from sklearn.metrics import adjusted_mutual_info_score</span><br><span class="line">labels_true = [0, 0, 1, 1, 0, 1]</span><br><span class="line">labels_pred = [0, 0, 1, 1, 4, 2]</span><br><span class="line">ami=adjusted_mutual_info_score(labels_true, labels_pred) </span><br><span class="line">print(&apos;互信息为：%f&apos;%(ami))</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="V-measure"><a href="#V-measure" class="headerlink" title="V-measure"></a>V-measure</h3><ul>
+<li>外部指标</li>
+<li>同质性（homogeneity）：每个群集只包含单个类的成员。</li>
+<li>完整性（completeness）：给定类的所有成员都分配给同一个群集。</li>
+<li>V-measure是两者的调和平均。V-measure取值范围为 [0,1]，越大越好，但当样本量较小或聚类数据较多的情况，推荐使用AMI和ARI。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">from sklearn import metrics</span><br><span class="line">labels_true = [0, 0, 0, 1, 1, 1]</span><br><span class="line">labels_pred = [0, 0, 1, 1, 2, 2]</span><br><span class="line">h_score=metrics.homogeneity_score(labels_true, labels_pred)</span><br><span class="line">c_score=metrics.completeness_score(labels_true, labels_pred) </span><br><span class="line">V_measure=metrics.v_measure_score(labels_true, labels_pred)    </span><br><span class="line">print(&apos;h_score为：%f \nc_score为：%f \nV_measure为：%f&apos;%(h_score,c_score,V_measure))</span><br><span class="line">#h_score为：0.666667 </span><br><span class="line">#c_score为：0.420620 </span><br><span class="line">#V_measure为：0.515804</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="Fowlkes-Mallows-Index（FMI）"><a href="#Fowlkes-Mallows-Index（FMI）" class="headerlink" title="Fowlkes-Mallows Index（FMI）"></a>Fowlkes-Mallows Index（FMI）</h3><ul>
+<li>外部指标</li>
+<li>FMI是对聚类结果和真实值计算得到的召回率和精确率，进行几何平均的结果，取值范围为 [0,1]，越接近1越好。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">from sklearn.metrics import fowlkes_mallows_score</span><br><span class="line">labels_true = [0, 0, 0, 1, 1, 1]</span><br><span class="line">labels_pred = [0, 0, 1, 1, 2, 2]</span><br><span class="line">fmi=fowlkes_mallows_score(labels_true, labels_pred)  </span><br><span class="line">print(&apos;FMI为：%f&apos;%(fmi))</span><br><span class="line">#FMI为：0.471405</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<blockquote>
+<p>一般情况下，主要是对无y值的数据进行聚类操作。如果在评价中用到外部指标，就需通过人工标注等方法获取y值，成本较高，因此内部指标的实际实用性更强。</p>
+</blockquote>
+<p><a href="https://blog.csdn.net/sinat_26917383/article/details/70577710" target="_blank" rel="noopener">https://blog.csdn.net/sinat_26917383/article/details/70577710</a><br>有原理的解释</p>
+</div></div><a class="button-hover more" href="../../2019/12/06/聚类的评估指标/#more">阅读全文</a></div><div class="recent-post-item"><a class="post-title" href="../../2019/12/04/新浪微博首页爬虫小demo/">新浪微博首页爬虫小demo</a><div class="container"><time class="button-hover post-date"><i class="fas fa-calendar-alt article-icon" aria-hidden="true"></i> 更新于 2020-04-02</time></div><div class="post-content"><div class="main-content content"><p>HTTPError 是 URLError的子类<br>URLError</p>
+<ol>
+<li>连不上服务器</li>
+<li>不存在</li>
+<li>本地没有网络</li>
+<li>HTTPError<br>使用URLError就完事了<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">import urllib.error</span><br><span class="line">import urllib.request</span><br><span class="line"></span><br><span class="line">try:</span><br><span class="line">    urllib.request.urlopen(&quot;thhp://blog.csdn.net&quot;)</span><br><span class="line">except urllib.error.URLError as e:</span><br><span class="line">    if hasattr(e,&quot;code&quot;): # 判断是否有状态码</span><br><span class="line">        print(e.code)</span><br><span class="line">    if hasattr(e,&quot;reason&quot;): # 原因</span><br><span class="line">        print(e.reason)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="模拟成浏览器"><a href="#模拟成浏览器" class="headerlink" title="模拟成浏览器"></a>模拟成浏览器</h3><p>才被允许爬取，浏览器伪装一般通过报头进行 headers中的 user-agent 这个需要通过F12查找，可以刷新找到</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import urllib.request</span><br><span class="line">url =&quot;https://i.csdn.net/#/uc/collection-list&quot;</span><br><span class="line">header=(&quot;User-Agent&quot;,&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36&quot;)</span><br><span class="line">opener=urllib.request.build_opener()</span><br><span class="line">opener.addheaders=[header]</span><br><span class="line">data=opener.open(url).read()</span><br><span class="line">fh=open(&quot;C:/Users/Administrator/Desktop/hello.html&quot;,&quot;wb&quot;) #html文件的打开方式地址的斜杠是相反的</span><br><span class="line">fh.write(data)</span><br><span class="line">fh.close()</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">import re</span><br><span class="line">import urllib.request</span><br><span class="line"></span><br><span class="line">##新浪新闻打不开，用网易新闻代替好了</span><br><span class="line">data=urllib.request.urlopen(&quot;https://news.sina.com.cn/&quot;).read()</span><br><span class="line">data1 = data.decode(&quot;gbk&quot;) # 这个设置为gbk居然可以了 ，这种问题在之后是常常遇到的</span><br><span class="line"></span><br><span class="line"># data1=data.decode(&quot;utf-8&quot;,&quot;ignore&quot;)</span><br><span class="line"># 忽视了的话出现的问题也很不友好！ “ҵʱ±Żվ&quot;”</span><br><span class="line"></span><br><span class="line"># Crrl+F键 可以查找</span><br><span class="line"></span><br><span class="line">pat = &apos;href=&quot;(https://news.sina.com.cn/.*?)&quot;&gt;&apos;</span><br><span class="line">allurl = re.compile(pat).findall(data1)</span><br><span class="line"># for i in allurl</span><br><span class="line"></span><br><span class="line">for i in range(0,len(allurl)):</span><br><span class="line">    try:</span><br><span class="line">        print(&quot;第&quot;+str(i)+&quot;次爬取&quot;)</span><br><span class="line">        thisurl=allurl[i]</span><br><span class="line">        file= &quot;C:/Users/Administrator/Desktop/爬虫/&quot; + str(i)+&quot;.html&quot;</span><br><span class="line">        urllib.request.urlretrieve(thisurl,file)</span><br><span class="line">    except urllib.error.URLError as e:</span><br><span class="line">        if hasattr(e,&quot;code&quot;):</span><br><span class="line">            print(e.code)</span><br><span class="line">        if hasattr(e,&quot;reason&quot;):</span><br><span class="line">            print(e.reason)</span><br><span class="line"># 遇到异常真的直接就崩掉了！</span><br><span class="line"># 这次循环出现问题会跳到下一次循环当中？！</span><br><span class="line"># 循环爬取文章！ 以及伪装浏览器 CSDN</span><br></pre></td></tr></table></figure>
+
+<p>正则表达式的使用： 单引号和双引号的注意点</p>
+<h2 id="淘宝爬图"><a href="#淘宝爬图" class="headerlink" title="淘宝爬图"></a>淘宝爬图</h2><p>已经爬不到了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">import urllib.request</span><br><span class="line">import re</span><br><span class="line">keyname=&quot;半身裙&quot;</span><br><span class="line">key=urllib.request.quote(keyname) # 因为无法识别，进行编码操作</span><br><span class="line"></span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">headers = (&quot;User-Agent&quot;,&quot;&quot;)</span><br><span class="line">opener=urllib.request.build_opener()</span><br><span class="line">opener.addheaders=[headers]</span><br><span class="line">urllib.request.install_opener(opener)</span><br><span class="line"># 不是网址有问题</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">for i in range(1,20): # 爬取0到100页?</span><br><span class="line">    url=&quot;https://s.taobao.com/list?spm=a21bo.2017.201867-links-0.18.5af911d9Vko7z7&amp;q=&quot;+key+&quot;&amp;cat=16&amp;style=grid&amp;seller_type=taobao&amp;bcoffset=0&amp;s=&quot;+str(i*60)</span><br><span class="line">    data=urllib.request.urlopen(url).read().decode(&quot;utf-8&quot;,&quot;ignore&quot;)</span><br><span class="line">    pat=&apos;pic_url&quot;:&quot;//(.*?)&quot;&apos; # 正则表达式还是有问题</span><br><span class="line">    imageurl=re.compile(pat).findall(data)</span><br><span class="line">    print(imageurl)</span><br></pre></td></tr></table></figure>
+
+<p>如何分析url<br><a href="https://s.taobao.com/list?spm=a21bo.2017.201867-links-0.18.5af911d9Vko7z7&amp;q=%E5%8D%8A%E8%BA%AB%E8%A3%99&amp;cat=16&amp;style=grid&amp;seller_type=taobao&amp;bcoffset=0&amp;s=60" target="_blank" rel="noopener">https://s.taobao.com/list?spm=a21bo.2017.201867-links-0.18.5af911d9Vko7z7&amp;q=%E5%8D%8A%E8%BA%AB%E8%A3%99&amp;cat=16&amp;style=grid&amp;seller_type=taobao&amp;bcoffset=0&amp;s=60</a><br><a href="https://s.taobao.com/list?spm=a21bo.2017.201867-links-0.18.5af911d9Vko7z7&amp;q=%E5%8D%8A%E8%BA%AB%E8%A3%99&amp;cat=16&amp;style=grid&amp;seller_type=taobao&amp;bcoffset=0&amp;s=120" target="_blank" rel="noopener">https://s.taobao.com/list?spm=a21bo.2017.201867-links-0.18.5af911d9Vko7z7&amp;q=%E5%8D%8A%E8%BA%AB%E8%A3%99&amp;cat=16&amp;style=grid&amp;seller_type=taobao&amp;bcoffset=0&amp;s=120</a></p>
+<p>q到&amp;cat前截止，都是可以变的，是搜索词<br>是为了找规律，以便从一到一百页<br>s !!! s+=60 第一页是0</p>
+<p>抓包分析的目的是为了找到真实的js地址，没有在源码中，就一定隐藏在相应js中，最后没有别的尝试的时候才抓包<br>抓包工具 fiddler<br>需要手动配置代理<br>如何抓包 </p>
+</div></div><a class="button-hover more" href="../../2019/12/04/新浪微博首页爬虫小demo/#more">阅读全文</a></div><div class="recent-post-item"><a class="post-title" href="../../2019/11/29/hadoop/">hadoop</a><div class="container"><time class="button-hover post-date"><i class="fas fa-calendar-alt article-icon" aria-hidden="true"></i> 更新于 2020-04-02</time></div><div class="post-content"><div class="main-content content"><blockquote>
+<p>sudo useradd -m hadoop -s /bin/bash</p>
+</blockquote>
+<blockquote>
+<p>sudo passwd hadoop</p>
+</blockquote>
+<blockquote>
+<p>sudo adduser hadoop sudo</p>
+</blockquote>
+<blockquote>
+<p>ssh localhost</p>
+</blockquote>
+<blockquote>
+<p>cd ~/.ssh/    # 若没有该目录，请先执行一次ssh localhost</p>
+</blockquote>
+<blockquote>
+<p>ssh-keygen -t dsa    # 会有提示，都按回车就可以</p>
+</blockquote>
+<blockquote>
+<p>cat id_dsa.pub &gt;&gt; authorized_keys   # 加入授权 id_rsa是私钥 id_rsa.pub</p>
+</blockquote>
+<blockquote>
+<p>chmod 600 ./authorized_keys </p>
+</blockquote>
+<p>对于伪分布式，需要修改相应的配置文件</p>
+<p>尝试了五六次，Hadoop至今没有搭建好，感觉VM很不上手，各种bug抛出<br>TODO：有机会一定要安装好！</p>
+</div></div><a class="button-hover more" href="../../2019/11/29/hadoop/#more">阅读全文</a></div><div class="recent-post-item"><a class="post-title" href="../../2019/11/27/Rec/">Rec</a><div class="container"><time class="button-hover post-date"><i class="fas fa-calendar-alt article-icon" aria-hidden="true"></i> 更新于 2020-04-02</time></div><div class="post-content"><div class="main-content content">已被加密啦</div></div><a class="button-hover more" href="../../2019/11/27/Rec/#more">阅读全文</a></div><div class="recent-post-item"><a class="post-title" href="../../2019/11/09/大数据学习的基本框架/">大数据学习的基本框架</a><div class="container"><time class="button-hover post-date"><i class="fas fa-calendar-alt article-icon" aria-hidden="true"></i> 更新于 2020-02-07</time><div class="button-hover tags"><i class="fa fa-tag article-icon" aria-hidden="true"></i><a class="link-a" href="../../tags/BigData/">BigData</a></div></div><div class="post-content"><div class="main-content content"><ol>
+<li><p><strong>数据收集</strong> ： </p>
+<blockquote>
+<p>多种日志收集工具，如 Flume 、Logstash、Kibana 等</p>
+</blockquote>
+</li>
+<li><p><strong>数据存储</strong></p>
+<blockquote>
+<p>解决海量半结构化和非结构化数据的存储，衍生了 Hadoop HDFS 、KFS、GFS 等<strong>分布式文件系统</strong><br>一个优秀的数据存储系统需要同时考虑<strong>数据存储和访问</strong>两方面的问题<br>比如你希望能够对数据进行随机访问，这是传统的关系型数据库所擅长的，但却不是分布式文件系统所擅长的，那么有没有一种存储方案能够同时兼具分布式文件系统和关系型数据库的优点，基于这种需求，就产生了 <strong>HBase、MongoDB</strong>。</p>
+</blockquote>
+</li>
+<li><p><strong>数据分析</strong>（最关键的部分）</p>
+</li>
+</ol>
+<blockquote>
+<ul>
+<li>批处理：对一段时间内海量的离线数据进行统一的处理，对应的处理框架有 Hadoop MapReduce、Spark、Flink 等；</li>
+<li>流处理：对运动中的数据进行处理，即在接收数据的同时就对其进行处理，对应的处理框架有 Storm、Spark Streaming、Flink Streaming 等。</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>批处理和流处理各有其适用的场景，<strong>时间不敏感或者硬件资源有限</strong>，可以采用批处理；时间敏感和及时性要求高就可以采用流处理。随着服务器硬件的价格越来越低和大家对及时性的要求越来越高，<strong>流处理</strong>越来越普遍，如股票价格预测和电商运营数据分析等。</p>
+</blockquote>
+<blockquote>
+<p>上面的框架都是需要通过编程来进行数据分析，那么如果你不是一个后台工程师，是不是就不能进行数据的分析了？当然不是，<em>大数据是一个非常完善的生态圈，有需求就有解决方案。</em> 为了能够让熟悉 SQL 的人员也能够进行数据的分析，查询分析框架应运而生，常用的有 <strong>Hive 、Spark SQL 、Flink SQL、 Pig、Phoenix</strong> 等。</p>
+</blockquote>
+<ol start="4">
+<li><strong>数据应用</strong><blockquote>
+<p>这取决于你实际的业务需求。比如你可以将数据进行<strong>可视化展现</strong>，或者将数据用于<strong>优化你的推荐算法</strong>，比如短视频个性化推荐、电商商品推荐、头条新闻推荐等。当然你也可以将数据用于训练你的<strong>机器学习模型</strong></p>
+</blockquote>
+</li>
+</ol>
+<blockquote>
+<p>建议：Scala 确实足够的精简和灵活，但其在语言复杂度上略大于 Java，例如隐式转换和隐式参数等概念在初次涉及时会比较难以理解，所以你可以在了解Spark 后再去学习 Scala ，因为类似隐式转换等概念在 Spark 源码中有大量的运用。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">日志收集框架：Flume 、Logstash、Kibana</span><br><span class="line">分布式文件存储系统：Hadoop HDFS</span><br><span class="line">数据库系统：Mongodb、HBase</span><br><span class="line">分布式计算框架：</span><br><span class="line">批处理框架：Hadoop MapReduce</span><br><span class="line">流处理框架：Storm</span><br><span class="line">混合处理框架：Spark、Flink</span><br><span class="line">查询分析框架：Hive 、Spark SQL 、Flink SQL、 Pig、Phoenix</span><br><span class="line">集群资源管理器：Hadoop YARN</span><br><span class="line">分布式协调服务：Zookeeper</span><br><span class="line">数据迁移工具：Sqoop</span><br><span class="line">任务调度框架：Azkaban、Oozie</span><br><span class="line">集群部署和监控：Ambari、Cloudera Manager</span><br></pre></td></tr></table></figure></div></div><a class="button-hover more" href="../../2019/11/09/大数据学习的基本框架/#more">阅读全文</a></div><div class="recent-post-item"><a class="post-title" href="../../2019/10/20/COF23/">GOF23</a><div class="container"><time class="button-hover post-date"><i class="fas fa-calendar-alt article-icon" aria-hidden="true"></i> 更新于 2019-12-01</time><div class="button-hover tags"><i class="fa fa-tag article-icon" aria-hidden="true"></i><a class="link-a" href="../../tags/Java/">Java</a></div></div><div class="post-content"><div class="main-content content"><p><font color="yellow"> <strong>创建型模式：</strong> 单例模式、工厂模式、抽象工厂模式、建造者模式、原型模式</font></p>
+<p><font color="yellow"> <strong>结构型模式：</strong> 适配器模式、桥接模式、装饰模式、组合模式、外观模式、享元模式、代理模式</font></p>
+<p><font color="yellow"> <strong>行为型模式：</strong> 板块方法模块、命令模式、迭代器模式、观察者模式、中介者模式、备忘录模式、解释器模式、状态模式、策略模式、职责链模式、访问者模式</font></p>
+<ul>
+<li>模式动机</li>
+<li>模式定义</li>
+<li>模式结构</li>
+<li>模式分析 优点 缺点</li>
+<li>适用环境</li>
+<li>模式扩展（可以相比较的）<br><a href="https://design-patterns.readthedocs.io/zh_CN/latest/creational_patterns/creational.html" target="_blank" rel="noopener">https://design-patterns.readthedocs.io/zh_CN/latest/creational_patterns/creational.html</a></li>
+</ul>
+<h2 id="1-备忘录模式memento"><a href="#1-备忘录模式memento" class="headerlink" title="1. 备忘录模式memento"></a>1. 备忘录模式memento</h2><blockquote>
+<ul>
+<li>自动保存功能（定时备份）// 方便恢复文档</li>
+<li>撤回功能 </li>
+</ul>
+</blockquote>
+<blockquote>
+<p>核心：某个对象内部 <strong>状态</strong> 的拷贝<br>结构： 源发器类Originator  备忘录类Memento  负责人类 CareTake</p>
+</blockquote>
+<h2 id="2-观察者模式"><a href="#2-观察者模式" class="headerlink" title="2.观察者模式"></a>2.观察者模式</h2><blockquote>
+<ul>
+<li>广播机制的场景</li>
+<li>监控器（见好就收？）</li>
+<li>订阅了某一个栏目或者主题（定时发送）</li>
+<li>AWT事件处理也是！（监听）</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>核心:及时更新(观察者接口就只写updates)<br>JavaSE提供了 util包里面有Observable和Observer来实现观察者模式</p>
+</blockquote>
+<h2 id="3-状态模式"><a href="#3-状态模式" class="headerlink" title="3.状态模式"></a>3.状态模式</h2><blockquote>
+<ul>
+<li>红绿灯</li>
+<li>网上购物，订单状态</li>
+<li>电梯的状态</li>
+<li>审批状态（国奖）</li>
+<li>酒店预定</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>核心：当遇到需要频繁改变状态时，解决复杂对象的状态转换以及不同状态下行为的封装问题</li>
+</ul>
+</blockquote>
+<h2 id="4-策略模式"><a href="#4-策略模式" class="headerlink" title="4.策略模式"></a>4.策略模式</h2><blockquote>
+<ul>
+<li>根据不同客户类型实施不同的报价策略（杀熟的感觉）<br>如果系统中某个类的对象存在多种状态，不同状态下行为有差异，而且这些状态之间可以发生转换时使用状态模式；如果系统中某个类的某一行为存在多种实现方式，而且这些实现方式可以互换时使用策略模式。</li>
+</ul>
+</blockquote>
+<h2 id="5-解释器模式-非常不常用，最好不用，后期难以维护"><a href="#5-解释器模式-非常不常用，最好不用，后期难以维护" class="headerlink" title="5.解释器模式(非常不常用，最好不用，后期难以维护)"></a>5.解释器模式(非常不常用，最好不用，后期难以维护)</h2><blockquote>
+<ul>
+<li>“1+2*3”实现内部的计算 可以直接使用jruby、Groovy、Java的js引擎来代替解释器的作用</li>
+<li>这个都可以做到自己去开发一种语言了</li>
+</ul>
+</blockquote>
+<h2 id="6-命令模式（不重要）"><a href="#6-命令模式（不重要）" class="headerlink" title="6.命令模式（不重要）"></a>6.命令模式（不重要）</h2><h2 id="7-建造者模式"><a href="#7-建造者模式" class="headerlink" title="7.建造者模式"></a>7.建造者模式</h2><blockquote>
+<ul>
+<li>建造一个复杂的产品时</li>
+<li>构建和装配的解耦</li>
+</ul>
+</blockquote>
+<h2 id="8-原型模式（拷贝模式）"><a href="#8-原型模式（拷贝模式）" class="headerlink" title="8.原型模式（拷贝模式）"></a>8.原型模式（拷贝模式）</h2></div></div><a class="button-hover more" href="../../2019/10/20/COF23/#more">阅读全文</a></div><div class="recent-post-item"><a class="post-title" href="../../2019/10/14/一个非常简单的操作系统/">做一个简单的操作系统和相关知识理解</a><div class="container"><time class="button-hover post-date"><i class="fas fa-calendar-alt article-icon" aria-hidden="true"></i> 更新于 2020-02-02</time></div><div class="post-content"><div class="main-content content"><p>下载：nasm，VMware<br>NASM是一个为可移植性与模块化而设计的一个80x86的汇编器</p>
+<blockquote>
+<p>汇编器（Assembler）是将汇编语言翻译为机器语言的程序。一般而言，汇编生成的是目标代码，需要经链接器（Linker）生成可执行代码才可以执行。</p>
+</blockquote>
+<h3 id="原理性："><a href="#原理性：" class="headerlink" title="原理性："></a>原理性：</h3><p>操作系统如何被启动？</p>
+<ul>
+<li>第一步：读取BIOS<br>按下电源按钮后，计算机首先读取一块ROM芯片，这块芯片里的程序是”基本输入输出系統”<strong>（Basic Input/Output System）</strong>，即BIOS.</li>
+<li>第二步：<strong>硬件</strong>自检<br>BIOS会检查计算机硬件是否满足运行条件，如果硬件出现问题，主板会发出不同含义的蜂鸣，启动中止。</li>
+<li>第三步：启动顺序<br>硬件检查完成后，BIOS会将控制权交给下一阶段的启动程序，注意，“下一阶段的启动程序”可能存放在硬盘中，也可能存放在CD/DVD中，或者软盘中等等，可以设置BIOS选择从哪个设备启动。</li>
+<li>第四步：主引导记录<br>BIOS找到了“下一阶段的启动程序”所在设备，会读取该设备的第一个扇区，即读取最前面的512字节，称为主引导记录。主引导记录会告诉计算机下一步到哪里去找操作系统。</li>
+<li>第五步：bootloader<br>计算机读取”主引导记录”前面446字节的机器码之后，运行事先安装的“启动管理器”bootloader，由用户选择启动哪个操作系统。如果你安装了多个操作系统，那么就要从这步做出选择了。</li>
+<li>第六步：加载内核<br>好了，选择操作系统（内核）后，会加载内核，下面就交给内核去处理了。</li>
+</ul>
+<hr>
+<p>我们使用虚拟机来启动操作系统，上面的第一步和第二步我们不做，由虚拟机去完成；第三步“启动顺序”我们选择从软盘启动（我们用镜像代替，并不是真的软盘），需要对虚拟机做下设置，选择从软盘启动。下面重点来看第四步，我们写一下“主引导记录”，让BIOS读取我们写的主引导记录。</p>
+<hr>
+<h2 id="实践性"><a href="#实践性" class="headerlink" title="实践性"></a>实践性</h2><p>nasm下载地址：// 可能是老版本了</p>
+<blockquote>
+<p><a href="http://www.nasm.us/pub/nasm/releasebuilds/2.11.02/win32/nasm-2.11.02-installer.exe" target="_blank" rel="noopener">http://www.nasm.us/pub/nasm/releasebuilds/2.11.02/win32/nasm-2.11.02-installer.exe</a></p>
+</blockquote>
+<p>文件名  boot.asm</p>
+<blockquote>
+<p> org 7c00h               ; BIOS读入MBR后，从0x7c00h处开始执行<br>; 下面部分和10h有关中断，10h中断用来显示字符<br>mov ax, cs<br>mov es, ax<br>mov ax, msg<br>mov bp, ax                    ; ES:BP表示显示字符串的地址<br>mov cx, msgLen                ; CX存字符长度<br>mov ax, 1301h                 ; AH=13h表示向TTY显示字符，AL=01h表示显示方式（字符串是否包含显示属性，01h表示不包含）<br>mov bx, 000fh                 ; BH=00h表示页号，BL=0fh表示颜色<br>mov dl, 0                     ; 列<br>int 10h<br>msg: db “hello world, welcome to OS!”<br>msgLen: equ $ - msg           ; 字符串长度<br>times 510 - ($ - $$) db 0     ; 填充剩余部分<br>dw 0aa55h                     ; 魔数，必须有这两个字节BIOS才确认是MBR</p>
+</blockquote>
+<p>在nasm中编译</p>
+<blockquote>
+<p>nasm boot.asm -o boot.bin<br>生成 Boot.img文件</p>
+</blockquote>
+<p>在VM上创建新的虚拟机，其余都一样，在软盘驱动器（添加），选择文件，启动便可。</p>
+<p><img src="C:%5CUsers%5CAdministrator%5CDesktop%5CJava%5Chello.png" alt="avatar"></p>
+<p>something：</p>
+<ol>
+<li>底层的计算机语言</li>
+<li>软盘</li>
+</ol>
+</div></div><a class="button-hover more" href="../../2019/10/14/一个非常简单的操作系统/#more">阅读全文</a></div></div><div id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="../2/"><i class="fas fa-angle-left"></i></a><a class="page-number" href="../../">1</a><a class="page-number" href="../2/">2</a><span class="page-number current">3</span></div></div></div></div><div class="button-hover" id="return-top"><i class="fas fa-arrow-up" aria-hidden="true"></i></div><footer><div id="footer"><div class="button-hover" id="side-button"><i class="fas fa-arrow-right"></i></div><div class="right-content"><div class="copyright">&copy;2017 ～ 2020 By Rr-shan</div></div></div></footer></div><!--js(src=url_for(url) + '?version=' + version())--><script src="../../js/thirdparty/jquery-3.3.1.min.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="../../js/thirdparty/velocity.min.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="../../js/thirdparty/jquery.mCustomScrollbar.concat.min.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="../../js/fan.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="../../js/canvas_bg.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="../../js/utils.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="../../js/scroll.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="../../js/sidebar.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="../../js/copy.js"></script><!--script(src=url)--><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/haruto.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":true},"log":false});</script></body></html>
