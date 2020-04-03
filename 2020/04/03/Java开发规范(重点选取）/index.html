@@ -1,0 +1,135 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="Java开发规范(重点选取）"><meta name="keywords" content="Java"><meta name="author" content="Rr-shan,undefined"><meta name="copyright" content="Rr-shan"><title>Java开发规范(重点选取）【Sanzzi】</title><link rel="stylesheet" href="../../../../css/fan.css"><link rel="stylesheet" href="../../../../css/thirdparty/jquery.mCustomScrollbar.min.css"><link rel="icon" href="../../../../favicon.ico"><!-- script(src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML")--><script src="../../../../js/mathjax/mathjax.js"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+    tex2jax: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
+});
+</script><script>var isPassword = '' || false;
+if (isPassword) {
+    if (prompt('请输入文章密码') !== '') {
+        alert('密码错误！');
+        history.back();
+    }
+}</script><script>window.GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  }
+}</script></head><body><canvas id="universe"></canvas><!--#body--><div id="sidebar"><div class="toggle-sidebar-info button-hover"><span data-toggle="文章目录">站点概览</span></div><div class="sidebar-toc"><div class="sidebar-toc-title">目录</div><div class="sidebar-toc-progress"><span class="progress-notice">您已阅读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc-progress-bar"></div></div><div class="sidebar-toc-content" id="sidebar-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#工程结构"><span class="toc-number">1.</span> <span class="toc-text">工程结构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#流程图"><span class="toc-number">1.0.1.</span> <span class="toc-text">流程图</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#系统设计"><span class="toc-number">1.0.2.</span> <span class="toc-text">系统设计</span></a></li></ol></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#安全规约"><span class="toc-number">2.</span> <span class="toc-text">安全规约</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#单元测试"><span class="toc-number">3.</span> <span class="toc-text">单元测试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#异常处理"><span class="toc-number">4.</span> <span class="toc-text">异常处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注释规约"><span class="toc-number">5.</span> <span class="toc-text">注释规约</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#控制语句"><span class="toc-number">6.</span> <span class="toc-text">控制语句</span></a></li></div></div><div class="author-info hide"><div class="author-info-avatar"><img class="author-info-avatar-img" src="/avatar.png"></div><div class="author-info-name">Rr-shan</div><div class="author-info-description"></div><div class="links-buttons"><a class="links-button button-hover" href="https://github.com/Rr-shan" target="_blank">GitHub<i class="icon-dot bg-color9"></i></a><a class="links-button button-hover" href="mailto:1224559633@qq.com" target="_blank">E-Mail<i class="icon-dot bg-color9"></i></a></div><div class="author-info-articles"><a class="author-info-articles-archives article-meta" href="../../../../archives"><span class="pull-top">日志</span><span class="pull-bottom">34</span></a><a class="author-info-articles-tags article-meta" href="../../../../tags"><span class="pull-top">标签</span><span class="pull-bottom">11</span></a><a class="author-info-articles-categories article-meta" href="../../../../categories"><span class="pull-top">分类</span><span class="pull-bottom">12</span></a></div><div class="friend-link"><a class="friend-link-text" href="https://chao-yin-github.github.io/" target="_blank">yccccc~~~~~~~~</a><a class="friend-link-text" href="https://sanzzi.cn" target="_blank">Mywebsite</a></div></div></div><div id="main-container"><header><div id="menu-outer"><i class="menu-list-icon fas fa-bars"></i><nav id="menu-inner"><a class="menu-item" href="/">首页</a><a class="menu-item" href="/tags">标签</a><a class="menu-item" href="/categories">分类</a><a class="menu-item" href="/archives">归档</a><a class="menu-item" href="/about">关于</a></nav><div class="right-info"><a class="title-name" href="/">Sanzzi</a><span id="now-time"></span></div></div></header><div id="content-outer"><div id="content-inner"><article id="post"><div class="post-header"><div class="title">Java开发规范(重点选取）</div><div class="container"><time class="button-hover post-date"><i class="fas fa-calendar-alt article-icon" aria-hidden="true"></i> 发表于 2020-04-03 | 更新于 2020-04-03</time><!--time.button-hover.post-date #[i.fas.fa-calendar-alt.article-icon(aria-hidden="true")] #[=__('post.modified')] #[=date(page['updated'], config.date_format)]--><div class="button-hover categories"><i class="fa fa-inbox article-icon" aria-hidden="true"></i><a class="link-a" href="../../../../categories/Java/">Java</a></div><div class="button-hover tags"><i class="fa fa-tag article-icon" aria-hidden="true"></i><a class="link-a" href="../../../../tags/Java/">Java</a></div></div></div><div class="main-content"><h2 id="工程结构"><a href="#工程结构" class="headerlink" title="工程结构"></a>工程结构</h2><ul>
+<li>只要没有<strong>唯一索引</strong>,根据墨菲定律,必然有<strong>脏数据</strong>产生</li>
+<li><strong>有缺陷的底层数据结构容易导致系统风险上升</strong>,可扩展性下降,重构成本也会因历史数据迁移和系统平滑过渡而陡然增加,所以,存储方案和数据结构需要认真地进行设计和评审,生产环境提交执行后, 需要进行 double check。<h4 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h4></li>
+<li>如果<strong>某个业务对象的状态超过 3 个</strong>,使用<strong>状态图</strong>来表达并且明确状态变化的各个触发条件。<blockquote>
+<p>说明:状态图的核心是对象状态,首先明确对象有多少种状态,然后明确两两状态之间是否存在直接转换 关系,再明确触发状态转换的条件是什么。 正例:淘宝订单状态有已下单、待付款、已付款、待发货、已发货、已收货等。比如已下单与已收货这两种状态之间是不可能有直接转换关系的。</p>
+</blockquote>
+</li>
+<li>如果系统中某个功能的<strong>调用链路上</strong>的涉及对象超过 3 个,使用<strong>时序图</strong>来表达并且明确各调用环节的输入与输出。时序图反映了一系列对象间的交互与协作关系,清晰立体地反映系统的调用纵深链路。</li>
+<li>如果系统中<strong>模型类</strong>超过 5 个,并且存在复杂的依赖关系,使用<strong>类图</strong>来表达并且明确类之间的关系。<blockquote>
+<p>类图像建筑领域的施工图,如果搭平房,可能不需要,但如果建造蚂蚁 Z 空间大楼,肯定需要详细的施工图。</p>
+</blockquote>
+</li>
+<li>如果系统中超过 2 个对象之间存在<strong>协作关系</strong>,并且需要表示复杂的处理流程,使用<strong>活动图</strong>来表示。活动图是流程图的扩展,增加了能够体现协作关系的对象泳道,支持表示并发等。</li>
+<li><strong>不得已使用继承</strong>的话,必须符合<strong>里氏代换原则</strong><blockquote>
+<p>此原则说父类能够出现的地方子类一定能够出现,比如,“把钱交出来”,钱的子类美元、欧元、人民币等都可以出现。</p>
+</blockquote>
+</li>
+<li>根据<strong>依赖倒置原则</strong>,尽量依赖<strong>抽象类与接口</strong>,有利于扩展与维护。低层次模块依赖于高层次模块的抽象,方便系统间的<strong>解耦</strong>。<h4 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h4></li>
+<li>系统设计时,<strong>注意对扩展开放,对修改闭合。</strong><blockquote>
+<p>说明:极端情况下,<strong>交付线上生产环境的代码都是不可修改的</strong>,同一业务域内的需求变化,通过<strong>模块或类的扩展</strong>来实现。</p>
+</blockquote>
+</li>
+<li>避免出现<strong>重复代码或重复配置</strong>的情况。说明:随着代码的重复次数不断增加,维护成本指数级上升。</li>
+<li>系统设计主要目的是<strong>明确需求、理顺逻辑、后期维护</strong>,次要目的用于指导编码。</li>
+<li>设计的本质就是识别和表达系统难点,找到系统的变化点,并隔离变化点。说明:世间众多设计模式目的是相同的,即<strong>隔离系统变化点。</strong></li>
+<li>系统架构设计的<strong>目的</strong>:<br>确定系统<strong>边界</strong>。确定系统在技术层面上的做与不做。<br>确定系统内<strong>模块之间的关系</strong>。确定模块之间的<em>依赖关系</em>及模块的<em>宏观输入与输出</em>。<br>确定指导<strong>后续设计与演化</strong>的原则。使后续的子系统或模块设计在规定的框架内继续演化。<br>确定<strong>非功能性</strong>需求。非功能性需求是指<em>安全性、可用性、可扩展性</em>等。<ul>
+<li>在做无障碍产品设计时(友好),需要考虑到:</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li>所有可交互的控件元素必须能被 tab 键聚焦,并且焦点顺序需符合自然操作逻辑。?</li>
+<li>用于登陆校验和请求拦截的验证码均需提供<strong>图形验证以外</strong>的其它方式。</li>
+<li>自定义的控件类型需明确<strong>交互方式</strong>。</li>
+</ol>
+<h2 id="安全规约"><a href="#安全规约" class="headerlink" title="安全规约"></a>安全规约</h2><ol>
+<li>隶属于用户个人的页面或者功能必须进行<strong>权限控制校验</strong>。<blockquote>
+<p>说明:防止没有做水平权限校验就可随意访问、修改、删除别人的数据,比如查看他人的私信内容、修改他人的订单。</p>
+</blockquote>
+</li>
+<li>用户敏感数据禁止直接展示,必须对<strong>展示数据进行脱敏</strong>。<blockquote>
+<p>说明:中国大陆个人手机号码显示为:137****0969,隐藏中间 4 位,防止隐私泄露。</p>
+</blockquote>
+</li>
+</ol>
+<ul>
+<li>Java 代码用<strong>正则</strong>来验证客户端的输入,有些正则写法验证普通用户输入没有问题,但是如果<strong>攻击人员</strong>使用的是特殊构造的字符串来验证,有可能导致死循环的结果。</li>
+</ul>
+<ol start="3">
+<li>在使用平台资源,譬如短信、邮件、电话、下单、支付,必须实现正确的防重放的机制,如<strong>数量限制、疲劳度控制、验证码校验,避免被滥刷</strong>而导致资损。<blockquote>
+<p>说明:如注册时发送验证码到手机,如果没有限制次数和频率,那么可以利用此功能骚扰到其它用户,并造成短信平台资源浪费。(<del>太真实了</del> )</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h2><ul>
+<li>好的单元测试必须遵守 <strong>AIR 原则</strong>。<blockquote>
+<p>说明:单元测试在线上运行时,感觉像空气(AIR)一样并不存在,但在测试质量的保障上,却是非常关键的。好的单元测试宏观上来说,具有<strong>自动化、独立性、可重复执行</strong>的特点。<br>A:Automatic(自动化)<br>I:Independent(独立性)<br>R:Repeatable(可重复)</p>
+</blockquote>
+</li>
+<li>单元测试应该是<strong>全自动执行的,并且非交互式的。</strong>测试用例通常是被定期执行的,执行过程必须<strong>完全自动化</strong>才有意义。<em>输出结果需要人工检查的测试不是一个好的单元测试。</em>单元测试中不准使用 System.out 来进行人肉验证,必须使用 <strong>assert</strong> 来验证。</li>
+<li><strong>保持单元测试的独立性。</strong>为了保证单元测试稳定可靠且便于维护,单元测试用例之间<strong>决不能互相调用</strong>,也不能<strong>依赖执行的先后次序。</strong></li>
+<li>对于单元测试,要保证测<strong>试粒度</strong>足够小,有助于<em>精确定位问题。</em>单测粒度至多是类级别,一般是方法级别。<blockquote>
+<p>说明:只有测试粒度小才能在出错时尽快定位到出错位置。单测不负责检查跨类或者跨系统的交互逻辑,那是<strong>集成测试的领域。</strong></p>
+</blockquote>
+</li>
+<li>单元测试代码必须写在如下工程目录: <strong>src/test/java</strong> ,不允许写在业务代码目录下。<blockquote>
+<p>说明:<em>源码编译时会跳过此目录,而单元测试框架默认是扫描此目录。</em></p>
+</blockquote>
+</li>
+<li>单元测试的基本目标:语句<strong>覆盖率</strong>达到 70% ;核心模块的语句覆盖率和分支覆盖率都要达到 100%<blockquote>
+<p>说明:在工程规约的应用分层中提到的 <strong>DAO 层,Manager 层</strong>可重用度高的 <strong>Service</strong>,都应该进行单元测试。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="异常处理"><a href="#异常处理" class="headerlink" title="异常处理"></a>异常处理</h2><ul>
+<li><strong>异常不要用来做流程控制,条件控制</strong><blockquote>
+<p>说明:异常设计的初衷是解决程序运行中的各种意外情况,且异常的处理<strong>效率</strong>比条件判断方式要低很多。</p>
+</blockquote>
+</li>
+<li>catch 时请分清<strong>稳定代码和非稳定代码</strong>,稳定代码指的是无论如何不会出错的代码。对于非稳定代码的 catch 尽可能进行区分异常类型,再做对应的异常处理。<blockquote>
+<p>说明:对大段代码进行 try-catch,使程序无法根据不同的异常做出正确的<strong>应激反应</strong>,也<strong>不利于定位问题,这是一种不负责任的表现</strong>。</p>
+</blockquote>
+</li>
+<li>不要在 finally 块中使用 return</li>
+<li>避免出现重复的代码 (Don ‘ t Repeat Yourself) ,即 <strong>DRY 原则</strong>。说明:随意复制和粘贴代码,必然会导致代码的重复,在以后需要修改时,需要修改<strong>所有的副本,容易遗漏</strong>。必要时<strong>抽取共性方法</strong>,或者<strong>抽象公共类</strong>,甚至是<strong>组件化</strong>。</li>
+</ul>
+<h2 id="注释规约"><a href="#注释规约" class="headerlink" title="注释规约"></a>注释规约</h2><ul>
+<li><strong>类、类属性、类方法</strong>的注释必须使用 Javadoc 规范,使用<code>/**内容*/</code>格式,不得使用<code>// xxx</code> 方式。</li>
+<li>所有的抽象方法 ( 包括接口中的方法 ) 必须要用 Javadoc 注释、除了<strong>返回值、参数、异常说明</strong>外,还必须指出该方法<strong>做什么事情,实现什么功能</strong>。<blockquote>
+<p>说明:对子类的实现要求,或者调用注意事项,请一并说明。</p>
+</blockquote>
+</li>
+<li><strong>所有的类</strong>都必须添加<strong>创建者和创建日期</strong>。</li>
+<li>方法内部单行注释,在被注释语句<strong>上方</strong>另起一行,使用<code>//</code>注释。方法内部多行注释使用<code>/* */</code>注释,注意<strong>与代码对齐</strong>。</li>
+<li>所有的<strong>枚举类型</strong>字段<strong>必须要有注释</strong>,说明<strong>每个数据项的用途</strong>。</li>
+<li>谨慎注释掉代码。在上方详细说明,而不是简单地注释掉。<strong>如果无用,则删除</strong>。<blockquote>
+<p>说明:代码被注释掉有两种可能性:1)后续会恢复此段代码逻辑。2)永久不用。前者如果没有备注信息,难以知晓注释动机。后者建议直接删掉(代码仓库已然保存了历史代码)。</p>
+</blockquote>
+</li>
+<li><strong>待办事宜(TODO)</strong>:(标记人,标记时间,[预计处理时间])表示需要实现,但目前还未实现的功能。这实际上是一个 Javadoc 的标签,目前的 Javadoc 还没有实现,但已经被广泛使用。只能应用于<strong>类,接口和方法</strong>(因为它是一个 Javadoc 标签)。<br>2) <strong>错误,不能工作(FIXME)</strong>:(标记人,标记时间,[预计处理时间])在注释中用 FIXME 标记某代码是错误的,而且不能工作,需要及时纠正的情况。</li>
+</ul>
+<h2 id="控制语句"><a href="#控制语句" class="headerlink" title="控制语句"></a>控制语句</h2><ul>
+<li>在一个 switch 块内,每个 case 要么通过 continue/break/return 等来终止,要么注释说明程序将继续执行到哪一个 case 为止;在一个 switch 块内,都必须包含一个<strong>default</strong> 语句并且放在最后,即使它什么代码也没有。</li>
+<li>在 if / else / for / while / do 语句中必须使用<strong>大括号</strong>。</li>
+<li>在<strong>高并发场景中,避免使用“等于”判断作为中断或退出的条件</strong>。<blockquote>
+<p>说明:如果并发控制没有处理好,容易产生等值判断被“击穿”的情况,<strong>使用大于或小于的区间判断条件来代替</strong>。反例:判断剩余奖品数量等于 0 时,终止发放奖品,但因为并发处理错误导致奖品数量瞬间变成了负数,这样的话,活动无法终止。</p>
+</blockquote>
+</li>
+<li><strong>超过 3 层的 if-else</strong> 的逻辑判断代码可以使用<strong>卫语句、策略模式、状态模式</strong>等来实现,其中卫语句即代码逻辑先考虑失败、异常、中断、退出等直接返回的情况,以方法多个出口的方式,解决代码中判断分支嵌套的问题,这是逆向思维的体现。</li>
+<li>除<strong>常用方法</strong>(如 getXxx/isXxx )等外,不要在条件判断中执行其它复杂的语句,将复杂逻辑判断的结果赋值给一个有意义的<strong>布尔变量名,以提高可读性</strong>。<blockquote>
+<p>说明:很多 if 语句内的逻辑表达式相当复杂,与、或、取反混合运算,甚至各种方法纵深调用,理解成本非常高。如果赋值一个非常好理解的布尔变量名字,则是件<em>令人爽心悦目的事情。</em></p>
+</blockquote>
+</li>
+</ul>
+<hr>
+<p>from：《阿里巴巴开发规范》</p>
+</div><div class="post-copyright"><div class="post-copyright-author"><span class="post-copyright-meta">本文作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Rr-shan</a></span></div><div class="post-copyright-type"><span class="post-copyright-meta">本文链接: </span><span class="post-copyright-info"><a href="https://rr-shan.github.io/2020/04/03/Java开发规范(重点选取）/">https://rr-shan.github.io/2020/04/03/Java开发规范(重点选取）/</a></span></div><div class="post-copyright-notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://rr-shan.github.io">Sanzzi</a>！</span></div></div></article><div id="pagination"><div class="next-post pull-right"><span class="line line-top"></span><span class="line line-right"></span><span class="line line-bottom"></span><span class="line line-left"></span><a href="../JShell容易出现错误之处/"><span>JShell容易出现错误之处</span><span>&nbsp;</span><i class="fas fa-angle-right"></i></a></div></div><!--div!= paginator()--></div></div><div class="button-hover" id="return-top"><i class="fas fa-arrow-up" aria-hidden="true"></i></div><footer><div id="footer"><div class="button-hover" id="side-button"><i class="fas fa-arrow-right"></i></div><div class="right-content"><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fas fa-file-o"></i></span><span id="busuanzi_value_page_pv"></span><span></span></div><div class="copyright">&copy;2017 ～ 2020 By Rr-shan</div></div></div></footer></div><!--js(src=url_for(url) + '?version=' + version())--><script src="../../../../js/thirdparty/jquery-3.3.1.min.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="../../../../js/thirdparty/velocity.min.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="../../../../js/thirdparty/jquery.mCustomScrollbar.concat.min.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="../../../../js/fan.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="../../../../js/canvas_bg.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="../../../../js/utils.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="../../../../js/scroll.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="../../../../js/sidebar.js"></script><!--script(src=url)--><!--js(src=url_for(url) + '?version=' + version())--><script src="../../../../js/copy.js"></script><!--script(src=url)--><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/haruto.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":true},"log":false});</script></body></html>
