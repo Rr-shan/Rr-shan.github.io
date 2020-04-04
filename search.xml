@@ -71,6 +71,32 @@
       </categories>
   </entry>
   <entry>
+    <title>JShell容易出现错误之处</title>
+    <url>/2020/04/03/JShell%E5%AE%B9%E6%98%93%E5%87%BA%E7%8E%B0%E9%94%99%E8%AF%AF%E4%B9%8B%E5%A4%84/</url>
+    <content><![CDATA[<h3 id="注意事项-amp-可能存在的问题"><a href="#注意事项-amp-可能存在的问题" class="headerlink" title="注意事项&amp;可能存在的问题"></a>注意事项&amp;可能存在的问题</h3><ul>
+<li>不要调⽤<strong>Runtime类</strong>直接使⽤<strong>系统的shell命令</strong></li>
+<li>编码要求使⽤<strong>uft-8</strong>编码</li>
+<li>echo、grep没有处理 \n<strong>转义字符的问题</strong></li>
+<li>可能程序中使⽤switch语句进⾏流程控制，但是只取输⼊前两位达到省事的⽬的，这样是不可取的，就好⽐，别⼈输⼊pw，程序应当提⽰找不到pw命令,而⾮直接调⽤pwd命令。</li>
+<li>整个代码只有⼀个类，并在类⾥使⽤内部类，代码<strong>耦合程度⾼</strong>，而且难以阅读。功能存在问题，未经测试就匆忙提交，质量普遍不⾼。</li>
+<li><strong>接口没有打注释</strong></li>
+<li>请正确认识<strong>交互性</strong>，不要给程序运⾏添加不必要的操作。</li>
+<li><strong>不要把⽂件路径写死了</strong></li>
+<li>这是⼀个功能简化了的shell，但基本忠于shell，不要乱改原有的命令。</li>
+<li><strong>命名随便</strong>，有⽤a,b,c的，还有竟然⽤⾃⼰名字的。</li>
+<li>尽量不要使⽤<strong>windows编程</strong></li>
+<li>请把的<strong>注释掉的代码删去</strong>，需要保留的说明原因。</li>
+</ul>
+<p>From:yc<br><em>感觉犯错点很有参考价值</em></p>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>论文阅读DrImpute</title>
     <url>/2020/04/03/DrImpute/</url>
     <content><![CDATA[<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><h4 id="聚类"><a href="#聚类" class="headerlink" title="聚类"></a>聚类</h4><h4 id="1-preprocess：data-cleansing-normalization-and-log-transformation"><a href="#1-preprocess：data-cleansing-normalization-and-log-transformation" class="headerlink" title="1. preprocess：data cleansing, normalization, and log transformation"></a>1. <strong>preprocess：</strong>data cleansing, normalization, and log transformation</h4><figure class="highlight r"><table><tr><td class="code"><pre><span class="line">preprocess &lt;- <span class="keyword">function</span>(x, min.expressed.gene = <span class="number">0</span>, min.expressed.cell = <span class="number">2</span>, max.expressed.ratio = <span class="number">1</span>, normalize.by.size.effect = <span class="literal">FALSE</span>)&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (class(x) == <span class="string">'SummarizedExperiment'</span>)</span><br><span class="line">		X &lt;- assays(x)$count</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (class(x) == <span class="string">'matrix'</span>)</span><br><span class="line">		X &lt;- x</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (is(x, <span class="string">'sparseMatrix'</span>))</span><br><span class="line">		X &lt;- x</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		<span class="keyword">stop</span>(sprintf(<span class="string">'unknown class(x): %s'</span>, class(x)))</span><br><span class="line"></span><br><span class="line">	M &lt;- ncol(X)</span><br><span class="line">	N &lt;- nrow(X)</span><br><span class="line">	m &lt;- Matrix::colSums(X &gt; <span class="number">1</span>) &gt;= min.expressed.gene	<span class="comment"># cells that have at least min.expressed.gene expreseed genes</span></span><br><span class="line">	n &lt;- Matrix::rowSums(X &gt; <span class="number">1</span>) &lt;= max.expressed.ratio * M &amp; Matrix::rowSums(X &gt; <span class="number">1</span>) &gt;= min.expressed.cell	<span class="comment"># genes that are detected in at least min.expressed.cell or at most max.expressed.ratio cells</span></span><br><span class="line">	<span class="keyword">if</span> (normalize.by.size.effect)&#123;</span><br><span class="line">	  sf &lt;- apply((X[n, m] + <span class="number">1</span>) / exp(Matrix::rowMeans(log(X[n, m] + <span class="number">1</span>))), <span class="number">2</span>, median)</span><br><span class="line">		X &lt;- t(t(X[n, m]) / sf)</span><br><span class="line">	&#125;<span class="keyword">else</span></span><br><span class="line">		X &lt;- X[n, m]</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (class(x) == <span class="string">'SummarizedExperiment'</span>)&#123;</span><br><span class="line">		x &lt;- x[n, m]</span><br><span class="line">		assays(x)$count &lt;- X</span><br><span class="line">	&#125;<span class="keyword">else</span> <span class="keyword">if</span> (class(x) == <span class="string">'matrix'</span>)&#123;</span><br><span class="line">		x &lt;- as.matrix(X)</span><br><span class="line">	&#125;<span class="keyword">else</span> <span class="keyword">if</span> (is(x, <span class="string">'sparseMatrix'</span>))&#123;</span><br><span class="line">		x &lt;- X</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	x</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -95,6 +121,18 @@
       <tags>
         <tag>单C—Dropout课题(刘世超老师)</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>Kmeans聚类入门</title>
+    <url>/2020/02/16/Kmeans%E8%81%9A%E7%B1%BB%E5%85%A5%E9%97%A8/</url>
+    <content><![CDATA[<p>Kmeans聚类入门</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> sklearn.cluster <span class="keyword">import</span> KMeans</span><br><span class="line">data = np.random.rand(<span class="number">100</span>, <span class="number">3</span>) <span class="comment">#生成一个随机数据，样本大小为100, 特征数为3</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#假如我要构造一个聚类数为3的聚类器</span></span><br><span class="line">estimator = KMeans(n_clusters=<span class="number">3</span>)<span class="comment">#构造聚类器</span></span><br><span class="line">estimator.fit(data)<span class="comment">#聚类</span></span><br><span class="line">label_pred = estimator.labels_ <span class="comment">#获取聚类标签</span></span><br><span class="line">centroids = estimator.cluster_centers_ <span class="comment">#获取聚类中心</span></span><br><span class="line">inertia = estimator.inertia_ <span class="comment"># 获取聚类准则的总和</span></span><br><span class="line"></span><br><span class="line">print(label_pred)</span><br><span class="line">print(centroids)</span><br><span class="line">print(inertia)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>当数据量很大的时候，Kmeans 显然还是很弱的，会比较耗费内存速度也会收到很大影响。scikit-learn 提供了MiniBatchKMeans算法，大致思想就是对数据进行抽样，每次不使用所有的数据来计算，这就会导致准确率的损失。</p>
+</blockquote>
+<p>做了实验后，文本聚类效果不是很好（直接使用可视化），原因：数据太少了。</p>
+]]></content>
   </entry>
   <entry>
     <title>论文阅读DeepImpute</title>
@@ -144,106 +182,8 @@
       </tags>
   </entry>
   <entry>
-    <title>Java垃圾回收机制</title>
-    <url>/2020/02/20/Java%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/</url>
-    <content><![CDATA[<h1 id="Java垃圾回收机制"><a href="#Java垃圾回收机制" class="headerlink" title="Java垃圾回收机制"></a>Java垃圾回收机制</h1><h2 id="垃圾回收的意义"><a href="#垃圾回收的意义" class="headerlink" title="垃圾回收的意义"></a>垃圾回收的意义</h2><p>在C++中，对象所占的内存在程序结束运行之前一直被占用，在明确释放之前不能分配给其它对象；而在Java中，当没有对象引用指向原先分配给某个对象的内存时，该内存便成为垃圾。JVM的一个系统级线程会自动释放该内存块。<br>事实上，除了释放没用的对象，垃圾回收也可以清除内存记录碎片。由于创建对象和垃圾回收器释放丢弃对象所占的内存空间，内存会出现碎片。碎片是分配给对象的内存块之间的空闲内存洞。碎片整理将所占用的堆内存移到堆的一端，JVM将整理出的内存分配给新的对象。</p>
-<h3 id="这使Java-虚拟机具有一些优点"><a href="#这使Java-虚拟机具有一些优点" class="headerlink" title="这使Java 虚拟机具有一些优点"></a>这使Java 虚拟机具有一些优点</h3><ul>
-<li>首先，它能<strong>使编程效率提高</strong>。在没有垃圾回收机制的时候，可能要花许多时间来解决一个<strong>难懂的存储器问题。</strong></li>
-<li>其次是它<strong>保护程序的完整性</strong>（？）， 垃圾回收是Java语言安全性策略的一个重要部份。</li>
-</ul>
-<h3 id="垃圾回收的一个潜在的缺点是它的开销影响程序性能。"><a href="#垃圾回收的一个潜在的缺点是它的开销影响程序性能。" class="headerlink" title="垃圾回收的一个潜在的缺点是它的开销影响程序性能。"></a>垃圾回收的一个潜在的缺点是它的<strong>开销影响程序性能</strong>。</h3><ul>
-<li>Java虚拟机必须追踪运行程序中有用的对象，而且最终释放没用的对象。这一个过程需要<strong>花费处理器的时间。</strong></li>
-<li>其次<strong>垃圾回收算法的不完备性</strong>，<em>早先采用的某些垃圾回收算法就不能保证100%收集到所有的废弃内存。</em>随着垃圾回收算法的不断改进以及软硬件运行效率的不断提升，这些问题都可以迎刃而解。</li>
-</ul>
-<h2 id="垃圾收集的算法分析"><a href="#垃圾收集的算法分析" class="headerlink" title="垃圾收集的算法分析"></a>垃圾收集的算法分析</h2><p>Java语言规范没有明确地说明JVM使用哪种垃圾回收算法，但是任何一种垃圾回收算法一般要做2件基本的事情：<br>**1. 发现无用信息对象</p>
-<ol start="2">
-<li>回收被无用对象占用的内存空间，使该空间可被程序再次使用。**</li>
-</ol>
-<blockquote>
-<p>大多数垃圾回收算法使用了<strong>根集(root set)</strong>这个概念；所谓根集就是正在执行的Java程序可以访问的引用变量的集合(包括局部变量、参数、类变量)，程序可以使用引用变量访问对象的属性和调用对象的方法。垃圾回收首先需要确定从根开始 <strong>哪些是可达的和哪些是不可达的</strong>，从根集可达的对象都是活动对象，它们不能作为垃圾被回收，这也包括从根集间接可达的对象。而根集通过任意路径不可达的对象符合垃圾收集的条件，应该被回收。</p>
-</blockquote>
-<h3 id="1-引用计数法-Reference-Counting-Collector"><a href="#1-引用计数法-Reference-Counting-Collector" class="headerlink" title="1. 引用计数法(Reference Counting Collector)"></a>1. 引用计数法(Reference Counting Collector)</h3><p>引用计数法是<strong>唯一没有使用根集的</strong>垃圾回收的算法，该算法使用引用计数器来区分存活对象和不再使用的对象。堆中的每个对象对应一个引用计数器。<em>计数器值就加1；当引用失效时，计数器值就减1；任何时刻计数器都为0的对象就是不再被使用的，垃圾收集器将回收该对象使用的内存。</em><br>引用计数算法实现简单，效率很高，微软的COM技术、ActionScript、Python等都使用了引用计数算法进行内存管理，但是引用计数算法对于对象之间相互循环引用问题难以解决，因此java并没有使用引用计数算法。</p>
-<h4 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h4><p>基于引用计数器的垃圾收集器运行较<strong>快</strong>，<em>对程序需要不被长时间打断的实时环境比较有利。</em></p>
-<h4 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h4><p> <strong>无法检测出循环引用</strong>如父对象有一个对子对象的引用，子对象反过来引用父对象。这样，他们的引用计数永远不可能为0. 而且每次加减<strong>非常浪费内存</strong>。</p>
-<h3 id="2-tracing算法-Tracing-Collector"><a href="#2-tracing算法-Tracing-Collector" class="headerlink" title="2. tracing算法(Tracing Collector)"></a>2. tracing算法(Tracing Collector)</h3><p>tracing算法是为了解决引用计数法的问题而提出，它使用了根集的概念。基于tracing算法的垃圾收集器从根集开始扫描，识别出哪些对象可达，哪些对象不可达，并用某种方式标记可达对象，例如对每个可达对象设置一个或多个位。在扫描识别过程中，基于tracing算法的垃圾收集也称为标记和清除(mark-and-sweep)垃圾收集器.</p>
-<h3 id="3-compacting算法-Compacting-Collector"><a href="#3-compacting算法-Compacting-Collector" class="headerlink" title="3. compacting算法(Compacting Collector)"></a>3. compacting算法(Compacting Collector)</h3><p>为了<strong>解决堆碎片问题</strong>，基于tracing的垃圾回收吸收了<strong>Compacting算法</strong>的思想，在清除的过程中，算法将所有的对象移到堆的一端，堆的另一端就变成了一个相邻的空闲内存区，收集器会对它移动的所有对象的所有引用进行更新，使得这些引用在新的位置能识别原来的对象。在基于Compacting算法的收集器的实现中，一般增加<strong>句柄和句柄表</strong>。</p>
-<p>标记-整理算法在标记-清除算法基础上做了改进，标记阶段是相同的标记出所有需要回收的对象，在标记完成之后不是直接对可回收对象进行清理，而是让所有存活的对象都向一端移动，在移动过程中清理掉可回收的对象，这个过程叫做整理。<br>标记-整理算法相比标记-清除算法的优点是内存<strong>被整理以后不会产生大量不连续内存碎片问题。</strong><br>复制算法在<strong>对象存活率高的情况下</strong>就要执行较多的复制操作，效率将会变低，而在对象存活率高的情况下使用标记-整理算法效率会大大提高。</p>
-<h3 id="4-copying（复制）算法-Coping-Collector"><a href="#4-copying（复制）算法-Coping-Collector" class="headerlink" title="4. copying（复制）算法(Coping Collector)"></a>4. copying（复制）算法(Coping Collector)</h3><p>该算法的提出是为了<strong>克服句柄的开销和解决堆碎片的垃圾回收</strong>。它开始时把堆分成一个对象区和多个空闲区，程序从对象区为对象分配空间，当对象满了，基于coping算法的垃圾回收就从根集中扫描活动对象，并将每个活动对象复制到空闲区(使得活动对象所占的内存之间没有空闲间隔)，这样空闲区变成了对象区，原来的对象区变成了空闲区，程序会在新的对象区中分配内存。<br>一种典型的基于coping算法的垃圾回收是stop-and-copy算法，它将堆分成对象区和空闲区域区，在对象区与空闲区域的切换过程中，程序暂停执行。</p>
-<p>S0和s1将可用内存按容量分成大小相等的两块，每次只使用其中一块，当这块内存使用完了，就将还存活的对象复制到另一块内存上去，然后把使用过的内存空间一次清理掉。</p>
-<h4 id="优点：-1"><a href="#优点：-1" class="headerlink" title="优点："></a>优点：</h4><p>这样使得每次都是对其中一块内存进行回收，内存分配时不用考虑内存碎片等复杂情况，只需要移动堆顶指针，按顺序分配内存即可，实现简单，运行高效。</p>
-<h4 id="缺点：-1"><a href="#缺点：-1" class="headerlink" title="缺点："></a>缺点：</h4><p>可使用的内存降为原来一半。</p>
-<p>复制算法用于在<strong>新生代垃圾回收</strong></p>
-<h3 id="5-generation（分代收集）算法-Generational-Collector"><a href="#5-generation（分代收集）算法-Generational-Collector" class="headerlink" title="5. generation（分代收集）算法(Generational Collector)"></a>5. generation（分代收集）算法(Generational Collector)</h3><p>stop-and-copy垃圾收集器的一个缺陷是<strong>收集器必须复制所有的活动对象</strong>，这增加了程序等待时间，这是coping算法低效的原因。在程序设计中有这样的规律：多数对象存在的时间比较短，少数的存在时间比较长。因此，generation算法将堆分成两个或多个，每个子堆作为对象的一代(generation)。由于多数对象存在的时间比较短，随着程序丢弃不使用的对象，垃圾收集器将从最年轻的子堆中收集这些对象。在分代式的垃圾收集器运行后，上次运行存活下来的对象移到下一最高代的子堆中，由于老一代的子堆不会经常被回收，因而节省了时间。</p>
-<p>根据内存中对象的存活周期不同，将内存划分为几块，java的虚拟机中一般把内存划分为新生代和年老代，当新创建对象时一般在新生代中分配内存空间，当新生代垃圾收集器回收几次之后仍然存活的对象会被移动到年老代内存中，当大对象在新生代中无法找到足够的连续内存时也直接在年老代中创建。<br>对于新生代和老年代来说,新生代回收频率很高,但是每次回收耗时很短,而老年代回收频率较低,但是耗时会相对较长,所以应该尽量减少老年代的GC.</p>
-<h3 id="6-adaptive算法-Adaptive-Collector"><a href="#6-adaptive算法-Adaptive-Collector" class="headerlink" title="6. adaptive算法(Adaptive Collector)"></a>6. adaptive算法(Adaptive Collector)</h3><p>　　在特定的情况下，一些垃圾收集算法会优于其它算法。基于Adaptive算法的垃圾收集器就是监控当前堆的使用情况，并将选择适当算法的垃圾收集器。</p>
-<h2 id="System-gc-方法"><a href="#System-gc-方法" class="headerlink" title="System.gc()方法"></a>System.gc()方法</h2><p>使用System.gc()可以不管JVM使用的是哪一种垃圾回收的算法，都可以请求Java的垃圾回收。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestGC</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">　　    <span class="keyword">new</span> TestGC();</span><br><span class="line">　　    System.gc();</span><br><span class="line">　　    System.runFinalization();</span><br><span class="line">　　 &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>tips:调用System.gc()也仅仅是一个<strong>请求(建议)</strong>。JVM接受这个消息后，并不是立即做垃圾回收，而只是对几个垃圾回收算法做了加权，使垃圾回收操作容易发生，或提早发生，或回收较多而已。</p>
-<h2 id="finalize-方法"><a href="#finalize-方法" class="headerlink" title="finalize()方法"></a>finalize()方法</h2><p>之所以要使用finalize()，是存在着<strong>垃圾回收器不能处理的特殊情况</strong>。假定你的对象（并非使用new方法）获得了一块“特殊”的内存区域，由于垃圾回收器只知道那些显示地经由new分配的内存空间，所以它不知道该如何释放这块“特殊”的内存区域，那么这个时候java允许在类中定义一个由finalize()方法。</p>
-<p>特殊的区域如：</p>
-<ol>
-<li>由于在分配内存的时候可能采用了类似 C语言的做法，而非JAVA的通常new做法。这种情况主要发生在native method中，比如native method调用了C/C++方法malloc()函数系列来分配存储空间，但是除非调用free()函数，否则这些内存空间将不会得到释放，那么这个时候就可能造成内存泄漏。但是由于free()方法是在C/C++中的函数，所以finalize()中可以用本地方法来调用它。以释放这些“特殊”的内存空间。</li>
-<li>又或者打开的<strong>文件资源</strong>，这些资源不属于垃圾回收器的回收范围。</li>
-</ol>
-<h2 id="触发主GC（Garbage-Collector）的条件"><a href="#触发主GC（Garbage-Collector）的条件" class="headerlink" title="触发主GC（Garbage Collector）的条件"></a>触发主GC（Garbage Collector）的条件</h2><p>JVM进行次GC的频率很高,但因为这种GC占用时间极短,所以对系统产生的影响不大。<br>总的来说,有两个条件会触发主GC:</p>
-<ol>
-<li>当<strong>没有应用线程在运行时</strong>,GC会被调用。因为<strong>GC在优先级最低的线程中进行</strong>,所以当应用忙时,GC线程就不会被调用,但以下条件除外。</li>
-<li><strong>Java堆内存不足时</strong>,GC会被调用。当应用线程在运行,并在运行过程中创建新对象,若这时内存空间不足,JVM就会强制地调用GC线程,以便回收内存用于新的分配。若GC一次之后仍不能满足内存分配的要求,<strong>JVM会再进行两次GC</strong>作进一步的尝试,若仍无法满足要求,则 JVM将报“out of memory”的错误,Java应用将停止。</li>
-</ol>
-<h2 id="减少GC开销的措施"><a href="#减少GC开销的措施" class="headerlink" title="减少GC开销的措施"></a>减少GC开销的措施</h2><h3 id="1-不要显式调用System-gc"><a href="#1-不要显式调用System-gc" class="headerlink" title="1. 不要显式调用System.gc()"></a>1. 不要显式调用System.gc()</h3><p> 此函数建议JVM进行主GC,虽然只是建议而非一定,但很多情况下它会触发主GC,从而增加主GC的频率,也即增加了间歇性停顿的次数。</p>
-<h3 id="2-尽量减少临时对象的使用"><a href="#2-尽量减少临时对象的使用" class="headerlink" title="2. 尽量减少临时对象的使用"></a>2. 尽量减少临时对象的使用</h3><p> 临时对象在跳出函数调用后,会成为垃圾,少用临时变量就相当于减少了垃圾的产生,从而延长了出现上述第二个触发条件出现的时间,减少了主GC的机会。</p>
-<h3 id="3-对象不用时最好显式置为Null"><a href="#3-对象不用时最好显式置为Null" class="headerlink" title="3. 对象不用时最好显式置为Null"></a>3. 对象不用时最好显式置为Null</h3><p> 为Null的对象都会被作为垃圾处理,所以将不用的对象显式地设为Null,有利于GC收集器判定垃圾,从而提高了GC的效率。</p>
-<h3 id="4-尽量使用StringBuffer-而不用String来累加字符串"><a href="#4-尽量使用StringBuffer-而不用String来累加字符串" class="headerlink" title="4. 尽量使用StringBuffer,而不用String来累加字符串"></a>4. 尽量使用StringBuffer,而不用String来累加字符串</h3><p>  由于String是固定长的字符串对象,累加String对象时,并非在一个String对象中扩增,而是重新创建新的String对象,如Str5=Str1+Str2+Str3+Str4,这条语句执行过程中会产生多个垃圾对象,因为对次作“+”操作时都必须创建新的String对象,但这些过渡对象对系统来说是没有实际意义的,只会增加更多的垃圾。避免这种情况可以改用StringBuffer来累加字符串,因StringBuffer是可变长的,它在原有基础上进行扩增,不会产生中间对象。</p>
-<h3 id="5-能用基本类型如Int-Long-就不用Integer-Long对象"><a href="#5-能用基本类型如Int-Long-就不用Integer-Long对象" class="headerlink" title="5.  能用基本类型如Int,Long,就不用Integer,Long对象"></a>5.  能用基本类型如Int,Long,就不用Integer,Long对象</h3><p>基本类型变量占用的内存资源比相应对象占用的少得多,如果没有必要,最好使用基本变量。</p>
-<h3 id="6-尽量少用静态对象变量"><a href="#6-尽量少用静态对象变量" class="headerlink" title="6. 尽量少用静态对象变量"></a>6. 尽量少用静态对象变量</h3><p>静态变量属于全局变量,不会被GC回收,它们会一直占用内存。</p>
-<h3 id="7-分散对象创建或删除的时间"><a href="#7-分散对象创建或删除的时间" class="headerlink" title="7. 分散对象创建或删除的时间"></a>7. 分散对象创建或删除的时间</h3><p>集中在短时间内大量创建新对象,特别是大对象,会导致突然需要大量内存,JVM在面临这种情况时,只能进行主GC,以回收内存或整合内存碎片,从而增加主GC的频率。集中删除对象,道理也是一样的。它使得突然出现了大量的垃圾对象,空闲空间必然减少,从而大大增加了下一次创建新对象时强制主GC的机会。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Chair</span> </span>&#123;</span><br><span class="line">　　<span class="keyword">static</span> <span class="keyword">boolean</span> gcrun = <span class="keyword">false</span>;</span><br><span class="line">　　<span class="keyword">static</span> <span class="keyword">boolean</span> f = <span class="keyword">false</span>;</span><br><span class="line">　　<span class="keyword">static</span> <span class="keyword">int</span> created = <span class="number">0</span>;</span><br><span class="line">　　<span class="keyword">static</span> <span class="keyword">int</span> finalized = <span class="number">0</span>;</span><br><span class="line">　　<span class="keyword">int</span> i;</span><br><span class="line">　　Chair() &#123;</span><br><span class="line">　　    i = ++created;</span><br><span class="line">　　    <span class="keyword">if</span>(created == <span class="number">47</span>)</span><br><span class="line">　　　      System.out.println(<span class="string">"Created 47"</span>);</span><br><span class="line">　　&#125;</span><br><span class="line">　　<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">finalize</span><span class="params">()</span> </span>&#123;</span><br><span class="line">　　    <span class="keyword">if</span>(!gcrun) &#123;</span><br><span class="line">　　　      gcrun = <span class="keyword">true</span>;</span><br><span class="line">　　　      System.out.println(<span class="string">"Beginning to finalize after "</span> + created + <span class="string">" Chairs have been created"</span>);</span><br><span class="line">　　    &#125;</span><br><span class="line">　　    <span class="keyword">if</span>(i == <span class="number">47</span>) &#123;</span><br><span class="line">　　　      System.out.println(<span class="string">"Finalizing Chair #47， "</span> +<span class="string">"Setting flag to stop Chair creation"</span>);</span><br><span class="line">　　　      f = <span class="keyword">true</span>;</span><br><span class="line">　　    &#125;</span><br><span class="line">　　    finalized++;</span><br><span class="line">　　    <span class="keyword">if</span>(finalized &gt;= created)</span><br><span class="line">　　　      System.out.println(<span class="string">"All "</span> + finalized + <span class="string">" finalized"</span>);</span><br><span class="line">　　&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Garbage</span> </span>&#123;</span><br><span class="line">　　<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">　　<span class="keyword">if</span>(args.length == <span class="number">0</span>) &#123;</span><br><span class="line">　　　  System.err.println(<span class="string">"Usage: /n"</span> + <span class="string">"java Garbage before/n or:/n"</span> + <span class="string">"java Garbage after"</span>);</span><br><span class="line">　　　  <span class="keyword">return</span>;</span><br><span class="line">　　&#125;</span><br><span class="line">　　<span class="keyword">while</span>(!Chair.f) &#123;</span><br><span class="line">　　　  <span class="keyword">new</span> Chair();</span><br><span class="line">　　　  <span class="keyword">new</span> String(<span class="string">"To take up space"</span>);</span><br><span class="line">　　&#125;</span><br><span class="line">　　System.out.println(<span class="string">"After all Chairs have been created:/n"</span> + <span class="string">"total created = "</span> + Chair.created +</span><br><span class="line">　　<span class="string">"， total finalized = "</span> + Chair.finalized);</span><br><span class="line">　　<span class="keyword">if</span>(args[<span class="number">0</span>].equals(<span class="string">"before"</span>)) &#123;</span><br><span class="line">　　　　System.out.println(<span class="string">"gc():"</span>);</span><br><span class="line">　　　　System.gc();</span><br><span class="line">　　　　System.out.println(<span class="string">"runFinalization():"</span>);</span><br><span class="line">　　　　System.runFinalization();</span><br><span class="line">　　&#125;</span><br><span class="line">　　System.out.println(<span class="string">"bye!"</span>);</span><br><span class="line">　　<span class="keyword">if</span>(args[<span class="number">0</span>].equals(<span class="string">"after"</span>))</span><br><span class="line">　　　  System.runFinalizersOnExit(<span class="keyword">true</span>);</span><br><span class="line">　　&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>上面这个程序创建了许多Chair对象，而且在垃圾收集器开始运行后的某些时候，程序会停止创建Chair。由于垃圾收集器可能在任何时间运行，所以我们不能准确知道它在何时启动。因此，程序用一个名为gcrun的标记来指出垃圾收集器是否已经开始运行。利用第二个标记f，Chair可告诉main()它应停止对象的生成。这两个标记都是在finalize()内部设置的，它调用于垃圾收集期间。另两个static变量–created以及 finalized–分别用于跟踪已创建的对象数量以及垃圾收集器已进行完收尾工作的对象数量。最后，每个Chair都有它自己的（非 static）int i，所以能跟踪了解它具体的编号是多少。编号为47的Chair进行完收尾工作后，标记会设为true，最终结束Chair对象的创建过程。</p>
-</blockquote>
-<h2 id="关于垃圾回收的几点补充"><a href="#关于垃圾回收的几点补充" class="headerlink" title="关于垃圾回收的几点补充"></a>关于垃圾回收的几点补充</h2><ul>
-<li>垃圾收集发生的<strong>不可预知性</strong>：由于实现了不同的垃圾回收算法和采用了不同的收集机制，所以它有可能是定时发生，有可能是当出现系统空闲CPU资源时发生，也有可能是和原始的垃圾收集一样，等到内存消耗出现极限时发生，这与垃圾收集器的选择和具体的设置都有关系。</li>
-<li>垃圾收集的实现和<strong>具体的JVM 以及JVM的内存模型</strong>有非常紧密的关系。不同的JVM 可能采用不同的垃圾收集，而<strong>JVM 的内存模型决定着该JVM可以采用哪些类型垃圾收集</strong>。现在，<strong>HotSpot 系列</strong>JVM中的内存系统都采用先进的面向对象的框架设计，这使得该系列JVM都可以采用最先进的垃圾收集。</li>
-<li><strong>尽早释放无用对象的引用。</strong>大多数程序员在使用临时变量的时候，都是让引用变量在退出活动域(scope)后，自动设置为null，暗示垃圾收集器来收集该对象，还必须注意该引用的<strong>对象是否被监听</strong>，如果有，则要<strong>去掉监听器，然后再赋空值</strong>。</li>
-<li>关键的也是难把握的问题是<strong>内存泄漏</strong>。良好的编程习惯和严谨的编程态度永远是最重要的，不要让自己的一个小错误导致内存出现大漏洞。</li>
-</ul>
-<p>博客参考：<br><a href="https://blog.csdn.net/zsuguangh/article/details/6429592" target="_blank" rel="noopener">https://blog.csdn.net/zsuguangh/article/details/6429592</a><br><a href="https://blog.csdn.net/zhangcongyi420/article/details/89060970" target="_blank" rel="noopener">https://blog.csdn.net/zhangcongyi420/article/details/89060970</a></p>
-]]></content>
-      <tags>
-        <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>JShell容易出现错误之处</title>
-    <url>/2020/04/03/JShell%E5%AE%B9%E6%98%93%E5%87%BA%E7%8E%B0%E9%94%99%E8%AF%AF%E4%B9%8B%E5%A4%84/</url>
-    <content><![CDATA[<h3 id="注意事项-amp-可能存在的问题"><a href="#注意事项-amp-可能存在的问题" class="headerlink" title="注意事项&amp;可能存在的问题"></a>注意事项&amp;可能存在的问题</h3><ul>
-<li>不要调⽤<strong>Runtime类</strong>直接使⽤<strong>系统的shell命令</strong></li>
-<li>编码要求使⽤<strong>uft-8</strong>编码</li>
-<li>echo、grep没有处理 \n<strong>转义字符的问题</strong></li>
-<li>可能程序中使⽤switch语句进⾏流程控制，但是只取输⼊前两位达到省事的⽬的，这样是不可取的，就好⽐，别⼈输⼊pw，程序应当提⽰找不到pw命令,而⾮直接调⽤pwd命令。</li>
-<li>整个代码只有⼀个类，并在类⾥使⽤内部类，代码<strong>耦合程度⾼</strong>，而且难以阅读。功能存在问题，未经测试就匆忙提交，质量普遍不⾼。</li>
-<li><strong>接口没有打注释</strong></li>
-<li>请正确认识<strong>交互性</strong>，不要给程序运⾏添加不必要的操作。</li>
-<li><strong>不要把⽂件路径写死了</strong></li>
-<li>这是⼀个功能简化了的shell，但基本忠于shell，不要乱改原有的命令。</li>
-<li><strong>命名随便</strong>，有⽤a,b,c的，还有竟然⽤⾃⼰名字的。</li>
-<li>尽量不要使⽤<strong>windows编程</strong></li>
-<li>请把的<strong>注释掉的代码删去</strong>，需要保留的说明原因。</li>
-</ul>
-<p>From:yc<br><em>感觉犯错点很有参考价值</em></p>
-]]></content>
-      <categories>
-        <category>Java</category>
-      </categories>
-      <tags>
-        <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Java开发规范(重点选取）</title>
-    <url>/2020/04/03/Java%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83(%E9%87%8D%E7%82%B9%E9%80%89%E5%8F%96%EF%BC%89/</url>
+    <url>/2019/12/08/Java%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83(%E9%87%8D%E7%82%B9%E9%80%89%E5%8F%96%EF%BC%89/</url>
     <content><![CDATA[<h2 id="工程结构"><a href="#工程结构" class="headerlink" title="工程结构"></a>工程结构</h2><ul>
 <li>只要没有<strong>唯一索引</strong>,根据墨菲定律,必然有<strong>脏数据</strong>产生</li>
 <li><strong>有缺陷的底层数据结构容易导致系统风险上升</strong>,可扩展性下降,重构成本也会因历史数据迁移和系统平滑过渡而陡然增加,所以,存储方案和数据结构需要认真地进行设计和评审,生产环境提交执行后, 需要进行 double check。<h4 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h4></li>
@@ -369,16 +309,76 @@
       </tags>
   </entry>
   <entry>
-    <title>Kmeans聚类入门</title>
-    <url>/2020/02/16/Kmeans%E8%81%9A%E7%B1%BB%E5%85%A5%E9%97%A8/</url>
-    <content><![CDATA[<p>Kmeans聚类入门</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> sklearn.cluster <span class="keyword">import</span> KMeans</span><br><span class="line">data = np.random.rand(<span class="number">100</span>, <span class="number">3</span>) <span class="comment">#生成一个随机数据，样本大小为100, 特征数为3</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#假如我要构造一个聚类数为3的聚类器</span></span><br><span class="line">estimator = KMeans(n_clusters=<span class="number">3</span>)<span class="comment">#构造聚类器</span></span><br><span class="line">estimator.fit(data)<span class="comment">#聚类</span></span><br><span class="line">label_pred = estimator.labels_ <span class="comment">#获取聚类标签</span></span><br><span class="line">centroids = estimator.cluster_centers_ <span class="comment">#获取聚类中心</span></span><br><span class="line">inertia = estimator.inertia_ <span class="comment"># 获取聚类准则的总和</span></span><br><span class="line"></span><br><span class="line">print(label_pred)</span><br><span class="line">print(centroids)</span><br><span class="line">print(inertia)</span><br></pre></td></tr></table></figure>
+    <title>Java垃圾回收机制</title>
+    <url>/2020/02/20/Java%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/</url>
+    <content><![CDATA[<h1 id="Java垃圾回收机制"><a href="#Java垃圾回收机制" class="headerlink" title="Java垃圾回收机制"></a>Java垃圾回收机制</h1><h2 id="垃圾回收的意义"><a href="#垃圾回收的意义" class="headerlink" title="垃圾回收的意义"></a>垃圾回收的意义</h2><p>在C++中，对象所占的内存在程序结束运行之前一直被占用，在明确释放之前不能分配给其它对象；而在Java中，当没有对象引用指向原先分配给某个对象的内存时，该内存便成为垃圾。JVM的一个系统级线程会自动释放该内存块。<br>事实上，除了释放没用的对象，垃圾回收也可以清除内存记录碎片。由于创建对象和垃圾回收器释放丢弃对象所占的内存空间，内存会出现碎片。碎片是分配给对象的内存块之间的空闲内存洞。碎片整理将所占用的堆内存移到堆的一端，JVM将整理出的内存分配给新的对象。</p>
+<h3 id="这使Java-虚拟机具有一些优点"><a href="#这使Java-虚拟机具有一些优点" class="headerlink" title="这使Java 虚拟机具有一些优点"></a>这使Java 虚拟机具有一些优点</h3><ul>
+<li>首先，它能<strong>使编程效率提高</strong>。在没有垃圾回收机制的时候，可能要花许多时间来解决一个<strong>难懂的存储器问题。</strong></li>
+<li>其次是它<strong>保护程序的完整性</strong>（？）， 垃圾回收是Java语言安全性策略的一个重要部份。</li>
+</ul>
+<h3 id="垃圾回收的一个潜在的缺点是它的开销影响程序性能。"><a href="#垃圾回收的一个潜在的缺点是它的开销影响程序性能。" class="headerlink" title="垃圾回收的一个潜在的缺点是它的开销影响程序性能。"></a>垃圾回收的一个潜在的缺点是它的<strong>开销影响程序性能</strong>。</h3><ul>
+<li>Java虚拟机必须追踪运行程序中有用的对象，而且最终释放没用的对象。这一个过程需要<strong>花费处理器的时间。</strong></li>
+<li>其次<strong>垃圾回收算法的不完备性</strong>，<em>早先采用的某些垃圾回收算法就不能保证100%收集到所有的废弃内存。</em>随着垃圾回收算法的不断改进以及软硬件运行效率的不断提升，这些问题都可以迎刃而解。</li>
+</ul>
+<h2 id="垃圾收集的算法分析"><a href="#垃圾收集的算法分析" class="headerlink" title="垃圾收集的算法分析"></a>垃圾收集的算法分析</h2><p>Java语言规范没有明确地说明JVM使用哪种垃圾回收算法，但是任何一种垃圾回收算法一般要做2件基本的事情：<br>**1. 发现无用信息对象</p>
+<ol start="2">
+<li>回收被无用对象占用的内存空间，使该空间可被程序再次使用。**</li>
+</ol>
+<blockquote>
+<p>大多数垃圾回收算法使用了<strong>根集(root set)</strong>这个概念；所谓根集就是正在执行的Java程序可以访问的引用变量的集合(包括局部变量、参数、类变量)，程序可以使用引用变量访问对象的属性和调用对象的方法。垃圾回收首先需要确定从根开始 <strong>哪些是可达的和哪些是不可达的</strong>，从根集可达的对象都是活动对象，它们不能作为垃圾被回收，这也包括从根集间接可达的对象。而根集通过任意路径不可达的对象符合垃圾收集的条件，应该被回收。</p>
+</blockquote>
+<h3 id="1-引用计数法-Reference-Counting-Collector"><a href="#1-引用计数法-Reference-Counting-Collector" class="headerlink" title="1. 引用计数法(Reference Counting Collector)"></a>1. 引用计数法(Reference Counting Collector)</h3><p>引用计数法是<strong>唯一没有使用根集的</strong>垃圾回收的算法，该算法使用引用计数器来区分存活对象和不再使用的对象。堆中的每个对象对应一个引用计数器。<em>计数器值就加1；当引用失效时，计数器值就减1；任何时刻计数器都为0的对象就是不再被使用的，垃圾收集器将回收该对象使用的内存。</em><br>引用计数算法实现简单，效率很高，微软的COM技术、ActionScript、Python等都使用了引用计数算法进行内存管理，但是引用计数算法对于对象之间相互循环引用问题难以解决，因此java并没有使用引用计数算法。</p>
+<h4 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h4><p>基于引用计数器的垃圾收集器运行较<strong>快</strong>，<em>对程序需要不被长时间打断的实时环境比较有利。</em></p>
+<h4 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h4><p> <strong>无法检测出循环引用</strong>如父对象有一个对子对象的引用，子对象反过来引用父对象。这样，他们的引用计数永远不可能为0. 而且每次加减<strong>非常浪费内存</strong>。</p>
+<h3 id="2-tracing算法-Tracing-Collector"><a href="#2-tracing算法-Tracing-Collector" class="headerlink" title="2. tracing算法(Tracing Collector)"></a>2. tracing算法(Tracing Collector)</h3><p>tracing算法是为了解决引用计数法的问题而提出，它使用了根集的概念。基于tracing算法的垃圾收集器从根集开始扫描，识别出哪些对象可达，哪些对象不可达，并用某种方式标记可达对象，例如对每个可达对象设置一个或多个位。在扫描识别过程中，基于tracing算法的垃圾收集也称为标记和清除(mark-and-sweep)垃圾收集器.</p>
+<h3 id="3-compacting算法-Compacting-Collector"><a href="#3-compacting算法-Compacting-Collector" class="headerlink" title="3. compacting算法(Compacting Collector)"></a>3. compacting算法(Compacting Collector)</h3><p>为了<strong>解决堆碎片问题</strong>，基于tracing的垃圾回收吸收了<strong>Compacting算法</strong>的思想，在清除的过程中，算法将所有的对象移到堆的一端，堆的另一端就变成了一个相邻的空闲内存区，收集器会对它移动的所有对象的所有引用进行更新，使得这些引用在新的位置能识别原来的对象。在基于Compacting算法的收集器的实现中，一般增加<strong>句柄和句柄表</strong>。</p>
+<p>标记-整理算法在标记-清除算法基础上做了改进，标记阶段是相同的标记出所有需要回收的对象，在标记完成之后不是直接对可回收对象进行清理，而是让所有存活的对象都向一端移动，在移动过程中清理掉可回收的对象，这个过程叫做整理。<br>标记-整理算法相比标记-清除算法的优点是内存<strong>被整理以后不会产生大量不连续内存碎片问题。</strong><br>复制算法在<strong>对象存活率高的情况下</strong>就要执行较多的复制操作，效率将会变低，而在对象存活率高的情况下使用标记-整理算法效率会大大提高。</p>
+<h3 id="4-copying（复制）算法-Coping-Collector"><a href="#4-copying（复制）算法-Coping-Collector" class="headerlink" title="4. copying（复制）算法(Coping Collector)"></a>4. copying（复制）算法(Coping Collector)</h3><p>该算法的提出是为了<strong>克服句柄的开销和解决堆碎片的垃圾回收</strong>。它开始时把堆分成一个对象区和多个空闲区，程序从对象区为对象分配空间，当对象满了，基于coping算法的垃圾回收就从根集中扫描活动对象，并将每个活动对象复制到空闲区(使得活动对象所占的内存之间没有空闲间隔)，这样空闲区变成了对象区，原来的对象区变成了空闲区，程序会在新的对象区中分配内存。<br>一种典型的基于coping算法的垃圾回收是stop-and-copy算法，它将堆分成对象区和空闲区域区，在对象区与空闲区域的切换过程中，程序暂停执行。</p>
+<p>S0和s1将可用内存按容量分成大小相等的两块，每次只使用其中一块，当这块内存使用完了，就将还存活的对象复制到另一块内存上去，然后把使用过的内存空间一次清理掉。</p>
+<h4 id="优点：-1"><a href="#优点：-1" class="headerlink" title="优点："></a>优点：</h4><p>这样使得每次都是对其中一块内存进行回收，内存分配时不用考虑内存碎片等复杂情况，只需要移动堆顶指针，按顺序分配内存即可，实现简单，运行高效。</p>
+<h4 id="缺点：-1"><a href="#缺点：-1" class="headerlink" title="缺点："></a>缺点：</h4><p>可使用的内存降为原来一半。</p>
+<p>复制算法用于在<strong>新生代垃圾回收</strong></p>
+<h3 id="5-generation（分代收集）算法-Generational-Collector"><a href="#5-generation（分代收集）算法-Generational-Collector" class="headerlink" title="5. generation（分代收集）算法(Generational Collector)"></a>5. generation（分代收集）算法(Generational Collector)</h3><p>stop-and-copy垃圾收集器的一个缺陷是<strong>收集器必须复制所有的活动对象</strong>，这增加了程序等待时间，这是coping算法低效的原因。在程序设计中有这样的规律：多数对象存在的时间比较短，少数的存在时间比较长。因此，generation算法将堆分成两个或多个，每个子堆作为对象的一代(generation)。由于多数对象存在的时间比较短，随着程序丢弃不使用的对象，垃圾收集器将从最年轻的子堆中收集这些对象。在分代式的垃圾收集器运行后，上次运行存活下来的对象移到下一最高代的子堆中，由于老一代的子堆不会经常被回收，因而节省了时间。</p>
+<p>根据内存中对象的存活周期不同，将内存划分为几块，java的虚拟机中一般把内存划分为新生代和年老代，当新创建对象时一般在新生代中分配内存空间，当新生代垃圾收集器回收几次之后仍然存活的对象会被移动到年老代内存中，当大对象在新生代中无法找到足够的连续内存时也直接在年老代中创建。<br>对于新生代和老年代来说,新生代回收频率很高,但是每次回收耗时很短,而老年代回收频率较低,但是耗时会相对较长,所以应该尽量减少老年代的GC.</p>
+<h3 id="6-adaptive算法-Adaptive-Collector"><a href="#6-adaptive算法-Adaptive-Collector" class="headerlink" title="6. adaptive算法(Adaptive Collector)"></a>6. adaptive算法(Adaptive Collector)</h3><p>　　在特定的情况下，一些垃圾收集算法会优于其它算法。基于Adaptive算法的垃圾收集器就是监控当前堆的使用情况，并将选择适当算法的垃圾收集器。</p>
+<h2 id="System-gc-方法"><a href="#System-gc-方法" class="headerlink" title="System.gc()方法"></a>System.gc()方法</h2><p>使用System.gc()可以不管JVM使用的是哪一种垃圾回收的算法，都可以请求Java的垃圾回收。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestGC</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">　　    <span class="keyword">new</span> TestGC();</span><br><span class="line">　　    System.gc();</span><br><span class="line">　　    System.runFinalization();</span><br><span class="line">　　 &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>tips:调用System.gc()也仅仅是一个<strong>请求(建议)</strong>。JVM接受这个消息后，并不是立即做垃圾回收，而只是对几个垃圾回收算法做了加权，使垃圾回收操作容易发生，或提早发生，或回收较多而已。</p>
+<h2 id="finalize-方法"><a href="#finalize-方法" class="headerlink" title="finalize()方法"></a>finalize()方法</h2><p>之所以要使用finalize()，是存在着<strong>垃圾回收器不能处理的特殊情况</strong>。假定你的对象（并非使用new方法）获得了一块“特殊”的内存区域，由于垃圾回收器只知道那些显示地经由new分配的内存空间，所以它不知道该如何释放这块“特殊”的内存区域，那么这个时候java允许在类中定义一个由finalize()方法。</p>
+<p>特殊的区域如：</p>
+<ol>
+<li>由于在分配内存的时候可能采用了类似 C语言的做法，而非JAVA的通常new做法。这种情况主要发生在native method中，比如native method调用了C/C++方法malloc()函数系列来分配存储空间，但是除非调用free()函数，否则这些内存空间将不会得到释放，那么这个时候就可能造成内存泄漏。但是由于free()方法是在C/C++中的函数，所以finalize()中可以用本地方法来调用它。以释放这些“特殊”的内存空间。</li>
+<li>又或者打开的<strong>文件资源</strong>，这些资源不属于垃圾回收器的回收范围。</li>
+</ol>
+<h2 id="触发主GC（Garbage-Collector）的条件"><a href="#触发主GC（Garbage-Collector）的条件" class="headerlink" title="触发主GC（Garbage Collector）的条件"></a>触发主GC（Garbage Collector）的条件</h2><p>JVM进行次GC的频率很高,但因为这种GC占用时间极短,所以对系统产生的影响不大。<br>总的来说,有两个条件会触发主GC:</p>
+<ol>
+<li>当<strong>没有应用线程在运行时</strong>,GC会被调用。因为<strong>GC在优先级最低的线程中进行</strong>,所以当应用忙时,GC线程就不会被调用,但以下条件除外。</li>
+<li><strong>Java堆内存不足时</strong>,GC会被调用。当应用线程在运行,并在运行过程中创建新对象,若这时内存空间不足,JVM就会强制地调用GC线程,以便回收内存用于新的分配。若GC一次之后仍不能满足内存分配的要求,<strong>JVM会再进行两次GC</strong>作进一步的尝试,若仍无法满足要求,则 JVM将报“out of memory”的错误,Java应用将停止。</li>
+</ol>
+<h2 id="减少GC开销的措施"><a href="#减少GC开销的措施" class="headerlink" title="减少GC开销的措施"></a>减少GC开销的措施</h2><h3 id="1-不要显式调用System-gc"><a href="#1-不要显式调用System-gc" class="headerlink" title="1. 不要显式调用System.gc()"></a>1. 不要显式调用System.gc()</h3><p> 此函数建议JVM进行主GC,虽然只是建议而非一定,但很多情况下它会触发主GC,从而增加主GC的频率,也即增加了间歇性停顿的次数。</p>
+<h3 id="2-尽量减少临时对象的使用"><a href="#2-尽量减少临时对象的使用" class="headerlink" title="2. 尽量减少临时对象的使用"></a>2. 尽量减少临时对象的使用</h3><p> 临时对象在跳出函数调用后,会成为垃圾,少用临时变量就相当于减少了垃圾的产生,从而延长了出现上述第二个触发条件出现的时间,减少了主GC的机会。</p>
+<h3 id="3-对象不用时最好显式置为Null"><a href="#3-对象不用时最好显式置为Null" class="headerlink" title="3. 对象不用时最好显式置为Null"></a>3. 对象不用时最好显式置为Null</h3><p> 为Null的对象都会被作为垃圾处理,所以将不用的对象显式地设为Null,有利于GC收集器判定垃圾,从而提高了GC的效率。</p>
+<h3 id="4-尽量使用StringBuffer-而不用String来累加字符串"><a href="#4-尽量使用StringBuffer-而不用String来累加字符串" class="headerlink" title="4. 尽量使用StringBuffer,而不用String来累加字符串"></a>4. 尽量使用StringBuffer,而不用String来累加字符串</h3><p>  由于String是固定长的字符串对象,累加String对象时,并非在一个String对象中扩增,而是重新创建新的String对象,如Str5=Str1+Str2+Str3+Str4,这条语句执行过程中会产生多个垃圾对象,因为对次作“+”操作时都必须创建新的String对象,但这些过渡对象对系统来说是没有实际意义的,只会增加更多的垃圾。避免这种情况可以改用StringBuffer来累加字符串,因StringBuffer是可变长的,它在原有基础上进行扩增,不会产生中间对象。</p>
+<h3 id="5-能用基本类型如Int-Long-就不用Integer-Long对象"><a href="#5-能用基本类型如Int-Long-就不用Integer-Long对象" class="headerlink" title="5.  能用基本类型如Int,Long,就不用Integer,Long对象"></a>5.  能用基本类型如Int,Long,就不用Integer,Long对象</h3><p>基本类型变量占用的内存资源比相应对象占用的少得多,如果没有必要,最好使用基本变量。</p>
+<h3 id="6-尽量少用静态对象变量"><a href="#6-尽量少用静态对象变量" class="headerlink" title="6. 尽量少用静态对象变量"></a>6. 尽量少用静态对象变量</h3><p>静态变量属于全局变量,不会被GC回收,它们会一直占用内存。</p>
+<h3 id="7-分散对象创建或删除的时间"><a href="#7-分散对象创建或删除的时间" class="headerlink" title="7. 分散对象创建或删除的时间"></a>7. 分散对象创建或删除的时间</h3><p>集中在短时间内大量创建新对象,特别是大对象,会导致突然需要大量内存,JVM在面临这种情况时,只能进行主GC,以回收内存或整合内存碎片,从而增加主GC的频率。集中删除对象,道理也是一样的。它使得突然出现了大量的垃圾对象,空闲空间必然减少,从而大大增加了下一次创建新对象时强制主GC的机会。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Chair</span> </span>&#123;</span><br><span class="line">　　<span class="keyword">static</span> <span class="keyword">boolean</span> gcrun = <span class="keyword">false</span>;</span><br><span class="line">　　<span class="keyword">static</span> <span class="keyword">boolean</span> f = <span class="keyword">false</span>;</span><br><span class="line">　　<span class="keyword">static</span> <span class="keyword">int</span> created = <span class="number">0</span>;</span><br><span class="line">　　<span class="keyword">static</span> <span class="keyword">int</span> finalized = <span class="number">0</span>;</span><br><span class="line">　　<span class="keyword">int</span> i;</span><br><span class="line">　　Chair() &#123;</span><br><span class="line">　　    i = ++created;</span><br><span class="line">　　    <span class="keyword">if</span>(created == <span class="number">47</span>)</span><br><span class="line">　　　      System.out.println(<span class="string">"Created 47"</span>);</span><br><span class="line">　　&#125;</span><br><span class="line">　　<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">finalize</span><span class="params">()</span> </span>&#123;</span><br><span class="line">　　    <span class="keyword">if</span>(!gcrun) &#123;</span><br><span class="line">　　　      gcrun = <span class="keyword">true</span>;</span><br><span class="line">　　　      System.out.println(<span class="string">"Beginning to finalize after "</span> + created + <span class="string">" Chairs have been created"</span>);</span><br><span class="line">　　    &#125;</span><br><span class="line">　　    <span class="keyword">if</span>(i == <span class="number">47</span>) &#123;</span><br><span class="line">　　　      System.out.println(<span class="string">"Finalizing Chair #47， "</span> +<span class="string">"Setting flag to stop Chair creation"</span>);</span><br><span class="line">　　　      f = <span class="keyword">true</span>;</span><br><span class="line">　　    &#125;</span><br><span class="line">　　    finalized++;</span><br><span class="line">　　    <span class="keyword">if</span>(finalized &gt;= created)</span><br><span class="line">　　　      System.out.println(<span class="string">"All "</span> + finalized + <span class="string">" finalized"</span>);</span><br><span class="line">　　&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Garbage</span> </span>&#123;</span><br><span class="line">　　<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">　　<span class="keyword">if</span>(args.length == <span class="number">0</span>) &#123;</span><br><span class="line">　　　  System.err.println(<span class="string">"Usage: /n"</span> + <span class="string">"java Garbage before/n or:/n"</span> + <span class="string">"java Garbage after"</span>);</span><br><span class="line">　　　  <span class="keyword">return</span>;</span><br><span class="line">　　&#125;</span><br><span class="line">　　<span class="keyword">while</span>(!Chair.f) &#123;</span><br><span class="line">　　　  <span class="keyword">new</span> Chair();</span><br><span class="line">　　　  <span class="keyword">new</span> String(<span class="string">"To take up space"</span>);</span><br><span class="line">　　&#125;</span><br><span class="line">　　System.out.println(<span class="string">"After all Chairs have been created:/n"</span> + <span class="string">"total created = "</span> + Chair.created +</span><br><span class="line">　　<span class="string">"， total finalized = "</span> + Chair.finalized);</span><br><span class="line">　　<span class="keyword">if</span>(args[<span class="number">0</span>].equals(<span class="string">"before"</span>)) &#123;</span><br><span class="line">　　　　System.out.println(<span class="string">"gc():"</span>);</span><br><span class="line">　　　　System.gc();</span><br><span class="line">　　　　System.out.println(<span class="string">"runFinalization():"</span>);</span><br><span class="line">　　　　System.runFinalization();</span><br><span class="line">　　&#125;</span><br><span class="line">　　System.out.println(<span class="string">"bye!"</span>);</span><br><span class="line">　　<span class="keyword">if</span>(args[<span class="number">0</span>].equals(<span class="string">"after"</span>))</span><br><span class="line">　　　  System.runFinalizersOnExit(<span class="keyword">true</span>);</span><br><span class="line">　　&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <blockquote>
-<p>当数据量很大的时候，Kmeans 显然还是很弱的，会比较耗费内存速度也会收到很大影响。scikit-learn 提供了MiniBatchKMeans算法，大致思想就是对数据进行抽样，每次不使用所有的数据来计算，这就会导致准确率的损失。</p>
+<p>上面这个程序创建了许多Chair对象，而且在垃圾收集器开始运行后的某些时候，程序会停止创建Chair。由于垃圾收集器可能在任何时间运行，所以我们不能准确知道它在何时启动。因此，程序用一个名为gcrun的标记来指出垃圾收集器是否已经开始运行。利用第二个标记f，Chair可告诉main()它应停止对象的生成。这两个标记都是在finalize()内部设置的，它调用于垃圾收集期间。另两个static变量–created以及 finalized–分别用于跟踪已创建的对象数量以及垃圾收集器已进行完收尾工作的对象数量。最后，每个Chair都有它自己的（非 static）int i，所以能跟踪了解它具体的编号是多少。编号为47的Chair进行完收尾工作后，标记会设为true，最终结束Chair对象的创建过程。</p>
 </blockquote>
-<p>做了实验后，文本聚类效果不是很好（直接使用可视化），原因：数据太少了。</p>
+<h2 id="关于垃圾回收的几点补充"><a href="#关于垃圾回收的几点补充" class="headerlink" title="关于垃圾回收的几点补充"></a>关于垃圾回收的几点补充</h2><ul>
+<li>垃圾收集发生的<strong>不可预知性</strong>：由于实现了不同的垃圾回收算法和采用了不同的收集机制，所以它有可能是定时发生，有可能是当出现系统空闲CPU资源时发生，也有可能是和原始的垃圾收集一样，等到内存消耗出现极限时发生，这与垃圾收集器的选择和具体的设置都有关系。</li>
+<li>垃圾收集的实现和<strong>具体的JVM 以及JVM的内存模型</strong>有非常紧密的关系。不同的JVM 可能采用不同的垃圾收集，而<strong>JVM 的内存模型决定着该JVM可以采用哪些类型垃圾收集</strong>。现在，<strong>HotSpot 系列</strong>JVM中的内存系统都采用先进的面向对象的框架设计，这使得该系列JVM都可以采用最先进的垃圾收集。</li>
+<li><strong>尽早释放无用对象的引用。</strong>大多数程序员在使用临时变量的时候，都是让引用变量在退出活动域(scope)后，自动设置为null，暗示垃圾收集器来收集该对象，还必须注意该引用的<strong>对象是否被监听</strong>，如果有，则要<strong>去掉监听器，然后再赋空值</strong>。</li>
+<li>关键的也是难把握的问题是<strong>内存泄漏</strong>。良好的编程习惯和严谨的编程态度永远是最重要的，不要让自己的一个小错误导致内存出现大漏洞。</li>
+</ul>
+<p>博客参考：<br><a href="https://blog.csdn.net/zsuguangh/article/details/6429592" target="_blank" rel="noopener">https://blog.csdn.net/zsuguangh/article/details/6429592</a><br><a href="https://blog.csdn.net/zhangcongyi420/article/details/89060970" target="_blank" rel="noopener">https://blog.csdn.net/zhangcongyi420/article/details/89060970</a></p>
 ]]></content>
+      <tags>
+        <tag>Java</tag>
+      </tags>
   </entry>
   <entry>
     <title>MySQL安装踩坑手记</title>
@@ -455,6 +455,26 @@
       </tags>
   </entry>
   <entry>
+    <title>Python词云</title>
+    <url>/2020/02/13/Python%E8%AF%8D%E4%BA%91/</url>
+    <content><![CDATA[<p>配置</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pip install numpy matplotlib pillow wordcloud imageio jieba snownlp itchat -i https://pypi.tuna.tsinghua.edu.cn/simple</span><br></pre></td></tr></table></figure>
+
+<p>用清华的镜像速度好评</p>
+<p>网上提供的图片素材太少了，只好用自己一般的画工作图</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> jieba</span><br><span class="line"><span class="keyword">import</span> wordcloud</span><br><span class="line"></span><br><span class="line"><span class="comment"># 导入imageio库中的imread函数，并用这个函数读取本地图片，作为词云形状图片</span></span><br><span class="line"><span class="keyword">import</span> imageio</span><br><span class="line">mk = imageio.imread(<span class="string">"xiaolan.png"</span>)</span><br><span class="line">w = wordcloud.WordCloud(mask=mk)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 构建并配置词云对象w，注意要加scale参数，提高清晰度</span></span><br><span class="line">w = wordcloud.WordCloud(width=<span class="number">1000</span>,</span><br><span class="line">                        height=<span class="number">700</span>,</span><br><span class="line">                        background_color=<span class="string">'white'</span>,</span><br><span class="line">                        font_path=<span class="string">'simkai.ttf'</span>,</span><br><span class="line">                        mask=mk,</span><br><span class="line">                        scale=<span class="number">15</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 对来自外部文件的文本进行中文分词，得到string  ，有可能会遇到编码问题，这个可以根据报错来</span></span><br><span class="line">f = open(<span class="string">'知乎甜话.txt'</span>)</span><br><span class="line">txt = f.read()</span><br><span class="line">txtlist = jieba.lcut(txt)</span><br><span class="line">string = <span class="string">" "</span>.join(txtlist)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将string变量传入w的generate()方法，给词云输入文字</span></span><br><span class="line">w.generate(string)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将词云图片导出到当前文件夹</span></span><br><span class="line">w.to_file(<span class="string">'chao1.png'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>上传不了图片！</p>
+<p>TODO：颜色 &amp; 字体</p>
+]]></content>
+      <categories>
+        <category>Pyhton</category>
+      </categories>
+      <tags>
+        <tag>sth.interesting</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>NLP入门之文本分类</title>
     <url>/2020/02/12/NLP%E5%85%A5%E9%97%A8%E4%B9%8B%E6%96%87%E6%9C%AC%E5%88%86%E7%B1%BB/</url>
     <content><![CDATA[<h2 id="基本定义"><a href="#基本定义" class="headerlink" title="基本定义"></a>基本定义</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> jieba</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> warnings</span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> metrics</span><br><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> LabelEncoder</span><br><span class="line"><span class="keyword">from</span> sklearn.feature_extraction.text <span class="keyword">import</span> CountVectorizer</span><br><span class="line">warnings.filterwarnings(<span class="string">'ignore'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> xlrd <span class="comment"># 也可以使用pandas处理excel，非常好用</span></span><br><span class="line">workbook = xlrd.open_workbook(<span class="string">r'F:\C_1\train\train.xlsx'</span>)</span><br><span class="line">sheet = workbook.sheet_by_index(<span class="number">0</span>) <span class="comment"># sheet索引从0开始</span></span><br><span class="line">cols_1 = sheet.col_values(<span class="number">4</span>) <span class="comment"># 获取第3列内容</span></span><br><span class="line">cols_2 = sheet.col_values(<span class="number">5</span>)</span><br><span class="line">X_train = cols_1</span><br><span class="line">y_train = cols_2</span><br><span class="line"></span><br><span class="line">workbook1 = xlrd.open_workbook(<span class="string">r'F:\C_1\test\test.xlsx'</span>)</span><br><span class="line">sheet = workbook1.sheet_by_index(<span class="number">0</span>)</span><br><span class="line">cols_3 = sheet.col_values(<span class="number">4</span>)</span><br><span class="line">cols_4 = sheet.col_values(<span class="number">5</span>)</span><br><span class="line">X_test = cols_3</span><br><span class="line">y_test = cols_4</span><br><span class="line"></span><br><span class="line"><span class="comment"># 去掉空格</span></span><br><span class="line">X_train_word = [jieba.cut(words) <span class="keyword">for</span> words <span class="keyword">in</span> X_train]</span><br><span class="line">X_train_cut = [<span class="string">' '</span>.join(word) <span class="keyword">for</span> word <span class="keyword">in</span> X_train_word]</span><br><span class="line">X_test_word = [jieba.cut(words) <span class="keyword">for</span> words <span class="keyword">in</span> X_test]</span><br><span class="line">X_test_cut  = [<span class="string">' '</span>.join(word) <span class="keyword">for</span> word <span class="keyword">in</span> X_test_word]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 停止词使用</span></span><br><span class="line">stoplist = [word.strip() <span class="keyword">for</span> word <span class="keyword">in</span> open(<span class="string">'F:\MLstudy\stop\stopword.txt'</span>, \</span><br><span class="line">                                           encoding=<span class="string">'utf-8'</span>).readlines()]</span><br><span class="line"><span class="comment"># from sklearn.preprocessing import LabelEncoder</span></span><br><span class="line">le = LabelEncoder()</span><br><span class="line">y_train_le = le.fit_transform(y_train)</span><br><span class="line">y_test_le  = le.fit_transform(y_test)</span><br><span class="line"></span><br><span class="line"><span class="comment">#文本数据转换成数据值数据矩阵</span></span><br><span class="line"><span class="comment"># from sklearn.feature_extraction.text import CountVectorizer</span></span><br><span class="line">count = CountVectorizer(stop_words=stoplist)</span><br><span class="line"></span><br><span class="line">count.fit(list(X_train_cut) + list(X_test_cut))</span><br><span class="line">X_train_count = count.transform(X_train_cut)</span><br><span class="line">X_test_count  = count.transform(X_test_cut)</span><br><span class="line"></span><br><span class="line">X_train_count = X_train_count.toarray()</span><br><span class="line">X_test_count  = X_test_count.toarray()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 用于存储所有算法的名字，准确率和所消耗的时间</span></span><br><span class="line">estimator_list, score_list, time_list = [], [], []</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_text_classification</span><span class="params">(estimator, X, y, X_test, y_test)</span>:</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    estimator: 分类器，必选参数</span></span><br><span class="line"><span class="string">            X: 特征训练数据，必选参数</span></span><br><span class="line"><span class="string">            y: 标签训练数据，必选参数</span></span><br><span class="line"><span class="string">       X_test: 特征测试数据，必选参数</span></span><br><span class="line"><span class="string">        y_tes: 标签测试数据，必选参数</span></span><br><span class="line"><span class="string">       return: 返回值</span></span><br><span class="line"><span class="string">           y_pred_model: 预测值</span></span><br><span class="line"><span class="string">             classifier: 分类器名字</span></span><br><span class="line"><span class="string">                  score: 准确率</span></span><br><span class="line"><span class="string">                      t: 消耗的时间</span></span><br><span class="line"><span class="string">                  matrix: 混淆矩阵</span></span><br><span class="line"><span class="string">                  report: 分类评价函数</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    start = time.time()</span><br><span class="line"></span><br><span class="line">    print(<span class="string">'\n&gt;&gt;&gt;算法正在启动，请稍候...'</span>)</span><br><span class="line">    model = estimator</span><br><span class="line"></span><br><span class="line">    print(<span class="string">'\n&gt;&gt;&gt;算法正在进行训练，请稍候...'</span>)</span><br><span class="line">    model.fit(X, y)</span><br><span class="line">    print(model)</span><br><span class="line"></span><br><span class="line">    print(<span class="string">'\n&gt;&gt;&gt;算法正在进行预测，请稍候...'</span>)</span><br><span class="line">    y_pred_model = model.predict(X_test)</span><br><span class="line">    print(y_pred_model)</span><br><span class="line"></span><br><span class="line">    print(<span class="string">'\n&gt;&gt;&gt;算法正在进行性能评估，请稍候...'</span>)</span><br><span class="line">    score = metrics.accuracy_score(y_test, y_pred_model)</span><br><span class="line">    matrix = metrics.confusion_matrix(y_test, y_pred_model)</span><br><span class="line">    report = metrics.classification_report(y_test, y_pred_model)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#     f1 = metrics.f1_score(y_test, y_pred_model,average='weighted') #这是加权的</span></span><br><span class="line">    f1 = metrics.f1_score(y_test, y_pred_model, average=<span class="string">'macro'</span>)</span><br><span class="line">    print(<span class="string">'&gt;&gt;&gt;准确率\n'</span>, score)</span><br><span class="line">    print(<span class="string">'\n&gt;&gt;&gt;混淆矩阵\n'</span>, matrix)</span><br><span class="line">    print(<span class="string">'\n&gt;&gt;&gt;召回率\n'</span>, report)</span><br><span class="line">    print(<span class="string">'\n&gt;&gt;&gt;F1 score\n'</span>, f1)</span><br><span class="line">    print(<span class="string">'&gt;&gt;&gt;算法程序已经结束...'</span>)</span><br><span class="line"></span><br><span class="line">    end = time.time()</span><br><span class="line">    t = end - start</span><br><span class="line">    print(<span class="string">'\n&gt;&gt;&gt;算法消耗时间为：'</span>, t, <span class="string">'秒\n'</span>)</span><br><span class="line">    classifier = str(model).split(<span class="string">'('</span>)[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> y_pred_model, classifier, score, round(t, <span class="number">2</span>), matrix, report</span><br></pre></td></tr></table></figure>
@@ -507,31 +527,41 @@
 <script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">]]></content>
   </entry>
   <entry>
-    <title>Python词云</title>
-    <url>/2020/02/13/Python%E8%AF%8D%E4%BA%91/</url>
-    <content><![CDATA[<p>配置</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pip install numpy matplotlib pillow wordcloud imageio jieba snownlp itchat -i https://pypi.tuna.tsinghua.edu.cn/simple</span><br></pre></td></tr></table></figure>
-
-<p>用清华的镜像速度好评</p>
-<p>网上提供的图片素材太少了，只好用自己一般的画工作图</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> jieba</span><br><span class="line"><span class="keyword">import</span> wordcloud</span><br><span class="line"></span><br><span class="line"><span class="comment"># 导入imageio库中的imread函数，并用这个函数读取本地图片，作为词云形状图片</span></span><br><span class="line"><span class="keyword">import</span> imageio</span><br><span class="line">mk = imageio.imread(<span class="string">"xiaolan.png"</span>)</span><br><span class="line">w = wordcloud.WordCloud(mask=mk)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 构建并配置词云对象w，注意要加scale参数，提高清晰度</span></span><br><span class="line">w = wordcloud.WordCloud(width=<span class="number">1000</span>,</span><br><span class="line">                        height=<span class="number">700</span>,</span><br><span class="line">                        background_color=<span class="string">'white'</span>,</span><br><span class="line">                        font_path=<span class="string">'simkai.ttf'</span>,</span><br><span class="line">                        mask=mk,</span><br><span class="line">                        scale=<span class="number">15</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 对来自外部文件的文本进行中文分词，得到string  ，有可能会遇到编码问题，这个可以根据报错来</span></span><br><span class="line">f = open(<span class="string">'知乎甜话.txt'</span>)</span><br><span class="line">txt = f.read()</span><br><span class="line">txtlist = jieba.lcut(txt)</span><br><span class="line">string = <span class="string">" "</span>.join(txtlist)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将string变量传入w的generate()方法，给词云输入文字</span></span><br><span class="line">w.generate(string)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将词云图片导出到当前文件夹</span></span><br><span class="line">w.to_file(<span class="string">'chao1.png'</span>)</span><br></pre></td></tr></table></figure>
-
-<p>上传不了图片！</p>
-<p>TODO：颜色 &amp; 字体</p>
+    <title>hadoop</title>
+    <url>/2019/11/29/hadoop/</url>
+    <content><![CDATA[<blockquote>
+<p>sudo useradd -m hadoop -s /bin/bash</p>
+</blockquote>
+<blockquote>
+<p>sudo passwd hadoop</p>
+</blockquote>
+<blockquote>
+<p>sudo adduser hadoop sudo</p>
+</blockquote>
+<blockquote>
+<p>ssh localhost</p>
+</blockquote>
+<blockquote>
+<p>cd ~/.ssh/    # 若没有该目录，请先执行一次ssh localhost</p>
+</blockquote>
+<blockquote>
+<p>ssh-keygen -t dsa    # 会有提示，都按回车就可以</p>
+</blockquote>
+<blockquote>
+<p>cat id_dsa.pub &gt;&gt; authorized_keys   # 加入授权 id_rsa是私钥 id_rsa.pub</p>
+</blockquote>
+<blockquote>
+<p>chmod 600 ./authorized_keys </p>
+</blockquote>
+<p>对于伪分布式，需要修改相应的配置文件</p>
+<p>尝试了五六次，Hadoop至今没有搭建好，感觉VM很不上手，各种bug抛出<br>TODO：有机会一定要安装好！</p>
 ]]></content>
       <categories>
-        <category>Pyhton</category>
+        <category>大数据</category>
       </categories>
       <tags>
-        <tag>sth.interesting</tag>
+        <tag>大数据</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>ideaVim-easymotion 插件</title>
-    <url>/2020/02/23/ideaVim-easymotion%20%E6%8F%92%E4%BB%B6/</url>
-    <content><![CDATA[<h4 id="作用：辅助（优化）ideaVim的"><a href="#作用：辅助（优化）ideaVim的" class="headerlink" title="作用：辅助（优化）ideaVim的"></a>作用：辅助（优化）ideaVim的</h4><p>主要是通过提升了<strong>跳转</strong>方式<br>一般的：<br><code>gg, G</code>最上、最下<br><code>Ctrl-D/U</code>下几步，上几步</p>
-<p>网上教程不多，具体更多详细教程：<br><a href="http://www.wklken.me/posts/2015/06/07/vim-plugin-easymotion.html" target="_blank" rel="noopener">http://www.wklken.me/posts/2015/06/07/vim-plugin-easymotion.html</a></p>
-]]></content>
   </entry>
   <entry>
     <title>R语言（DrImpute &amp; VIPER）</title>
@@ -615,40 +645,56 @@
       </tags>
   </entry>
   <entry>
-    <title>hadoop</title>
-    <url>/2019/11/29/hadoop/</url>
-    <content><![CDATA[<blockquote>
-<p>sudo useradd -m hadoop -s /bin/bash</p>
-</blockquote>
-<blockquote>
-<p>sudo passwd hadoop</p>
-</blockquote>
-<blockquote>
-<p>sudo adduser hadoop sudo</p>
-</blockquote>
-<blockquote>
-<p>ssh localhost</p>
-</blockquote>
-<blockquote>
-<p>cd ~/.ssh/    # 若没有该目录，请先执行一次ssh localhost</p>
-</blockquote>
-<blockquote>
-<p>ssh-keygen -t dsa    # 会有提示，都按回车就可以</p>
-</blockquote>
-<blockquote>
-<p>cat id_dsa.pub &gt;&gt; authorized_keys   # 加入授权 id_rsa是私钥 id_rsa.pub</p>
-</blockquote>
-<blockquote>
-<p>chmod 600 ./authorized_keys </p>
-</blockquote>
-<p>对于伪分布式，需要修改相应的配置文件</p>
-<p>尝试了五六次，Hadoop至今没有搭建好，感觉VM很不上手，各种bug抛出<br>TODO：有机会一定要安装好！</p>
+    <title>ideaVim-easymotion 插件</title>
+    <url>/2020/02/23/ideaVim-easymotion%20%E6%8F%92%E4%BB%B6/</url>
+    <content><![CDATA[<h4 id="作用：辅助（优化）ideaVim的"><a href="#作用：辅助（优化）ideaVim的" class="headerlink" title="作用：辅助（优化）ideaVim的"></a>作用：辅助（优化）ideaVim的</h4><p>主要是通过提升了<strong>跳转</strong>方式<br>一般的：<br><code>gg, G</code>最上、最下<br><code>Ctrl-D/U</code>下几步，上几步</p>
+<p>网上教程不多，具体更多详细教程：<br><a href="http://www.wklken.me/posts/2015/06/07/vim-plugin-easymotion.html" target="_blank" rel="noopener">http://www.wklken.me/posts/2015/06/07/vim-plugin-easymotion.html</a></p>
 ]]></content>
+  </entry>
+  <entry>
+    <title>leetcode之数组类</title>
+    <url>/2020/02/19/leetcode%E6%95%B0%E7%BB%84%E7%B1%BB/</url>
+    <content><![CDATA[<p><em>使用C/C++做法</em></p>
+<h3 id="主要元素"><a href="#主要元素" class="headerlink" title="主要元素"></a>主要元素</h3><p><a href="https://leetcode-cn.com/problems/find-majority-element-lcci/" target="_blank" rel="noopener">https://leetcode-cn.com/problems/find-majority-element-lcci/</a></p>
+<p>快排</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i + k &lt; numsSize ;i++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(nums[i] == nums[i+k])</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> nums[i];</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>超时</p>
+<blockquote>
+<p><strong>摩尔投票算法</strong>是基于这个事实：每次从序列里选择两个不相同的数字删除掉（或称为“抵消”），最后剩下一个数字或几个相同的数字，就是出现次数大于总数一半的那个。<br>核心就是<strong>对拼消耗</strong>。<br>知乎讲解：<a href="https://www.zhihu.com/question/49973163" target="_blank" rel="noopener">https://www.zhihu.com/question/49973163</a></p>
+</blockquote>
+<h2 id="消失的数字"><a href="#消失的数字" class="headerlink" title="消失的数字"></a>消失的数字</h2><p><a href="https://leetcode-cn.com/problems/missing-number-lcci/" target="_blank" rel="noopener">https://leetcode-cn.com/problems/missing-number-lcci/</a></p>
+<blockquote>
+<p>M：<br>构建一个辅助数组，遇到了就是0，没有遇到就是1，最后再找到那个值</p>
+</blockquote>
+<ol>
+<li><p>第一种方法：<br>1）计算总和<br>2）用数列公式 - 总和</p>
+</li>
+<li><p>第二种方法：<br>1）边加边减</p>
+</li>
+</ol>
+<h2 id="合并排序的数组"><a href="#合并排序的数组" class="headerlink" title="合并排序的数组"></a>合并排序的数组</h2><p><a href="https://leetcode-cn.com/problems/sorted-merge-lcci/" target="_blank" rel="noopener">https://leetcode-cn.com/problems/sorted-merge-lcci/</a></p>
+<blockquote>
+<p>方法 1: 直接合并后排序<br>方法 2: 双指针<br>方法3：逆向双指针 （不需要额外开辟空间，但前提是前一个的容量要足够大）</p>
+</blockquote>
+<h2 id="连续数列"><a href="#连续数列" class="headerlink" title="连续数列"></a>连续数列</h2><p><a href="https://leetcode-cn.com/problems/contiguous-sequence-lcci/" target="_blank" rel="noopener">https://leetcode-cn.com/problems/contiguous-sequence-lcci/</a></p>
+<blockquote>
+<p>题的关键是要理解这么一层含义：对于数组 nums = [5, -9, 6, -2, 3]，5 是否要加 -9，取决于 -9 后面的正数是否能抵消 -9 并还有剩余。<br>一般称这种为贪心问题</p>
+</blockquote>
+<p><strong>动态规划</strong></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxSubArray</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> b = nums[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">int</span> sum = b;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i&lt;nums.length;i++)&#123;</span><br><span class="line">			<span class="comment">//b = b&lt;0? nums[i]:b+nums[i];</span></span><br><span class="line">            <span class="keyword">if</span>(b&lt;<span class="number">0</span>)&#123;</span><br><span class="line">                b=nums[i];</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                b+=nums[i];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(b&gt;sum)&#123;</span><br><span class="line">                sum=b;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sum;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>分治算法</strong></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 分治法</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxSubArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(nums.size() == <span class="number">0</span>) <span class="keyword">return</span> INT_MIN;</span><br><span class="line">    <span class="keyword">return</span> divide(nums,<span class="number">0</span>,nums.size()<span class="number">-1</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">divide</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> left, <span class="keyword">int</span> right)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(left == right) <span class="keyword">return</span> nums[left];</span><br><span class="line">    <span class="keyword">int</span> mid = (left + right) / <span class="number">2</span>;</span><br><span class="line">    <span class="comment">// 1. 最大数列和在左边</span></span><br><span class="line">    <span class="keyword">int</span> sumLeft = divide(nums,left,mid);</span><br><span class="line">    <span class="comment">// 2. 最大数列和在右边</span></span><br><span class="line">    <span class="keyword">int</span> sumRight = divide(nums,mid+<span class="number">1</span>,right);</span><br><span class="line">    <span class="comment">// 3. 最大数列和在中间</span></span><br><span class="line">    <span class="comment">// 先求左边的最大和</span></span><br><span class="line">    <span class="keyword">int</span> leftSum = <span class="number">0</span>,leftMaxSum = INT_MIN;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = mid; i &gt;= left; i--)</span><br><span class="line">    &#123;</span><br><span class="line">        leftSum += nums[i];</span><br><span class="line">        leftMaxSum = max(leftMaxSum,leftSum);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 求右边的最大和</span></span><br><span class="line">    <span class="keyword">int</span> rightSum = <span class="number">0</span>,rightMaxSum = INT_MIN;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = mid + <span class="number">1</span>; i &lt;= right; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        rightSum += nums[i];</span><br><span class="line">        rightMaxSum = max(rightMaxSum,rightSum);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> max(max(sumLeft,sumRight),leftMaxSum+rightMaxSum);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="在排序数组中查找数字-I"><a href="#在排序数组中查找数字-I" class="headerlink" title="在排序数组中查找数字 I"></a>在排序数组中查找数字 I</h2><p><a href="https://leetcode-cn.com/problems/zai-pai-xu-shu-zu-zhong-cha-zhao-shu-zi-lcof/" target="_blank" rel="noopener">https://leetcode-cn.com/problems/zai-pai-xu-shu-zu-zhong-cha-zhao-shu-zi-lcof/</a></p>
+<p><strong>二分查找法找到第一次出现的位置和最后一次出现的位置</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">search</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">0</span>, j = nums.length - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span>(i &lt;= j) &#123;</span><br><span class="line">            <span class="keyword">int</span> m = (i + j) / <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span>(nums[m] &lt;= target) i = m + <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">else</span> j = m - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> right = i;</span><br><span class="line"></span><br><span class="line">        i = <span class="number">0</span>; j = nums.length - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span>(i &lt;= j) &#123;</span><br><span class="line">            <span class="keyword">int</span> m = (i + j) / <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span>(nums[m] &lt; target) i = m + <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">else</span> j = m - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> left = j;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> right - left - <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
-        <category>大数据</category>
+        <category>leetcode</category>
       </categories>
       <tags>
-        <tag>大数据</tag>
+        <tag>leetcode</tag>
       </tags>
   </entry>
   <entry>
@@ -700,52 +746,6 @@
       </tags>
   </entry>
   <entry>
-    <title>leetcode之数组类</title>
-    <url>/2020/02/19/leetcode%E6%95%B0%E7%BB%84%E7%B1%BB/</url>
-    <content><![CDATA[<p><em>使用C/C++做法</em></p>
-<h3 id="主要元素"><a href="#主要元素" class="headerlink" title="主要元素"></a>主要元素</h3><p><a href="https://leetcode-cn.com/problems/find-majority-element-lcci/" target="_blank" rel="noopener">https://leetcode-cn.com/problems/find-majority-element-lcci/</a></p>
-<p>快排</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i + k &lt; numsSize ;i++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(nums[i] == nums[i+k])</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> nums[i];</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>超时</p>
-<blockquote>
-<p><strong>摩尔投票算法</strong>是基于这个事实：每次从序列里选择两个不相同的数字删除掉（或称为“抵消”），最后剩下一个数字或几个相同的数字，就是出现次数大于总数一半的那个。<br>核心就是<strong>对拼消耗</strong>。<br>知乎讲解：<a href="https://www.zhihu.com/question/49973163" target="_blank" rel="noopener">https://www.zhihu.com/question/49973163</a></p>
-</blockquote>
-<h2 id="消失的数字"><a href="#消失的数字" class="headerlink" title="消失的数字"></a>消失的数字</h2><p><a href="https://leetcode-cn.com/problems/missing-number-lcci/" target="_blank" rel="noopener">https://leetcode-cn.com/problems/missing-number-lcci/</a></p>
-<blockquote>
-<p>M：<br>构建一个辅助数组，遇到了就是0，没有遇到就是1，最后再找到那个值</p>
-</blockquote>
-<ol>
-<li><p>第一种方法：<br>1）计算总和<br>2）用数列公式 - 总和</p>
-</li>
-<li><p>第二种方法：<br>1）边加边减</p>
-</li>
-</ol>
-<h2 id="合并排序的数组"><a href="#合并排序的数组" class="headerlink" title="合并排序的数组"></a>合并排序的数组</h2><p><a href="https://leetcode-cn.com/problems/sorted-merge-lcci/" target="_blank" rel="noopener">https://leetcode-cn.com/problems/sorted-merge-lcci/</a></p>
-<blockquote>
-<p>方法 1: 直接合并后排序<br>方法 2: 双指针<br>方法3：逆向双指针 （不需要额外开辟空间，但前提是前一个的容量要足够大）</p>
-</blockquote>
-<h2 id="连续数列"><a href="#连续数列" class="headerlink" title="连续数列"></a>连续数列</h2><p><a href="https://leetcode-cn.com/problems/contiguous-sequence-lcci/" target="_blank" rel="noopener">https://leetcode-cn.com/problems/contiguous-sequence-lcci/</a></p>
-<blockquote>
-<p>题的关键是要理解这么一层含义：对于数组 nums = [5, -9, 6, -2, 3]，5 是否要加 -9，取决于 -9 后面的正数是否能抵消 -9 并还有剩余。<br>一般称这种为贪心问题</p>
-</blockquote>
-<p><strong>动态规划</strong></p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxSubArray</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> b = nums[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">int</span> sum = b;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i&lt;nums.length;i++)&#123;</span><br><span class="line">			<span class="comment">//b = b&lt;0? nums[i]:b+nums[i];</span></span><br><span class="line">            <span class="keyword">if</span>(b&lt;<span class="number">0</span>)&#123;</span><br><span class="line">                b=nums[i];</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                b+=nums[i];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(b&gt;sum)&#123;</span><br><span class="line">                sum=b;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sum;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>分治算法</strong></p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 分治法</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxSubArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(nums.size() == <span class="number">0</span>) <span class="keyword">return</span> INT_MIN;</span><br><span class="line">    <span class="keyword">return</span> divide(nums,<span class="number">0</span>,nums.size()<span class="number">-1</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">divide</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> left, <span class="keyword">int</span> right)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(left == right) <span class="keyword">return</span> nums[left];</span><br><span class="line">    <span class="keyword">int</span> mid = (left + right) / <span class="number">2</span>;</span><br><span class="line">    <span class="comment">// 1. 最大数列和在左边</span></span><br><span class="line">    <span class="keyword">int</span> sumLeft = divide(nums,left,mid);</span><br><span class="line">    <span class="comment">// 2. 最大数列和在右边</span></span><br><span class="line">    <span class="keyword">int</span> sumRight = divide(nums,mid+<span class="number">1</span>,right);</span><br><span class="line">    <span class="comment">// 3. 最大数列和在中间</span></span><br><span class="line">    <span class="comment">// 先求左边的最大和</span></span><br><span class="line">    <span class="keyword">int</span> leftSum = <span class="number">0</span>,leftMaxSum = INT_MIN;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = mid; i &gt;= left; i--)</span><br><span class="line">    &#123;</span><br><span class="line">        leftSum += nums[i];</span><br><span class="line">        leftMaxSum = max(leftMaxSum,leftSum);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 求右边的最大和</span></span><br><span class="line">    <span class="keyword">int</span> rightSum = <span class="number">0</span>,rightMaxSum = INT_MIN;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = mid + <span class="number">1</span>; i &lt;= right; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        rightSum += nums[i];</span><br><span class="line">        rightMaxSum = max(rightMaxSum,rightSum);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> max(max(sumLeft,sumRight),leftMaxSum+rightMaxSum);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="在排序数组中查找数字-I"><a href="#在排序数组中查找数字-I" class="headerlink" title="在排序数组中查找数字 I"></a>在排序数组中查找数字 I</h2><p><a href="https://leetcode-cn.com/problems/zai-pai-xu-shu-zu-zhong-cha-zhao-shu-zi-lcof/" target="_blank" rel="noopener">https://leetcode-cn.com/problems/zai-pai-xu-shu-zu-zhong-cha-zhao-shu-zi-lcof/</a></p>
-<p><strong>二分查找法找到第一次出现的位置和最后一次出现的位置</strong></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">search</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">0</span>, j = nums.length - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span>(i &lt;= j) &#123;</span><br><span class="line">            <span class="keyword">int</span> m = (i + j) / <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span>(nums[m] &lt;= target) i = m + <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">else</span> j = m - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> right = i;</span><br><span class="line"></span><br><span class="line">        i = <span class="number">0</span>; j = nums.length - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span>(i &lt;= j) &#123;</span><br><span class="line">            <span class="keyword">int</span> m = (i + j) / <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span>(nums[m] &lt; target) i = m + <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">else</span> j = m - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> left = j;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> right - left - <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>leetcode</category>
-      </categories>
-      <tags>
-        <tag>leetcode</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>pandas读取excel</title>
     <url>/2020/02/17/pandas%E8%AF%BB%E5%8F%96excel/</url>
     <content><![CDATA[<h4 id="pandas处理excel数据非常便捷"><a href="#pandas处理excel数据非常便捷" class="headerlink" title="pandas处理excel数据非常便捷"></a>pandas处理excel数据非常便捷</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">df = pd.read_excel(<span class="string">r'F:\C\train_01.xlsx'</span>)</span><br><span class="line">data=df.loc[:,[<span class="string">'留言详情'</span>,<span class="string">'一级分类'</span>]].values<span class="comment">#读所有行的title以及data列的值，这里需要嵌套列表</span></span><br><span class="line"><span class="comment"># data=df.loc[:,['留言详情']].values</span></span><br><span class="line">print(<span class="string">"读取指定行的数据：\n&#123;0&#125;"</span>.format(data))</span><br><span class="line"></span><br><span class="line"><span class="comment"># &lt;class 'numpy.ndarray'&gt; 将此转化成列表</span></span><br><span class="line">x = df.stack().tolist()</span><br><span class="line"></span><br><span class="line">data_01=[]</span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> x:</span><br><span class="line">    sentence = line.strip().replace(<span class="string">u'\u3000'</span>, <span class="string">u' '</span>).replace(<span class="string">u'\xa0'</span>, <span class="string">u' '</span>).replace(<span class="string">" "</span>, <span class="string">""</span>).replace(<span class="string">"\r"</span>, <span class="string">""</span>).replace(<span class="string">"\n"</span>, <span class="string">""</span>)</span><br><span class="line">    data_01.append(sentence) </span><br><span class="line">    </span><br><span class="line"><span class="comment"># \u3000 是全角的空白符</span></span><br><span class="line"><span class="comment"># 终于把\n和\r给换掉了</span></span><br></pre></td></tr></table></figure>
@@ -758,17 +758,6 @@
     <content><![CDATA[<figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="comment"># encoding=utf8</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"><span class="keyword">import</span> urllib.request</span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">'Referer'</span>: <span class="string">'http://music.163.com/'</span>,</span><br><span class="line">    <span class="string">'Host'</span>: <span class="string">'music.163.com'</span>,</span><br><span class="line">    <span class="string">'User-Agent'</span>: <span class="string">'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.75 Safari/537.36'</span>,</span><br><span class="line">    <span class="string">'Accept'</span>: <span class="string">'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8'</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 歌单的url地址，如果存在一个#就不行，现在的网址都存在一个#号</span></span><br><span class="line">play_url = <span class="string">'http://music.163.com/playlist?id=3204486765'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取页面内容</span></span><br><span class="line">s = requests.session()</span><br><span class="line">response = s.get(play_url, headers=headers).content</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用bs4匹配出对应的歌曲名称和地址</span></span><br><span class="line">s = BeautifulSoup(response, <span class="string">'lxml'</span>)</span><br><span class="line">main = s.find(<span class="string">'ul'</span>, &#123;<span class="string">'class'</span>: <span class="string">'f-hide'</span>&#125;)</span><br><span class="line"></span><br><span class="line">lists = []</span><br><span class="line"><span class="keyword">for</span> music <span class="keyword">in</span> main.find_all(<span class="string">'a'</span>):</span><br><span class="line">    list = []</span><br><span class="line">    <span class="comment"># print('&#123;&#125; : &#123;&#125;'.format(music.text, music['href']))</span></span><br><span class="line">    musicUrl = <span class="string">'http://music.163.com/song/media/outer/url'</span> + music[<span class="string">'href'</span>][<span class="number">5</span>:] + <span class="string">'.mp3'</span></span><br><span class="line">    musicName = music.text</span><br><span class="line">    <span class="comment"># 单首歌曲的名字和地址放在list列表中</span></span><br><span class="line">    list.append(musicName)</span><br><span class="line">    list.append(musicUrl)</span><br><span class="line">    <span class="comment"># 全部歌曲信息放在lists列表中</span></span><br><span class="line">    lists.append(list)</span><br><span class="line"></span><br><span class="line">print(lists)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 下载列表中的全部歌曲，并以歌曲名命名下载后的文件，文件位置为当前文件夹</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> lists:</span><br><span class="line">    url = i[<span class="number">1</span>]</span><br><span class="line">    name = i[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        print(<span class="string">'正在下载'</span>, name)</span><br><span class="line">        urllib.request.urlretrieve(url, <span class="string">'./%s.mp3'</span> % name)</span><br><span class="line">        print(<span class="string">'下载成功'</span>)</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        print(<span class="string">'下载失败'</span>)</span><br></pre></td></tr></table></figure>
 
 ]]></content>
-      <categories>
-        <category>Python爬虫</category>
-      </categories>
-      <tags>
-        <tag>Python爬虫</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>python爬取网易云音乐歌词</title>
-    <url>/2019/12/08/python%E7%88%AC%E5%8F%96%E7%BD%91%E6%98%93%E4%BA%91%E9%9F%B3%E4%B9%90%E6%AD%8C%E8%AF%8D/</url>
-    <content><![CDATA[<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># encoding: utf-8</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取网页源代码</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_page</span><span class="params">(url)</span>:</span></span><br><span class="line">    headers = &#123;</span><br><span class="line">        <span class="string">'User-Agent'</span>: <span class="string">'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36'</span></span><br><span class="line">    &#125;</span><br><span class="line">    response = requests.get(url, headers=headers)</span><br><span class="line">    <span class="keyword">return</span> response.text</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获得歌曲ID</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_id</span><span class="params">(url_list)</span>:</span></span><br><span class="line">    text = get_page(url_list)</span><br><span class="line">    ids = re.findall(<span class="string">r'&lt;li&gt;&lt;a href=".*?id=(\d+)"&gt;.*?&lt;/a&gt;&lt;/li&gt;'</span>, text, re.DOTALL)</span><br><span class="line">    <span class="keyword">return</span> ids</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取歌曲名</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_name</span><span class="params">(url_song)</span>:</span></span><br><span class="line">    text = get_page(url_song)</span><br><span class="line">    song_name = re.findall(<span class="string">r'&lt;meta name="description" content="歌曲名《(.*?)》.*?由 .*? 演唱.*?"/&gt;'</span>, text, re.DOTALL)</span><br><span class="line">    song_authors = re.findall(<span class="string">r'&lt;meta name="description" content="歌曲名《.*?》.*?由 (.*?) 演唱.*?"/&gt;'</span>, text, re.DOTALL)</span><br><span class="line">    name = song_name[<span class="number">0</span>] + <span class="string">' - '</span> + song_authors[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">return</span> name</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获得歌曲图</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_img</span><span class="params">(url_song, name)</span>:</span></span><br><span class="line">    text = get_page(url_song)</span><br><span class="line">    url_img = re.findall(<span class="string">r'&lt;meta property="og:image" content="(.*?)" /&gt;'</span>, text, re.DOTALL)[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    root = <span class="string">"D:/"</span></span><br><span class="line">    path = root + name + <span class="string">'.jpg'</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(root):</span><br><span class="line">            os.mkdir(root)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(path):</span><br><span class="line">            r = requests.get(url_img)</span><br><span class="line">            <span class="keyword">with</span> open(path, <span class="string">'wb'</span>) <span class="keyword">as</span> f:</span><br><span class="line">                f.write(r.content)</span><br><span class="line">                f.close()</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取歌词</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_lyric</span><span class="params">(id, name)</span>:</span></span><br><span class="line">    url_lyric = <span class="string">"http://music.163.com/api/song/lyric?id="</span> + id + <span class="string">"&amp;lv=1&amp;kv=1&amp;tv=-1"</span></span><br><span class="line">    text = get_page(url_lyric)</span><br><span class="line"></span><br><span class="line">    judge_lyric = re.findall(<span class="string">r'&#123;"nolyric":true,.*?&#125;'</span>, text, re.DOTALL)</span><br><span class="line">    <span class="keyword">if</span> judge_lyric:</span><br><span class="line">        print(str(name) + <span class="string">'无歌词\n'</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="comment"># 用json获取歌词</span></span><br><span class="line">        json_obj = json.loads(text)</span><br><span class="line">        initial_lyric = json_obj[<span class="string">'lrc'</span>][<span class="string">'lyric'</span>]</span><br><span class="line"></span><br><span class="line">        root = <span class="string">"D://lyric//"</span></span><br><span class="line">        <span class="comment"># path = root + name + '.lrc'</span></span><br><span class="line">        <span class="comment"># 改成txt会方便看很多</span></span><br><span class="line">        path = root + name + <span class="string">'.txt'</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(root):</span><br><span class="line">                os.mkdir(root)</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(path):</span><br><span class="line">                <span class="keyword">with</span> open(path, <span class="string">'w'</span>) <span class="keyword">as</span> f:</span><br><span class="line">                    f.write(initial_lyric)</span><br><span class="line">                    f.close()</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 爬不到数据！</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    url = <span class="string">'https://music.163.com/playlist?id=3185999809'</span></span><br><span class="line">    <span class="comment"># url = 'https://music.163.com/playlist?id=391228182' # 歌单url</span></span><br><span class="line">    ids = get_id(url)</span><br><span class="line">    names = []</span><br><span class="line"></span><br><span class="line">    fns_num = <span class="number">1</span></span><br><span class="line">    num = len(ids)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> id <span class="keyword">in</span> ids:</span><br><span class="line">        url_song = <span class="string">'https://music.163.com/song?id=%s'</span> % id</span><br><span class="line">        name = get_name(url_song)</span><br><span class="line">        get_img(url_song, name)</span><br><span class="line">        get_lyric(id, name)</span><br><span class="line">        names.append(name)</span><br><span class="line"></span><br><span class="line">        print(<span class="string">"\r完成进度: &#123;:.2f&#125;%"</span>.format(fns_num * <span class="number">100</span> / num), end=<span class="string">""</span>)</span><br><span class="line">        fns_num += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    print(<span class="string">'\n\n完成名单：'</span>)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> names:</span><br><span class="line">        print(i)</span><br><span class="line">    print(<span class="string">'\n\n查找到的数量:'</span> + str(num))</span><br><span class="line">    print(<span class="string">'\n最终完成的数量:'</span> + str(len(names)))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br><span class="line"></span><br><span class="line"><span class="comment"># <span class="doctag">TODO:</span>把前面的时长处理掉吧</span></span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>Python爬虫</category>
       </categories>
@@ -836,6 +825,17 @@
       </tags>
   </entry>
   <entry>
+    <title>python爬取网易云音乐歌词</title>
+    <url>/2019/12/08/python%E7%88%AC%E5%8F%96%E7%BD%91%E6%98%93%E4%BA%91%E9%9F%B3%E4%B9%90%E6%AD%8C%E8%AF%8D/</url>
+    <content><![CDATA[<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># encoding: utf-8</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取网页源代码</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_page</span><span class="params">(url)</span>:</span></span><br><span class="line">    headers = &#123;</span><br><span class="line">        <span class="string">'User-Agent'</span>: <span class="string">'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36'</span></span><br><span class="line">    &#125;</span><br><span class="line">    response = requests.get(url, headers=headers)</span><br><span class="line">    <span class="keyword">return</span> response.text</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获得歌曲ID</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_id</span><span class="params">(url_list)</span>:</span></span><br><span class="line">    text = get_page(url_list)</span><br><span class="line">    ids = re.findall(<span class="string">r'&lt;li&gt;&lt;a href=".*?id=(\d+)"&gt;.*?&lt;/a&gt;&lt;/li&gt;'</span>, text, re.DOTALL)</span><br><span class="line">    <span class="keyword">return</span> ids</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取歌曲名</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_name</span><span class="params">(url_song)</span>:</span></span><br><span class="line">    text = get_page(url_song)</span><br><span class="line">    song_name = re.findall(<span class="string">r'&lt;meta name="description" content="歌曲名《(.*?)》.*?由 .*? 演唱.*?"/&gt;'</span>, text, re.DOTALL)</span><br><span class="line">    song_authors = re.findall(<span class="string">r'&lt;meta name="description" content="歌曲名《.*?》.*?由 (.*?) 演唱.*?"/&gt;'</span>, text, re.DOTALL)</span><br><span class="line">    name = song_name[<span class="number">0</span>] + <span class="string">' - '</span> + song_authors[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">return</span> name</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获得歌曲图</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_img</span><span class="params">(url_song, name)</span>:</span></span><br><span class="line">    text = get_page(url_song)</span><br><span class="line">    url_img = re.findall(<span class="string">r'&lt;meta property="og:image" content="(.*?)" /&gt;'</span>, text, re.DOTALL)[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    root = <span class="string">"D:/"</span></span><br><span class="line">    path = root + name + <span class="string">'.jpg'</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(root):</span><br><span class="line">            os.mkdir(root)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(path):</span><br><span class="line">            r = requests.get(url_img)</span><br><span class="line">            <span class="keyword">with</span> open(path, <span class="string">'wb'</span>) <span class="keyword">as</span> f:</span><br><span class="line">                f.write(r.content)</span><br><span class="line">                f.close()</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取歌词</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_lyric</span><span class="params">(id, name)</span>:</span></span><br><span class="line">    url_lyric = <span class="string">"http://music.163.com/api/song/lyric?id="</span> + id + <span class="string">"&amp;lv=1&amp;kv=1&amp;tv=-1"</span></span><br><span class="line">    text = get_page(url_lyric)</span><br><span class="line"></span><br><span class="line">    judge_lyric = re.findall(<span class="string">r'&#123;"nolyric":true,.*?&#125;'</span>, text, re.DOTALL)</span><br><span class="line">    <span class="keyword">if</span> judge_lyric:</span><br><span class="line">        print(str(name) + <span class="string">'无歌词\n'</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="comment"># 用json获取歌词</span></span><br><span class="line">        json_obj = json.loads(text)</span><br><span class="line">        initial_lyric = json_obj[<span class="string">'lrc'</span>][<span class="string">'lyric'</span>]</span><br><span class="line"></span><br><span class="line">        root = <span class="string">"D://lyric//"</span></span><br><span class="line">        <span class="comment"># path = root + name + '.lrc'</span></span><br><span class="line">        <span class="comment"># 改成txt会方便看很多</span></span><br><span class="line">        path = root + name + <span class="string">'.txt'</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(root):</span><br><span class="line">                os.mkdir(root)</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(path):</span><br><span class="line">                <span class="keyword">with</span> open(path, <span class="string">'w'</span>) <span class="keyword">as</span> f:</span><br><span class="line">                    f.write(initial_lyric)</span><br><span class="line">                    f.close()</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 爬不到数据！</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    url = <span class="string">'https://music.163.com/playlist?id=3185999809'</span></span><br><span class="line">    <span class="comment"># url = 'https://music.163.com/playlist?id=391228182' # 歌单url</span></span><br><span class="line">    ids = get_id(url)</span><br><span class="line">    names = []</span><br><span class="line"></span><br><span class="line">    fns_num = <span class="number">1</span></span><br><span class="line">    num = len(ids)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> id <span class="keyword">in</span> ids:</span><br><span class="line">        url_song = <span class="string">'https://music.163.com/song?id=%s'</span> % id</span><br><span class="line">        name = get_name(url_song)</span><br><span class="line">        get_img(url_song, name)</span><br><span class="line">        get_lyric(id, name)</span><br><span class="line">        names.append(name)</span><br><span class="line"></span><br><span class="line">        print(<span class="string">"\r完成进度: &#123;:.2f&#125;%"</span>.format(fns_num * <span class="number">100</span> / num), end=<span class="string">""</span>)</span><br><span class="line">        fns_num += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    print(<span class="string">'\n\n完成名单：'</span>)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> names:</span><br><span class="line">        print(i)</span><br><span class="line">    print(<span class="string">'\n\n查找到的数量:'</span> + str(num))</span><br><span class="line">    print(<span class="string">'\n最终完成的数量:'</span> + str(len(names)))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br><span class="line"></span><br><span class="line"><span class="comment"># <span class="doctag">TODO:</span>把前面的时长处理掉吧</span></span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Python爬虫</category>
+      </categories>
+      <tags>
+        <tag>Python爬虫</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>SpringCloud</title>
     <url>/2020/02/15/springcloud/</url>
     <content><![CDATA[<p>纯洁的微笑关于springcloud的知识是2017年的</p>
@@ -891,6 +891,23 @@
       </tags>
   </entry>
   <entry>
+    <title>Web小项目(react调试和部署)</title>
+    <url>/2020/02/26/web%E5%B0%8F%E9%A1%B9%E7%9B%AE/</url>
+    <content><![CDATA[<h2 id="如何在本地调试react项目"><a href="#如何在本地调试react项目" class="headerlink" title="如何在本地调试react项目"></a>如何在本地调试react项目</h2><blockquote>
+<p>在项目终端下(pycharm)运行 <figure class="highlight plain"><figcaption><span>install```**安装依赖**</span></figcaption><table><tr><td class="code"><pre><span class="line">项目会生成**node_modules**目录</span><br><span class="line"></span><br><span class="line">我们在在项目终端下(pycharm)运行</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<p>npm start</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">浏览器会自动打开http://localhost:3000运行调试</span><br><span class="line"></span><br><span class="line">## 如何将本地的react项目部署到云服务器上</span><br><span class="line">我们在在项目终端下(pycharm)运行</span><br></pre></td></tr></table></figure>
+
+<p>npm run build</p>
+<pre><code>项目会生成了一个**build**目录
+
+打开宝塔服务器页面，到相关网站下，将build页面下==static上传，以及和static平行的文件上传。==
+
+至此，大功告成！
+tips:感觉网上的教程大多数很复杂，暂时也不太明白他们做的原理(TODO)</code></pre>]]></content>
+  </entry>
+  <entry>
     <title>srf之论文阅读Dr.VAE</title>
     <url>/2020/04/01/srf%E4%B9%8B%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BBDr.VAE/</url>
     <content><![CDATA[<h1 id="Dr-VAE-improving-drug-response-prediction-via-modeling-of-drug-perturbation-effects"><a href="#Dr-VAE-improving-drug-response-prediction-via-modeling-of-drug-perturbation-effects" class="headerlink" title="Dr.VAE: improving drug response prediction via modeling of drug perturbation effects"></a>Dr.VAE: improving drug response prediction via modeling of drug perturbation effects</h1><h2 id="1-为什么要讲这个"><a href="#1-为什么要讲这个" class="headerlink" title="1. 为什么要讲这个?"></a>1. 为什么要讲这个?</h2><p><strong>Motivation:</strong><br>将<strong>生物逻辑系统的先验知识</strong>融入到这些方法中是<strong>提高预测性能</strong>的一个很有前途的途径。<br><strong>药物诱导转录组微扰效应的高通量细胞系分析</strong>(High-throughput cell line assays of drug-induced transcriptomic perturbation effects)是一项尚未完全纳入药物反应预测模型的先验知识。</p>
@@ -944,23 +961,6 @@
       <tags>
         <tag>srf</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>Web小项目(react调试和部署)</title>
-    <url>/2020/02/26/web%E5%B0%8F%E9%A1%B9%E7%9B%AE/</url>
-    <content><![CDATA[<h2 id="如何在本地调试react项目"><a href="#如何在本地调试react项目" class="headerlink" title="如何在本地调试react项目"></a>如何在本地调试react项目</h2><blockquote>
-<p>在项目终端下(pycharm)运行 <figure class="highlight plain"><figcaption><span>install```**安装依赖**</span></figcaption><table><tr><td class="code"><pre><span class="line">项目会生成**node_modules**目录</span><br><span class="line"></span><br><span class="line">我们在在项目终端下(pycharm)运行</span><br></pre></td></tr></table></figure></p>
-</blockquote>
-<p>npm start</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">浏览器会自动打开http://localhost:3000运行调试</span><br><span class="line"></span><br><span class="line">## 如何将本地的react项目部署到云服务器上</span><br><span class="line">我们在在项目终端下(pycharm)运行</span><br></pre></td></tr></table></figure>
-
-<p>npm run build</p>
-<pre><code>项目会生成了一个**build**目录
-
-打开宝塔服务器页面，到相关网站下，将build页面下==static上传，以及和static平行的文件上传。==
-
-至此，大功告成！
-tips:感觉网上的教程大多数很复杂，暂时也不太明白他们做的原理(TODO)</code></pre>]]></content>
   </entry>
   <entry>
     <title>yc的聊天器（NIO）</title>
