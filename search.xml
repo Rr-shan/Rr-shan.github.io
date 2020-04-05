@@ -1,6 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>论文阅读DeepImpute</title>
+    <url>/2020/04/03/DeepImpute/</url>
+    <content><![CDATA[<h2 id="研究背景"><a href="#研究背景" class="headerlink" title="研究背景"></a>研究背景</h2><ol>
+<li>RNA测序技术发展，通过<strong>转录组水平研究基因</strong>；</li>
+<li>10X genomics公司，测序scRNA（ Fluidigm- and Drop-Seq-based methods ）；</li>
+<li><strong>问题：</strong>每个细胞的<strong>mRNA拷贝起始量较低，因此scRNA序列数据非常嘈杂且不完整</strong>；</li>
+<li>在一个scRNA序列实验中，经常观察到缺失值<strong>超过70%</strong>的数据集；</li>
+<li><strong>零值的可能性：</strong>a.真零值；b.<strong>dropout</strong>，原始RNA转录物未能扩增所致；</li>
+</ol>
+<h2 id="已有的插补算法"><a href="#已有的插补算法" class="headerlink" title="已有的插补算法"></a>已有的插补算法</h2><ul>
+<li><strong>MAGIC</strong>：建立<strong>马尔可夫转移矩阵</strong>并<strong>平滑数据</strong></li>
+<li><strong>ScImpute</strong>：建立<strong>LASSO回归模型</strong>，对每个细胞迭代地进行补全/估算</li>
+<li><strong>SAVER</strong>：是一个<strong>使用各种先验概率函数</strong>的<strong>基于贝叶斯的模型</strong></li>
+<li><strong>DrImpute</strong>：是一种<strong>基于聚类</strong>的方法，它使用一致的策略:它用<strong>几个类的先验矩阵或距离矩阵</strong>估计一个值，然后用聚集法进行补全/估算</li>
+<li><strong>VIPER</strong>：它着眼于<strong>细胞/细胞</strong>之间的相互作用，以适应每个细胞的<strong>线性模型</strong></li>
+<li><strong>DCA</strong>：DCA构建了一个<strong>自动编码器</strong>，使用一个<strong>零膨胀负二项先验</strong>对<strong>基因分布</strong>进行建模，自动编码器试图预测基因的<strong>均值</strong>、<strong>标准差</strong>和<strong>丢失概率</strong>。但这些方法大多数都需要大量的运行时间，对更快，和可扩展的补全方法的需求也在不断增加。</li>
+<li><strong>DeepImpute</strong>：<strong>分而治之</strong>的策略，构建多个亚/子神经网络，每个子神经网络都由四层组成。</li>
+</ul>
+<h2 id="DeepImpute的工作流程"><a href="#DeepImpute的工作流程" class="headerlink" title="DeepImpute的工作流程"></a>DeepImpute的工作流程</h2><ol>
+<li>preprocessing</li>
+<li>Architecture</li>
+<li>training procedure</li>
+<li>imputation<h3 id="Preprocessing预处理"><a href="#Preprocessing预处理" class="headerlink" title="Preprocessing预处理"></a>Preprocessing预处理</h3></li>
+</ol>
+<ul>
+<li>根据方差/均值比（默认值为<strong>0.5</strong>）选择要进行插补的基因</li>
+<li>把这些基因分成<strong>N个</strong>随机的亚群，每个亚群有S个基因数（默认情况下，<strong>S设置为512</strong>）</li>
+<li>如果目标基因的数目不是这个数目的倍数，我们将要输入的基因的数目<strong>取整</strong>到深度神经网络的N+1子集中<h3 id="Network-architecture构建网络"><a href="#Network-architecture构建网络" class="headerlink" title="Network architecture构建网络"></a>Network architecture构建网络</h3></li>
+<li>与目标基因相关的基因<strong>输入层</strong></li>
+<li>具有校正线性单元（<strong>ReLU</strong>）激活功能的<strong>256个神经元完全连接的隐藏层</strong></li>
+<li>Dropout layer: Dropout是在神经网络中用来解决过拟合问题的一种方法，dropout rate：比率被优化为20%，其他默认参数包括学习率为0.0001，批处理大小为64，子集大小为512。</li>
+<li>S目标基因的<strong>输出层</strong><h3 id="Training-procedure"><a href="#Training-procedure" class="headerlink" title="Training procedure"></a>Training procedure</h3>The training starts by splitting the cells between a training (<strong>95%</strong>) and a test set (<strong>5%</strong>).<br>We use a <strong>weighted mean squared error加权均方误差 (MSE) loss function</strong> that gives higher weights to genes with higher expression values.<h3 id="Imputation插补"><a href="#Imputation插补" class="headerlink" title="Imputation插补"></a>Imputation插补</h3></li>
+<li>Once the network weights are properly trained, we impute the data by filling zeros in the original matrix with the imputed values.一旦<strong>网络权值</strong>经过适当的训练，我们就可以通过在原始矩阵中填充零来输入数据。</li>
+</ul>
+<h3 id="数据来源："><a href="#数据来源：" class="headerlink" title="数据来源："></a>数据来源：</h3><p>四个公开可用的<strong>scRNA序列数据集</strong></p>
+<h2 id="results"><a href="#results" class="headerlink" title="results"></a>results</h2><h3 id="Mask"><a href="#Mask" class="headerlink" title="Mask"></a>Mask</h3><p>随机掩盖(用零替换) 数据集表达矩阵的一部分，然后测量被掩盖数据的补全值和实际值之间的差异。<br>指标：相关系数和均方差</p>
+<h3 id="RNA-FISH（湿实验）"><a href="#RNA-FISH（湿实验）" class="headerlink" title="RNA FISH（湿实验）"></a>RNA FISH（湿实验）</h3><p>对于相同的基因列表，使用其RNA FISH与估算后的基因（或原始scRNA-seq数据）的GINI系数进行比较<br>指标：比较RNA FISH和原始scRNA-seq数据之间的相关系数、均方差<br>结果：DeepImpute最优，DCA其次</p>
+<h3 id="聚类"><a href="#聚类" class="headerlink" title="聚类"></a>聚类</h3><p>使用由48,267个来自小鼠的带注释的初级视觉皮层细胞组成实验数据集(Hrvatin)，这些细胞有33个先前的细胞类型标签。使用Scanpy工具包结合Leiden聚类算法进行细胞聚类，<br>评判聚类准确性指标：调整后的兰德指数(ARI)，调整后的相互评(AMS)、福克斯-马洛指数(FMI) 和 轮廓指数(SI)，<br>结论：DeepImpute方法这些指标提升较多，DCA少量提升，其它效果不佳</p>
+]]></content>
+      <categories>
+        <category>ML&amp;DL</category>
+      </categories>
+      <tags>
+        <tag>Dropouts课题(刘世超老师)</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>GOF23</title>
     <url>/2019/10/20/COF23/</url>
     <content><![CDATA[<p><font color="yellow"> <strong>创建型模式：</strong> 单例模式、工厂模式、抽象工厂模式、建造者模式、原型模式</font></p>
@@ -71,103 +118,16 @@
       </categories>
   </entry>
   <entry>
-    <title>论文阅读DeepImpute</title>
-    <url>/2020/04/03/DeepImpute/</url>
-    <content><![CDATA[<h2 id="研究背景"><a href="#研究背景" class="headerlink" title="研究背景"></a>研究背景</h2><ol>
-<li>RNA测序技术发展，通过<strong>转录组水平研究基因</strong>；</li>
-<li>10X genomics公司，测序scRNA（ Fluidigm- and Drop-Seq-based methods ）；</li>
-<li><strong>问题：</strong>每个细胞的<strong>mRNA拷贝起始量较低，因此scRNA序列数据非常嘈杂且不完整</strong>；</li>
-<li>在一个scRNA序列实验中，经常观察到缺失值<strong>超过70%</strong>的数据集；</li>
-<li><strong>零值的可能性：</strong>a.真零值；b.<strong>dropout</strong>，原始RNA转录物未能扩增所致；</li>
-</ol>
-<h2 id="已有的插补算法"><a href="#已有的插补算法" class="headerlink" title="已有的插补算法"></a>已有的插补算法</h2><ul>
-<li><strong>MAGIC</strong>：建立<strong>马尔可夫转移矩阵</strong>并<strong>平滑数据</strong></li>
-<li><strong>ScImpute</strong>：建立<strong>LASSO回归模型</strong>，对每个细胞迭代地进行补全/估算</li>
-<li><strong>SAVER</strong>：是一个<strong>使用各种先验概率函数</strong>的<strong>基于贝叶斯的模型</strong></li>
-<li><strong>DrImpute</strong>：是一种<strong>基于聚类</strong>的方法，它使用一致的策略:它用<strong>几个类的先验矩阵或距离矩阵</strong>估计一个值，然后用聚集法进行补全/估算</li>
-<li><strong>VIPER</strong>：它着眼于<strong>细胞/细胞</strong>之间的相互作用，以适应每个细胞的<strong>线性模型</strong></li>
-<li><strong>DCA</strong>：DCA构建了一个<strong>自动编码器</strong>，使用一个<strong>零膨胀负二项先验</strong>对<strong>基因分布</strong>进行建模，自动编码器试图预测基因的<strong>均值</strong>、<strong>标准差</strong>和<strong>丢失概率</strong>。但这些方法大多数都需要大量的运行时间，对更快，和可扩展的补全方法的需求也在不断增加。</li>
-<li><strong>DeepImpute</strong>：<strong>分而治之</strong>的策略，构建多个亚/子神经网络，每个子神经网络都由四层组成。</li>
-</ul>
-<h2 id="DeepImpute的工作流程"><a href="#DeepImpute的工作流程" class="headerlink" title="DeepImpute的工作流程"></a>DeepImpute的工作流程</h2><ol>
-<li>preprocessing</li>
-<li>Architecture</li>
-<li>training procedure</li>
-<li>imputation<h3 id="Preprocessing预处理"><a href="#Preprocessing预处理" class="headerlink" title="Preprocessing预处理"></a>Preprocessing预处理</h3></li>
-</ol>
-<ul>
-<li>根据方差/均值比（默认值为<strong>0.5</strong>）选择要进行插补的基因</li>
-<li>把这些基因分成<strong>N个</strong>随机的亚群，每个亚群有S个基因数（默认情况下，<strong>S设置为512</strong>）</li>
-<li>如果目标基因的数目不是这个数目的倍数，我们将要输入的基因的数目<strong>取整</strong>到深度神经网络的N+1子集中<h3 id="Network-architecture构建网络"><a href="#Network-architecture构建网络" class="headerlink" title="Network architecture构建网络"></a>Network architecture构建网络</h3></li>
-<li>与目标基因相关的基因<strong>输入层</strong></li>
-<li>具有校正线性单元（<strong>ReLU</strong>）激活功能的<strong>256个神经元完全连接的隐藏层</strong></li>
-<li>Dropout layer: Dropout是在神经网络中用来解决过拟合问题的一种方法，dropout rate：比率被优化为20%，其他默认参数包括学习率为0.0001，批处理大小为64，子集大小为512。</li>
-<li>S目标基因的<strong>输出层</strong><h3 id="Training-procedure"><a href="#Training-procedure" class="headerlink" title="Training procedure"></a>Training procedure</h3>The training starts by splitting the cells between a training (<strong>95%</strong>) and a test set (<strong>5%</strong>).<br>We use a <strong>weighted mean squared error加权均方误差 (MSE) loss function</strong> that gives higher weights to genes with higher expression values.<h3 id="Imputation插补"><a href="#Imputation插补" class="headerlink" title="Imputation插补"></a>Imputation插补</h3></li>
-<li>Once the network weights are properly trained, we impute the data by filling zeros in the original matrix with the imputed values.一旦<strong>网络权值</strong>经过适当的训练，我们就可以通过在原始矩阵中填充零来输入数据。</li>
-</ul>
-<h3 id="数据来源："><a href="#数据来源：" class="headerlink" title="数据来源："></a>数据来源：</h3><p>四个公开可用的<strong>scRNA序列数据集</strong></p>
-<h2 id="results"><a href="#results" class="headerlink" title="results"></a>results</h2><h3 id="Mask"><a href="#Mask" class="headerlink" title="Mask"></a>Mask</h3><p>随机掩盖(用零替换) 数据集表达矩阵的一部分，然后测量被掩盖数据的补全值和实际值之间的差异。<br>指标：相关系数和均方差</p>
-<h3 id="RNA-FISH（湿实验）"><a href="#RNA-FISH（湿实验）" class="headerlink" title="RNA FISH（湿实验）"></a>RNA FISH（湿实验）</h3><p>对于相同的基因列表，使用其RNA FISH与估算后的基因（或原始scRNA-seq数据）的GINI系数进行比较<br>指标：比较RNA FISH和原始scRNA-seq数据之间的相关系数、均方差<br>结果：DeepImpute最优，DCA其次</p>
-<h3 id="聚类"><a href="#聚类" class="headerlink" title="聚类"></a>聚类</h3><p>使用由48,267个来自小鼠的带注释的初级视觉皮层细胞组成实验数据集(Hrvatin)，这些细胞有33个先前的细胞类型标签。使用Scanpy工具包结合Leiden聚类算法进行细胞聚类，<br>评判聚类准确性指标：调整后的兰德指数(ARI)，调整后的相互评(AMS)、福克斯-马洛指数(FMI) 和 轮廓指数(SI)，<br>结论：DeepImpute方法这些指标提升较多，DCA少量提升，其它效果不佳</p>
-]]></content>
-      <categories>
-        <category>ML&amp;DL</category>
-      </categories>
-      <tags>
-        <tag>Dropouts课题(刘世超老师)</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>JShell容易出现错误之处</title>
-    <url>/2020/04/03/JShell%E5%AE%B9%E6%98%93%E5%87%BA%E7%8E%B0%E9%94%99%E8%AF%AF%E4%B9%8B%E5%A4%84/</url>
-    <content><![CDATA[<h3 id="注意事项-amp-可能存在的问题"><a href="#注意事项-amp-可能存在的问题" class="headerlink" title="注意事项&amp;可能存在的问题"></a>注意事项&amp;可能存在的问题</h3><ul>
-<li>不要调⽤<strong>Runtime类</strong>直接使⽤<strong>系统的shell命令</strong></li>
-<li>编码要求使⽤<strong>uft-8</strong>编码</li>
-<li>echo、grep没有处理 \n<strong>转义字符的问题</strong></li>
-<li>可能程序中使⽤switch语句进⾏流程控制，但是只取输⼊前两位达到省事的⽬的，这样是不可取的，就好⽐，别⼈输⼊pw，程序应当提⽰找不到pw命令,而⾮直接调⽤pwd命令。</li>
-<li>整个代码只有⼀个类，并在类⾥使⽤内部类，代码<strong>耦合程度⾼</strong>，而且难以阅读。功能存在问题，未经测试就匆忙提交，质量普遍不⾼。</li>
-<li><strong>接口没有打注释</strong></li>
-<li>请正确认识<strong>交互性</strong>，不要给程序运⾏添加不必要的操作。</li>
-<li><strong>不要把⽂件路径写死了</strong></li>
-<li>这是⼀个功能简化了的shell，但基本忠于shell，不要乱改原有的命令。</li>
-<li><strong>命名随便</strong>，有⽤a,b,c的，还有竟然⽤⾃⼰名字的。</li>
-<li>尽量不要使⽤<strong>windows编程</strong></li>
-<li>请把的<strong>注释掉的代码删去</strong>，需要保留的说明原因。</li>
-</ul>
-<p>From:yc<br><em>感觉犯错点很有参考价值</em></p>
-]]></content>
-      <categories>
-        <category>Java</category>
-      </categories>
-      <tags>
-        <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>论文阅读DrImpute</title>
-    <url>/2020/04/03/DrImpute/</url>
-    <content><![CDATA[<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><h4 id="聚类"><a href="#聚类" class="headerlink" title="聚类"></a>聚类</h4><h4 id="1-preprocess：data-cleansing-normalization-and-log-transformation"><a href="#1-preprocess：data-cleansing-normalization-and-log-transformation" class="headerlink" title="1. preprocess：data cleansing, normalization, and log transformation"></a>1. <strong>preprocess：</strong>data cleansing, normalization, and log transformation</h4><figure class="highlight r"><table><tr><td class="code"><pre><span class="line">preprocess &lt;- <span class="keyword">function</span>(x, min.expressed.gene = <span class="number">0</span>, min.expressed.cell = <span class="number">2</span>, max.expressed.ratio = <span class="number">1</span>, normalize.by.size.effect = <span class="literal">FALSE</span>)&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (class(x) == <span class="string">'SummarizedExperiment'</span>)</span><br><span class="line">		X &lt;- assays(x)$count</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (class(x) == <span class="string">'matrix'</span>)</span><br><span class="line">		X &lt;- x</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (is(x, <span class="string">'sparseMatrix'</span>))</span><br><span class="line">		X &lt;- x</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		<span class="keyword">stop</span>(sprintf(<span class="string">'unknown class(x): %s'</span>, class(x)))</span><br><span class="line"></span><br><span class="line">	M &lt;- ncol(X)</span><br><span class="line">	N &lt;- nrow(X)</span><br><span class="line">	m &lt;- Matrix::colSums(X &gt; <span class="number">1</span>) &gt;= min.expressed.gene	<span class="comment"># cells that have at least min.expressed.gene expreseed genes</span></span><br><span class="line">	n &lt;- Matrix::rowSums(X &gt; <span class="number">1</span>) &lt;= max.expressed.ratio * M &amp; Matrix::rowSums(X &gt; <span class="number">1</span>) &gt;= min.expressed.cell	<span class="comment"># genes that are detected in at least min.expressed.cell or at most max.expressed.ratio cells</span></span><br><span class="line">	<span class="keyword">if</span> (normalize.by.size.effect)&#123;</span><br><span class="line">	  sf &lt;- apply((X[n, m] + <span class="number">1</span>) / exp(Matrix::rowMeans(log(X[n, m] + <span class="number">1</span>))), <span class="number">2</span>, median)</span><br><span class="line">		X &lt;- t(t(X[n, m]) / sf)</span><br><span class="line">	&#125;<span class="keyword">else</span></span><br><span class="line">		X &lt;- X[n, m]</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (class(x) == <span class="string">'SummarizedExperiment'</span>)&#123;</span><br><span class="line">		x &lt;- x[n, m]</span><br><span class="line">		assays(x)$count &lt;- X</span><br><span class="line">	&#125;<span class="keyword">else</span> <span class="keyword">if</span> (class(x) == <span class="string">'matrix'</span>)&#123;</span><br><span class="line">		x &lt;- as.matrix(X)</span><br><span class="line">	&#125;<span class="keyword">else</span> <span class="keyword">if</span> (is(x, <span class="string">'sparseMatrix'</span>))&#123;</span><br><span class="line">		x &lt;- X</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	x</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    <title>Kmeans聚类入门</title>
+    <url>/2020/02/16/Kmeans%E8%81%9A%E7%B1%BB%E5%85%A5%E9%97%A8/</url>
+    <content><![CDATA[<p>Kmeans聚类入门</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> sklearn.cluster <span class="keyword">import</span> KMeans</span><br><span class="line">data = np.random.rand(<span class="number">100</span>, <span class="number">3</span>) <span class="comment">#生成一个随机数据，样本大小为100, 特征数为3</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#假如我要构造一个聚类数为3的聚类器</span></span><br><span class="line">estimator = KMeans(n_clusters=<span class="number">3</span>)<span class="comment">#构造聚类器</span></span><br><span class="line">estimator.fit(data)<span class="comment">#聚类</span></span><br><span class="line">label_pred = estimator.labels_ <span class="comment">#获取聚类标签</span></span><br><span class="line">centroids = estimator.cluster_centers_ <span class="comment">#获取聚类中心</span></span><br><span class="line">inertia = estimator.inertia_ <span class="comment"># 获取聚类准则的总和</span></span><br><span class="line"></span><br><span class="line">print(label_pred)</span><br><span class="line">print(centroids)</span><br><span class="line">print(inertia)</span><br></pre></td></tr></table></figure>
 
-<h4 id="2-calculating-the-distance-matrix-among-cells"><a href="#2-calculating-the-distance-matrix-among-cells" class="headerlink" title="2.  calculating the distance matrix among cells"></a>2.  calculating the distance matrix among cells</h4><figure class="highlight r"><table><tr><td class="code"><pre><span class="line">dist2 &lt;- <span class="keyword">function</span>(X, method)&#123;</span><br><span class="line">	<span class="keyword">if</span> (method == <span class="string">'spearman'</span>)</span><br><span class="line">		D &lt;- as.matrix(<span class="number">1</span> - cor(as.matrix(X), method = <span class="string">'spearman'</span>))</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (method == <span class="string">"pearson"</span>)</span><br><span class="line">		D &lt;- as.matrix(<span class="number">1</span> - cor(as.matrix(X), method = <span class="string">'pearson'</span>))</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (method == <span class="string">"euclidean"</span>) </span><br><span class="line">		D &lt;- as.matrix(dist(t(as.matrix(X)), method = <span class="string">'euclidean'</span>))</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		<span class="keyword">stop</span>(sprintf(<span class="string">'unknown method: %s'</span>, method))</span><br><span class="line">	D</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="3-imputing-the-dropout-entries-based-on-the-clustering-results"><a href="#3-imputing-the-dropout-entries-based-on-the-clustering-results" class="headerlink" title="3.  imputing the dropout entries based on the clustering results"></a>3.  imputing the dropout entries based on the clustering results</h4><figure class="highlight r"><table><tr><td class="code"><pre><span class="line">DrImpute &lt;- <span class="keyword">function</span>(X, ks = <span class="number">10</span>:<span class="number">15</span>, dists = c(<span class="string">'spearman'</span>, <span class="string">'pearson'</span>), batch.size = <span class="literal">NA</span>, mc.cores = <span class="number">1</span>)&#123;</span><br><span class="line"></span><br><span class="line">	N &lt;- nrow(X)	<span class="comment"># number of genes</span></span><br><span class="line">	M &lt;- ncol(X) 	<span class="comment"># number of cells</span></span><br><span class="line">	cat(sprintf(<span class="string">'[%s] number of cells: %d\n'</span>, Sys.time(), M))</span><br><span class="line">	cat(sprintf(<span class="string">'[%s] number of genes: %d\n'</span>, Sys.time(), N))</span><br><span class="line"></span><br><span class="line">	is.zero &lt;- as(X == <span class="number">0</span>, <span class="string">'lgeMatrix'</span>)	<span class="comment"># dense logical matrix for zero and weakly detected events # 零和弱检测事件的密集逻辑矩阵</span></span><br><span class="line"></span><br><span class="line">	is.expressed &lt;- as(X &gt; log(<span class="number">1</span> + <span class="number">5</span>), <span class="string">'lgeMatrix'</span>) <span class="comment"># dense logical matrix for robustly expressed events # 鲁棒表示事件的密集逻辑矩阵</span></span><br><span class="line">	cat(sprintf(<span class="string">'[%s] %% zero events (X=0): %.1f%%\n'</span>, Sys.time(), sum(is.zero) / (N * M) * <span class="number">100</span>))</span><br><span class="line">	cat(sprintf(<span class="string">'[%s] %% robustly expressed events (X&gt;5): %.1f%%\n'</span>, Sys.time(), sum(is.expressed) / (N * M) * <span class="number">100</span>))</span><br><span class="line">	<span class="keyword">if</span> (!is.na(batch.size))&#123;</span><br><span class="line">		cat(sprintf(<span class="string">'[%s] batch size: %d cells\n'</span>, Sys.time(), batch.size))</span><br><span class="line">	&#125;</span><br><span class="line">	cat(sprintf(<span class="string">'[%s] # of CPU cores: %d\n'</span>, Sys.time(), mc.cores))</span><br><span class="line"></span><br><span class="line">	X &lt;- estimate.expression(X, ks = ks, dists = dists, mc.cores = mc.cores, batch.size = batch.size)</span><br><span class="line">	is.zero &lt;- as(X == <span class="number">0</span>, <span class="string">'lgeMatrix'</span>)	<span class="comment"># dense logical matrix for zero indicators</span></span><br><span class="line">	cat(sprintf(<span class="string">'[%s] %% zero events after imputation: %.1f%%\n'</span>, Sys.time(), sum(is.zero) / (N * M) * <span class="number">100</span>))</span><br><span class="line">	X</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="4-averaging-all-imputation-results-to-determine-the-final-imputation"><a href="#4-averaging-all-imputation-results-to-determine-the-final-imputation" class="headerlink" title="4.  averaging all imputation results to determine the final imputation."></a>4.  averaging all imputation results to determine the final imputation.</h4><h2 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h2><h3 id="Experiment-1："><a href="#Experiment-1：" class="headerlink" title="Experiment 1："></a>Experiment 1：</h3><p><strong>Method:</strong><br>the <strong>cell-cell</strong> distance matrix was computed using <strong>Spearman and Pearson correlations</strong>, followed by the <strong>cell-wise clustering</strong> based upon the distance matrix over a range of expected number of clusters k (k ranging from 10 to 15 by default).</p>
-<p><strong>Evaluation indicators:</strong><br>To generate the dropout zero, we randomly <strong>down-sampled</strong> the raw sequencing reads to 10, 15, 25, 40 and 63%f the total number of reads</p>
-<p><strong>Evaluation indicators:<br>F1 score</strong></p>
-<h3 id="Experiment-2"><a href="#Experiment-2" class="headerlink" title="Experiment 2"></a>Experiment 2</h3><p><strong>Method:</strong><br>The effect of cell clustering.<br> For each dataset, we randomly sampled 100 genes (<strong>down-sampling</strong>), or one-third of the total cells (down-sampling), and we clustered the cells using each of the clustering methods with and without preprocessing the down-sampled dataset using DrImpute. This process was <strong>repeated 100</strong> times, and we compared how consistent the clustering results were after down-sampling the genes or cells as measured by cross ARI<br><strong>Evaluation indicators:<br>ARI</strong></p>
-<h3 id="Experiment-3"><a href="#Experiment-3" class="headerlink" title="Experiment 3"></a>Experiment 3</h3><p><strong>Method:</strong><br>To evaluate the accuracy of the <strong>dimension reduction</strong> in 2D space, we first estimated how discriminatively the cells from one population (using the class label reported in the original publication) separated from other populations in 2D space. For each dimension reduction result</p>
-<p><strong>Evaluation indicators:</strong><br>we used the 2D coordinates of 90% of cells as the feature to train a linear support vector machine (SVM) classifier,and we predicted the class label for the remaining 10%of the cells. The above process was repeated ten times,and the overall prediction accuracy (10-fold cross validation accuracy) was used to quantitatively measure the separation of different populations in 2D space.// 这块没有讲清楚</p>
-<h3 id="Experiment-4"><a href="#Experiment-4" class="headerlink" title="Experiment 4"></a>Experiment 4</h3><p>重建谱系轨迹，推断单细胞的分化和祖细胞状态。(老师也不是很明白)</p>
-<h2 id="数据集："><a href="#数据集：" class="headerlink" title="数据集："></a>数据集：</h2><p>scRNA-seq datasets</p>
-<p><strong>cell labels</strong><br>“gold”：experimental conditions or cell lines（细胞系）<br>“silver”： derived and assigned by the authors’ knowledge of the underlying biology.<br>“bronze”:  developmental stages (time labels)</p>
+<blockquote>
+<p>当数据量很大的时候，Kmeans 显然还是很弱的，会比较耗费内存速度也会收到很大影响。scikit-learn 提供了MiniBatchKMeans算法，大致思想就是对数据进行抽样，每次不使用所有的数据来计算，这就会导致准确率的损失。</p>
+</blockquote>
+<p>做了实验后，文本聚类效果不是很好（直接使用可视化），原因：数据太少了。</p>
 ]]></content>
-      <categories>
-        <category>ML&amp;DL</category>
-      </categories>
-      <tags>
-        <tag>Dropouts课题(刘世超老师)</tag>
-      </tags>
   </entry>
   <entry>
     <title>Java垃圾回收机制</title>
@@ -237,6 +197,78 @@
 </ul>
 <p>博客参考：<br><a href="https://blog.csdn.net/zsuguangh/article/details/6429592" target="_blank" rel="noopener">https://blog.csdn.net/zsuguangh/article/details/6429592</a><br><a href="https://blog.csdn.net/zhangcongyi420/article/details/89060970" target="_blank" rel="noopener">https://blog.csdn.net/zhangcongyi420/article/details/89060970</a></p>
 ]]></content>
+      <tags>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>论文阅读DrImpute</title>
+    <url>/2020/04/03/DrImpute/</url>
+    <content><![CDATA[<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><h4 id="聚类"><a href="#聚类" class="headerlink" title="聚类"></a>聚类</h4><h4 id="1-preprocess：data-cleansing-normalization-and-log-transformation"><a href="#1-preprocess：data-cleansing-normalization-and-log-transformation" class="headerlink" title="1. preprocess：data cleansing, normalization, and log transformation"></a>1. <strong>preprocess：</strong>data cleansing, normalization, and log transformation</h4><figure class="highlight r"><table><tr><td class="code"><pre><span class="line">preprocess &lt;- <span class="keyword">function</span>(x, min.expressed.gene = <span class="number">0</span>, min.expressed.cell = <span class="number">2</span>, max.expressed.ratio = <span class="number">1</span>, normalize.by.size.effect = <span class="literal">FALSE</span>)&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (class(x) == <span class="string">'SummarizedExperiment'</span>)</span><br><span class="line">		X &lt;- assays(x)$count</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (class(x) == <span class="string">'matrix'</span>)</span><br><span class="line">		X &lt;- x</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (is(x, <span class="string">'sparseMatrix'</span>))</span><br><span class="line">		X &lt;- x</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		<span class="keyword">stop</span>(sprintf(<span class="string">'unknown class(x): %s'</span>, class(x)))</span><br><span class="line"></span><br><span class="line">	M &lt;- ncol(X)</span><br><span class="line">	N &lt;- nrow(X)</span><br><span class="line">	m &lt;- Matrix::colSums(X &gt; <span class="number">1</span>) &gt;= min.expressed.gene	<span class="comment"># cells that have at least min.expressed.gene expreseed genes</span></span><br><span class="line">	n &lt;- Matrix::rowSums(X &gt; <span class="number">1</span>) &lt;= max.expressed.ratio * M &amp; Matrix::rowSums(X &gt; <span class="number">1</span>) &gt;= min.expressed.cell	<span class="comment"># genes that are detected in at least min.expressed.cell or at most max.expressed.ratio cells</span></span><br><span class="line">	<span class="keyword">if</span> (normalize.by.size.effect)&#123;</span><br><span class="line">	  sf &lt;- apply((X[n, m] + <span class="number">1</span>) / exp(Matrix::rowMeans(log(X[n, m] + <span class="number">1</span>))), <span class="number">2</span>, median)</span><br><span class="line">		X &lt;- t(t(X[n, m]) / sf)</span><br><span class="line">	&#125;<span class="keyword">else</span></span><br><span class="line">		X &lt;- X[n, m]</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (class(x) == <span class="string">'SummarizedExperiment'</span>)&#123;</span><br><span class="line">		x &lt;- x[n, m]</span><br><span class="line">		assays(x)$count &lt;- X</span><br><span class="line">	&#125;<span class="keyword">else</span> <span class="keyword">if</span> (class(x) == <span class="string">'matrix'</span>)&#123;</span><br><span class="line">		x &lt;- as.matrix(X)</span><br><span class="line">	&#125;<span class="keyword">else</span> <span class="keyword">if</span> (is(x, <span class="string">'sparseMatrix'</span>))&#123;</span><br><span class="line">		x &lt;- X</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	x</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-calculating-the-distance-matrix-among-cells"><a href="#2-calculating-the-distance-matrix-among-cells" class="headerlink" title="2.  calculating the distance matrix among cells"></a>2.  calculating the distance matrix among cells</h4><figure class="highlight r"><table><tr><td class="code"><pre><span class="line">dist2 &lt;- <span class="keyword">function</span>(X, method)&#123;</span><br><span class="line">	<span class="keyword">if</span> (method == <span class="string">'spearman'</span>)</span><br><span class="line">		D &lt;- as.matrix(<span class="number">1</span> - cor(as.matrix(X), method = <span class="string">'spearman'</span>))</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (method == <span class="string">"pearson"</span>)</span><br><span class="line">		D &lt;- as.matrix(<span class="number">1</span> - cor(as.matrix(X), method = <span class="string">'pearson'</span>))</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (method == <span class="string">"euclidean"</span>) </span><br><span class="line">		D &lt;- as.matrix(dist(t(as.matrix(X)), method = <span class="string">'euclidean'</span>))</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		<span class="keyword">stop</span>(sprintf(<span class="string">'unknown method: %s'</span>, method))</span><br><span class="line">	D</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-imputing-the-dropout-entries-based-on-the-clustering-results"><a href="#3-imputing-the-dropout-entries-based-on-the-clustering-results" class="headerlink" title="3.  imputing the dropout entries based on the clustering results"></a>3.  imputing the dropout entries based on the clustering results</h4><figure class="highlight r"><table><tr><td class="code"><pre><span class="line">DrImpute &lt;- <span class="keyword">function</span>(X, ks = <span class="number">10</span>:<span class="number">15</span>, dists = c(<span class="string">'spearman'</span>, <span class="string">'pearson'</span>), batch.size = <span class="literal">NA</span>, mc.cores = <span class="number">1</span>)&#123;</span><br><span class="line"></span><br><span class="line">	N &lt;- nrow(X)	<span class="comment"># number of genes</span></span><br><span class="line">	M &lt;- ncol(X) 	<span class="comment"># number of cells</span></span><br><span class="line">	cat(sprintf(<span class="string">'[%s] number of cells: %d\n'</span>, Sys.time(), M))</span><br><span class="line">	cat(sprintf(<span class="string">'[%s] number of genes: %d\n'</span>, Sys.time(), N))</span><br><span class="line"></span><br><span class="line">	is.zero &lt;- as(X == <span class="number">0</span>, <span class="string">'lgeMatrix'</span>)	<span class="comment"># dense logical matrix for zero and weakly detected events # 零和弱检测事件的密集逻辑矩阵</span></span><br><span class="line"></span><br><span class="line">	is.expressed &lt;- as(X &gt; log(<span class="number">1</span> + <span class="number">5</span>), <span class="string">'lgeMatrix'</span>) <span class="comment"># dense logical matrix for robustly expressed events # 鲁棒表示事件的密集逻辑矩阵</span></span><br><span class="line">	cat(sprintf(<span class="string">'[%s] %% zero events (X=0): %.1f%%\n'</span>, Sys.time(), sum(is.zero) / (N * M) * <span class="number">100</span>))</span><br><span class="line">	cat(sprintf(<span class="string">'[%s] %% robustly expressed events (X&gt;5): %.1f%%\n'</span>, Sys.time(), sum(is.expressed) / (N * M) * <span class="number">100</span>))</span><br><span class="line">	<span class="keyword">if</span> (!is.na(batch.size))&#123;</span><br><span class="line">		cat(sprintf(<span class="string">'[%s] batch size: %d cells\n'</span>, Sys.time(), batch.size))</span><br><span class="line">	&#125;</span><br><span class="line">	cat(sprintf(<span class="string">'[%s] # of CPU cores: %d\n'</span>, Sys.time(), mc.cores))</span><br><span class="line"></span><br><span class="line">	X &lt;- estimate.expression(X, ks = ks, dists = dists, mc.cores = mc.cores, batch.size = batch.size)</span><br><span class="line">	is.zero &lt;- as(X == <span class="number">0</span>, <span class="string">'lgeMatrix'</span>)	<span class="comment"># dense logical matrix for zero indicators</span></span><br><span class="line">	cat(sprintf(<span class="string">'[%s] %% zero events after imputation: %.1f%%\n'</span>, Sys.time(), sum(is.zero) / (N * M) * <span class="number">100</span>))</span><br><span class="line">	X</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-averaging-all-imputation-results-to-determine-the-final-imputation"><a href="#4-averaging-all-imputation-results-to-determine-the-final-imputation" class="headerlink" title="4.  averaging all imputation results to determine the final imputation."></a>4.  averaging all imputation results to determine the final imputation.</h4><h2 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h2><h3 id="Experiment-1："><a href="#Experiment-1：" class="headerlink" title="Experiment 1："></a>Experiment 1：</h3><p><strong>Method:</strong><br>the <strong>cell-cell</strong> distance matrix was computed using <strong>Spearman and Pearson correlations</strong>, followed by the <strong>cell-wise clustering</strong> based upon the distance matrix over a range of expected number of clusters k (k ranging from 10 to 15 by default).</p>
+<p><strong>Evaluation indicators:</strong><br>To generate the dropout zero, we randomly <strong>down-sampled</strong> the raw sequencing reads to 10, 15, 25, 40 and 63%f the total number of reads</p>
+<p><strong>Evaluation indicators:<br>F1 score</strong></p>
+<h3 id="Experiment-2"><a href="#Experiment-2" class="headerlink" title="Experiment 2"></a>Experiment 2</h3><p><strong>Method:</strong><br>The effect of cell clustering.<br> For each dataset, we randomly sampled 100 genes (<strong>down-sampling</strong>), or one-third of the total cells (down-sampling), and we clustered the cells using each of the clustering methods with and without preprocessing the down-sampled dataset using DrImpute. This process was <strong>repeated 100</strong> times, and we compared how consistent the clustering results were after down-sampling the genes or cells as measured by cross ARI<br><strong>Evaluation indicators:<br>ARI</strong></p>
+<h3 id="Experiment-3"><a href="#Experiment-3" class="headerlink" title="Experiment 3"></a>Experiment 3</h3><p><strong>Method:</strong><br>To evaluate the accuracy of the <strong>dimension reduction</strong> in 2D space, we first estimated how discriminatively the cells from one population (using the class label reported in the original publication) separated from other populations in 2D space. For each dimension reduction result</p>
+<p><strong>Evaluation indicators:</strong><br>we used the 2D coordinates of 90% of cells as the feature to train a linear support vector machine (SVM) classifier,and we predicted the class label for the remaining 10%of the cells. The above process was repeated ten times,and the overall prediction accuracy (10-fold cross validation accuracy) was used to quantitatively measure the separation of different populations in 2D space.// 这块没有讲清楚</p>
+<h3 id="Experiment-4"><a href="#Experiment-4" class="headerlink" title="Experiment 4"></a>Experiment 4</h3><p>重建谱系轨迹，推断单细胞的分化和祖细胞状态。(老师也不是很明白)</p>
+<h2 id="数据集："><a href="#数据集：" class="headerlink" title="数据集："></a>数据集：</h2><p>scRNA-seq datasets</p>
+<p><strong>cell labels</strong><br>“gold”：experimental conditions or cell lines（细胞系）<br>“silver”： derived and assigned by the authors’ knowledge of the underlying biology.<br>“bronze”:  developmental stages (time labels)</p>
+]]></content>
+      <categories>
+        <category>ML&amp;DL</category>
+      </categories>
+      <tags>
+        <tag>Dropouts课题(刘世超老师)</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python词云</title>
+    <url>/2020/02/13/Python%E8%AF%8D%E4%BA%91/</url>
+    <content><![CDATA[<p>配置</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pip install numpy matplotlib pillow wordcloud imageio jieba snownlp itchat -i https://pypi.tuna.tsinghua.edu.cn/simple</span><br></pre></td></tr></table></figure>
+
+<p>用清华的镜像速度好评</p>
+<p>网上提供的图片素材太少了，只好用自己一般的画工作图</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> jieba</span><br><span class="line"><span class="keyword">import</span> wordcloud</span><br><span class="line"></span><br><span class="line"><span class="comment"># 导入imageio库中的imread函数，并用这个函数读取本地图片，作为词云形状图片</span></span><br><span class="line"><span class="keyword">import</span> imageio</span><br><span class="line">mk = imageio.imread(<span class="string">"xiaolan.png"</span>)</span><br><span class="line">w = wordcloud.WordCloud(mask=mk)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 构建并配置词云对象w，注意要加scale参数，提高清晰度</span></span><br><span class="line">w = wordcloud.WordCloud(width=<span class="number">1000</span>,</span><br><span class="line">                        height=<span class="number">700</span>,</span><br><span class="line">                        background_color=<span class="string">'white'</span>,</span><br><span class="line">                        font_path=<span class="string">'simkai.ttf'</span>,</span><br><span class="line">                        mask=mk,</span><br><span class="line">                        scale=<span class="number">15</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 对来自外部文件的文本进行中文分词，得到string  ，有可能会遇到编码问题，这个可以根据报错来</span></span><br><span class="line">f = open(<span class="string">'知乎甜话.txt'</span>)</span><br><span class="line">txt = f.read()</span><br><span class="line">txtlist = jieba.lcut(txt)</span><br><span class="line">string = <span class="string">" "</span>.join(txtlist)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将string变量传入w的generate()方法，给词云输入文字</span></span><br><span class="line">w.generate(string)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将词云图片导出到当前文件夹</span></span><br><span class="line">w.to_file(<span class="string">'chao1.png'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>上传不了图片！</p>
+<p>TODO：颜色 &amp; 字体</p>
+]]></content>
+      <categories>
+        <category>Pyhton</category>
+      </categories>
+      <tags>
+        <tag>sth.interesting</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JShell容易出现错误之处</title>
+    <url>/2020/04/03/JShell%E5%AE%B9%E6%98%93%E5%87%BA%E7%8E%B0%E9%94%99%E8%AF%AF%E4%B9%8B%E5%A4%84/</url>
+    <content><![CDATA[<h3 id="注意事项-amp-可能存在的问题"><a href="#注意事项-amp-可能存在的问题" class="headerlink" title="注意事项&amp;可能存在的问题"></a>注意事项&amp;可能存在的问题</h3><ul>
+<li>不要调⽤<strong>Runtime类</strong>直接使⽤<strong>系统的shell命令</strong></li>
+<li>编码要求使⽤<strong>uft-8</strong>编码</li>
+<li>echo、grep没有处理 \n<strong>转义字符的问题</strong></li>
+<li>可能程序中使⽤switch语句进⾏流程控制，但是只取输⼊前两位达到省事的⽬的，这样是不可取的，就好⽐，别⼈输⼊pw，程序应当提⽰找不到pw命令,而⾮直接调⽤pwd命令。</li>
+<li>整个代码只有⼀个类，并在类⾥使⽤内部类，代码<strong>耦合程度⾼</strong>，而且难以阅读。功能存在问题，未经测试就匆忙提交，质量普遍不⾼。</li>
+<li><strong>接口没有打注释</strong></li>
+<li>请正确认识<strong>交互性</strong>，不要给程序运⾏添加不必要的操作。</li>
+<li><strong>不要把⽂件路径写死了</strong></li>
+<li>这是⼀个功能简化了的shell，但基本忠于shell，不要乱改原有的命令。</li>
+<li><strong>命名随便</strong>，有⽤a,b,c的，还有竟然⽤⾃⼰名字的。</li>
+<li>尽量不要使⽤<strong>windows编程</strong></li>
+<li>请把的<strong>注释掉的代码删去</strong>，需要保留的说明原因。</li>
+</ul>
+<p>From:yc<br><em>感觉犯错点很有参考价值</em></p>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
       <tags>
         <tag>Java</tag>
       </tags>
@@ -369,18 +401,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Kmeans聚类入门</title>
-    <url>/2020/02/16/Kmeans%E8%81%9A%E7%B1%BB%E5%85%A5%E9%97%A8/</url>
-    <content><![CDATA[<p>Kmeans聚类入门</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> sklearn.cluster <span class="keyword">import</span> KMeans</span><br><span class="line">data = np.random.rand(<span class="number">100</span>, <span class="number">3</span>) <span class="comment">#生成一个随机数据，样本大小为100, 特征数为3</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#假如我要构造一个聚类数为3的聚类器</span></span><br><span class="line">estimator = KMeans(n_clusters=<span class="number">3</span>)<span class="comment">#构造聚类器</span></span><br><span class="line">estimator.fit(data)<span class="comment">#聚类</span></span><br><span class="line">label_pred = estimator.labels_ <span class="comment">#获取聚类标签</span></span><br><span class="line">centroids = estimator.cluster_centers_ <span class="comment">#获取聚类中心</span></span><br><span class="line">inertia = estimator.inertia_ <span class="comment"># 获取聚类准则的总和</span></span><br><span class="line"></span><br><span class="line">print(label_pred)</span><br><span class="line">print(centroids)</span><br><span class="line">print(inertia)</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>当数据量很大的时候，Kmeans 显然还是很弱的，会比较耗费内存速度也会收到很大影响。scikit-learn 提供了MiniBatchKMeans算法，大致思想就是对数据进行抽样，每次不使用所有的数据来计算，这就会导致准确率的损失。</p>
-</blockquote>
-<p>做了实验后，文本聚类效果不是很好（直接使用可视化），原因：数据太少了。</p>
-]]></content>
-  </entry>
-  <entry>
     <title>NLP入门之文本分类</title>
     <url>/2020/02/12/NLP%E5%85%A5%E9%97%A8%E4%B9%8B%E6%96%87%E6%9C%AC%E5%88%86%E7%B1%BB/</url>
     <content><![CDATA[<h2 id="基本定义"><a href="#基本定义" class="headerlink" title="基本定义"></a>基本定义</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> jieba</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> warnings</span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> metrics</span><br><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> LabelEncoder</span><br><span class="line"><span class="keyword">from</span> sklearn.feature_extraction.text <span class="keyword">import</span> CountVectorizer</span><br><span class="line">warnings.filterwarnings(<span class="string">'ignore'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> xlrd <span class="comment"># 也可以使用pandas处理excel，非常好用</span></span><br><span class="line">workbook = xlrd.open_workbook(<span class="string">r'F:\C_1\train\train.xlsx'</span>)</span><br><span class="line">sheet = workbook.sheet_by_index(<span class="number">0</span>) <span class="comment"># sheet索引从0开始</span></span><br><span class="line">cols_1 = sheet.col_values(<span class="number">4</span>) <span class="comment"># 获取第3列内容</span></span><br><span class="line">cols_2 = sheet.col_values(<span class="number">5</span>)</span><br><span class="line">X_train = cols_1</span><br><span class="line">y_train = cols_2</span><br><span class="line"></span><br><span class="line">workbook1 = xlrd.open_workbook(<span class="string">r'F:\C_1\test\test.xlsx'</span>)</span><br><span class="line">sheet = workbook1.sheet_by_index(<span class="number">0</span>)</span><br><span class="line">cols_3 = sheet.col_values(<span class="number">4</span>)</span><br><span class="line">cols_4 = sheet.col_values(<span class="number">5</span>)</span><br><span class="line">X_test = cols_3</span><br><span class="line">y_test = cols_4</span><br><span class="line"></span><br><span class="line"><span class="comment"># 去掉空格</span></span><br><span class="line">X_train_word = [jieba.cut(words) <span class="keyword">for</span> words <span class="keyword">in</span> X_train]</span><br><span class="line">X_train_cut = [<span class="string">' '</span>.join(word) <span class="keyword">for</span> word <span class="keyword">in</span> X_train_word]</span><br><span class="line">X_test_word = [jieba.cut(words) <span class="keyword">for</span> words <span class="keyword">in</span> X_test]</span><br><span class="line">X_test_cut  = [<span class="string">' '</span>.join(word) <span class="keyword">for</span> word <span class="keyword">in</span> X_test_word]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 停止词使用</span></span><br><span class="line">stoplist = [word.strip() <span class="keyword">for</span> word <span class="keyword">in</span> open(<span class="string">'F:\MLstudy\stop\stopword.txt'</span>, \</span><br><span class="line">                                           encoding=<span class="string">'utf-8'</span>).readlines()]</span><br><span class="line"><span class="comment"># from sklearn.preprocessing import LabelEncoder</span></span><br><span class="line">le = LabelEncoder()</span><br><span class="line">y_train_le = le.fit_transform(y_train)</span><br><span class="line">y_test_le  = le.fit_transform(y_test)</span><br><span class="line"></span><br><span class="line"><span class="comment">#文本数据转换成数据值数据矩阵</span></span><br><span class="line"><span class="comment"># from sklearn.feature_extraction.text import CountVectorizer</span></span><br><span class="line">count = CountVectorizer(stop_words=stoplist)</span><br><span class="line"></span><br><span class="line">count.fit(list(X_train_cut) + list(X_test_cut))</span><br><span class="line">X_train_count = count.transform(X_train_cut)</span><br><span class="line">X_test_count  = count.transform(X_test_cut)</span><br><span class="line"></span><br><span class="line">X_train_count = X_train_count.toarray()</span><br><span class="line">X_test_count  = X_test_count.toarray()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 用于存储所有算法的名字，准确率和所消耗的时间</span></span><br><span class="line">estimator_list, score_list, time_list = [], [], []</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_text_classification</span><span class="params">(estimator, X, y, X_test, y_test)</span>:</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    estimator: 分类器，必选参数</span></span><br><span class="line"><span class="string">            X: 特征训练数据，必选参数</span></span><br><span class="line"><span class="string">            y: 标签训练数据，必选参数</span></span><br><span class="line"><span class="string">       X_test: 特征测试数据，必选参数</span></span><br><span class="line"><span class="string">        y_tes: 标签测试数据，必选参数</span></span><br><span class="line"><span class="string">       return: 返回值</span></span><br><span class="line"><span class="string">           y_pred_model: 预测值</span></span><br><span class="line"><span class="string">             classifier: 分类器名字</span></span><br><span class="line"><span class="string">                  score: 准确率</span></span><br><span class="line"><span class="string">                      t: 消耗的时间</span></span><br><span class="line"><span class="string">                  matrix: 混淆矩阵</span></span><br><span class="line"><span class="string">                  report: 分类评价函数</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    start = time.time()</span><br><span class="line"></span><br><span class="line">    print(<span class="string">'\n&gt;&gt;&gt;算法正在启动，请稍候...'</span>)</span><br><span class="line">    model = estimator</span><br><span class="line"></span><br><span class="line">    print(<span class="string">'\n&gt;&gt;&gt;算法正在进行训练，请稍候...'</span>)</span><br><span class="line">    model.fit(X, y)</span><br><span class="line">    print(model)</span><br><span class="line"></span><br><span class="line">    print(<span class="string">'\n&gt;&gt;&gt;算法正在进行预测，请稍候...'</span>)</span><br><span class="line">    y_pred_model = model.predict(X_test)</span><br><span class="line">    print(y_pred_model)</span><br><span class="line"></span><br><span class="line">    print(<span class="string">'\n&gt;&gt;&gt;算法正在进行性能评估，请稍候...'</span>)</span><br><span class="line">    score = metrics.accuracy_score(y_test, y_pred_model)</span><br><span class="line">    matrix = metrics.confusion_matrix(y_test, y_pred_model)</span><br><span class="line">    report = metrics.classification_report(y_test, y_pred_model)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#     f1 = metrics.f1_score(y_test, y_pred_model,average='weighted') #这是加权的</span></span><br><span class="line">    f1 = metrics.f1_score(y_test, y_pred_model, average=<span class="string">'macro'</span>)</span><br><span class="line">    print(<span class="string">'&gt;&gt;&gt;准确率\n'</span>, score)</span><br><span class="line">    print(<span class="string">'\n&gt;&gt;&gt;混淆矩阵\n'</span>, matrix)</span><br><span class="line">    print(<span class="string">'\n&gt;&gt;&gt;召回率\n'</span>, report)</span><br><span class="line">    print(<span class="string">'\n&gt;&gt;&gt;F1 score\n'</span>, f1)</span><br><span class="line">    print(<span class="string">'&gt;&gt;&gt;算法程序已经结束...'</span>)</span><br><span class="line"></span><br><span class="line">    end = time.time()</span><br><span class="line">    t = end - start</span><br><span class="line">    print(<span class="string">'\n&gt;&gt;&gt;算法消耗时间为：'</span>, t, <span class="string">'秒\n'</span>)</span><br><span class="line">    classifier = str(model).split(<span class="string">'('</span>)[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> y_pred_model, classifier, score, round(t, <span class="number">2</span>), matrix, report</span><br></pre></td></tr></table></figure>
@@ -494,26 +514,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Python词云</title>
-    <url>/2020/02/13/Python%E8%AF%8D%E4%BA%91/</url>
-    <content><![CDATA[<p>配置</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pip install numpy matplotlib pillow wordcloud imageio jieba snownlp itchat -i https://pypi.tuna.tsinghua.edu.cn/simple</span><br></pre></td></tr></table></figure>
-
-<p>用清华的镜像速度好评</p>
-<p>网上提供的图片素材太少了，只好用自己一般的画工作图</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> jieba</span><br><span class="line"><span class="keyword">import</span> wordcloud</span><br><span class="line"></span><br><span class="line"><span class="comment"># 导入imageio库中的imread函数，并用这个函数读取本地图片，作为词云形状图片</span></span><br><span class="line"><span class="keyword">import</span> imageio</span><br><span class="line">mk = imageio.imread(<span class="string">"xiaolan.png"</span>)</span><br><span class="line">w = wordcloud.WordCloud(mask=mk)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 构建并配置词云对象w，注意要加scale参数，提高清晰度</span></span><br><span class="line">w = wordcloud.WordCloud(width=<span class="number">1000</span>,</span><br><span class="line">                        height=<span class="number">700</span>,</span><br><span class="line">                        background_color=<span class="string">'white'</span>,</span><br><span class="line">                        font_path=<span class="string">'simkai.ttf'</span>,</span><br><span class="line">                        mask=mk,</span><br><span class="line">                        scale=<span class="number">15</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 对来自外部文件的文本进行中文分词，得到string  ，有可能会遇到编码问题，这个可以根据报错来</span></span><br><span class="line">f = open(<span class="string">'知乎甜话.txt'</span>)</span><br><span class="line">txt = f.read()</span><br><span class="line">txtlist = jieba.lcut(txt)</span><br><span class="line">string = <span class="string">" "</span>.join(txtlist)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将string变量传入w的generate()方法，给词云输入文字</span></span><br><span class="line">w.generate(string)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将词云图片导出到当前文件夹</span></span><br><span class="line">w.to_file(<span class="string">'chao1.png'</span>)</span><br></pre></td></tr></table></figure>
-
-<p>上传不了图片！</p>
-<p>TODO：颜色 &amp; 字体</p>
-]]></content>
-      <categories>
-        <category>Pyhton</category>
-      </categories>
-      <tags>
-        <tag>sth.interesting</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Rec</title>
     <url>/2019/11/27/Rec/</url>
     <content><![CDATA[<div id="hexo-blog-encrypt" data-wpm="Oh, this is an invalid password. Check and try again, please." data-whm="OOPS, these decrypted content may changed, but you can still have a look.">
@@ -608,13 +608,6 @@
       </tags>
   </entry>
   <entry>
-    <title>ideaVim-easymotion 插件</title>
-    <url>/2020/02/23/ideaVim-easymotion%20%E6%8F%92%E4%BB%B6/</url>
-    <content><![CDATA[<h4 id="作用：辅助（优化）ideaVim的"><a href="#作用：辅助（优化）ideaVim的" class="headerlink" title="作用：辅助（优化）ideaVim的"></a>作用：辅助（优化）ideaVim的</h4><p>主要是通过提升了<strong>跳转</strong>方式<br>一般的：<br><code>gg, G</code>最上、最下<br><code>Ctrl-D/U</code>下几步，上几步</p>
-<p>网上教程不多，具体更多详细教程：<br><a href="http://www.wklken.me/posts/2015/06/07/vim-plugin-easymotion.html" target="_blank" rel="noopener">http://www.wklken.me/posts/2015/06/07/vim-plugin-easymotion.html</a></p>
-]]></content>
-  </entry>
-  <entry>
     <title>hadoop</title>
     <url>/2019/11/29/hadoop/</url>
     <content><![CDATA[<blockquote>
@@ -649,6 +642,59 @@
       </categories>
       <tags>
         <tag>大数据</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ideaVim-easymotion 插件</title>
+    <url>/2020/02/23/ideaVim-easymotion%20%E6%8F%92%E4%BB%B6/</url>
+    <content><![CDATA[<h4 id="作用：辅助（优化）ideaVim的"><a href="#作用：辅助（优化）ideaVim的" class="headerlink" title="作用：辅助（优化）ideaVim的"></a>作用：辅助（优化）ideaVim的</h4><p>主要是通过提升了<strong>跳转</strong>方式<br>一般的：<br><code>gg, G</code>最上、最下<br><code>Ctrl-D/U</code>下几步，上几步</p>
+<p>网上教程不多，具体更多详细教程：<br><a href="http://www.wklken.me/posts/2015/06/07/vim-plugin-easymotion.html" target="_blank" rel="noopener">http://www.wklken.me/posts/2015/06/07/vim-plugin-easymotion.html</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>leetcode之数组类</title>
+    <url>/2020/02/19/leetcode%E6%95%B0%E7%BB%84%E7%B1%BB/</url>
+    <content><![CDATA[<p><em>使用C/C++做法</em></p>
+<h3 id="主要元素"><a href="#主要元素" class="headerlink" title="主要元素"></a>主要元素</h3><p><a href="https://leetcode-cn.com/problems/find-majority-element-lcci/" target="_blank" rel="noopener">https://leetcode-cn.com/problems/find-majority-element-lcci/</a></p>
+<p>快排</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i + k &lt; numsSize ;i++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(nums[i] == nums[i+k])</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> nums[i];</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>超时</p>
+<blockquote>
+<p><strong>摩尔投票算法</strong>是基于这个事实：每次从序列里选择两个不相同的数字删除掉（或称为“抵消”），最后剩下一个数字或几个相同的数字，就是出现次数大于总数一半的那个。<br>核心就是<strong>对拼消耗</strong>。<br>知乎讲解：<a href="https://www.zhihu.com/question/49973163" target="_blank" rel="noopener">https://www.zhihu.com/question/49973163</a></p>
+</blockquote>
+<h2 id="消失的数字"><a href="#消失的数字" class="headerlink" title="消失的数字"></a>消失的数字</h2><p><a href="https://leetcode-cn.com/problems/missing-number-lcci/" target="_blank" rel="noopener">https://leetcode-cn.com/problems/missing-number-lcci/</a></p>
+<blockquote>
+<p>M：<br>构建一个辅助数组，遇到了就是0，没有遇到就是1，最后再找到那个值</p>
+</blockquote>
+<ol>
+<li><p>第一种方法：<br>1）计算总和<br>2）用数列公式 - 总和</p>
+</li>
+<li><p>第二种方法：<br>1）边加边减</p>
+</li>
+</ol>
+<h2 id="合并排序的数组"><a href="#合并排序的数组" class="headerlink" title="合并排序的数组"></a>合并排序的数组</h2><p><a href="https://leetcode-cn.com/problems/sorted-merge-lcci/" target="_blank" rel="noopener">https://leetcode-cn.com/problems/sorted-merge-lcci/</a></p>
+<blockquote>
+<p>方法 1: 直接合并后排序<br>方法 2: 双指针<br>方法3：逆向双指针 （不需要额外开辟空间，但前提是前一个的容量要足够大）</p>
+</blockquote>
+<h2 id="连续数列"><a href="#连续数列" class="headerlink" title="连续数列"></a>连续数列</h2><p><a href="https://leetcode-cn.com/problems/contiguous-sequence-lcci/" target="_blank" rel="noopener">https://leetcode-cn.com/problems/contiguous-sequence-lcci/</a></p>
+<blockquote>
+<p>题的关键是要理解这么一层含义：对于数组 nums = [5, -9, 6, -2, 3]，5 是否要加 -9，取决于 -9 后面的正数是否能抵消 -9 并还有剩余。<br>一般称这种为贪心问题</p>
+</blockquote>
+<p><strong>动态规划</strong></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxSubArray</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> b = nums[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">int</span> sum = b;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i&lt;nums.length;i++)&#123;</span><br><span class="line">			<span class="comment">//b = b&lt;0? nums[i]:b+nums[i];</span></span><br><span class="line">            <span class="keyword">if</span>(b&lt;<span class="number">0</span>)&#123;</span><br><span class="line">                b=nums[i];</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                b+=nums[i];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(b&gt;sum)&#123;</span><br><span class="line">                sum=b;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sum;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>分治算法</strong></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 分治法</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxSubArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(nums.size() == <span class="number">0</span>) <span class="keyword">return</span> INT_MIN;</span><br><span class="line">    <span class="keyword">return</span> divide(nums,<span class="number">0</span>,nums.size()<span class="number">-1</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">divide</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> left, <span class="keyword">int</span> right)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(left == right) <span class="keyword">return</span> nums[left];</span><br><span class="line">    <span class="keyword">int</span> mid = (left + right) / <span class="number">2</span>;</span><br><span class="line">    <span class="comment">// 1. 最大数列和在左边</span></span><br><span class="line">    <span class="keyword">int</span> sumLeft = divide(nums,left,mid);</span><br><span class="line">    <span class="comment">// 2. 最大数列和在右边</span></span><br><span class="line">    <span class="keyword">int</span> sumRight = divide(nums,mid+<span class="number">1</span>,right);</span><br><span class="line">    <span class="comment">// 3. 最大数列和在中间</span></span><br><span class="line">    <span class="comment">// 先求左边的最大和</span></span><br><span class="line">    <span class="keyword">int</span> leftSum = <span class="number">0</span>,leftMaxSum = INT_MIN;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = mid; i &gt;= left; i--)</span><br><span class="line">    &#123;</span><br><span class="line">        leftSum += nums[i];</span><br><span class="line">        leftMaxSum = max(leftMaxSum,leftSum);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 求右边的最大和</span></span><br><span class="line">    <span class="keyword">int</span> rightSum = <span class="number">0</span>,rightMaxSum = INT_MIN;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = mid + <span class="number">1</span>; i &lt;= right; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        rightSum += nums[i];</span><br><span class="line">        rightMaxSum = max(rightMaxSum,rightSum);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> max(max(sumLeft,sumRight),leftMaxSum+rightMaxSum);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="在排序数组中查找数字-I"><a href="#在排序数组中查找数字-I" class="headerlink" title="在排序数组中查找数字 I"></a>在排序数组中查找数字 I</h2><p><a href="https://leetcode-cn.com/problems/zai-pai-xu-shu-zu-zhong-cha-zhao-shu-zi-lcof/" target="_blank" rel="noopener">https://leetcode-cn.com/problems/zai-pai-xu-shu-zu-zhong-cha-zhao-shu-zi-lcof/</a></p>
+<p><strong>二分查找法找到第一次出现的位置和最后一次出现的位置</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">search</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">0</span>, j = nums.length - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span>(i &lt;= j) &#123;</span><br><span class="line">            <span class="keyword">int</span> m = (i + j) / <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span>(nums[m] &lt;= target) i = m + <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">else</span> j = m - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> right = i;</span><br><span class="line"></span><br><span class="line">        i = <span class="number">0</span>; j = nums.length - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span>(i &lt;= j) &#123;</span><br><span class="line">            <span class="keyword">int</span> m = (i + j) / <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span>(nums[m] &lt; target) i = m + <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">else</span> j = m - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> left = j;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> right - left - <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>leetcode</category>
+      </categories>
+      <tags>
+        <tag>leetcode</tag>
       </tags>
   </entry>
   <entry>
@@ -700,81 +746,11 @@
       </tags>
   </entry>
   <entry>
-    <title>leetcode之数组类</title>
-    <url>/2020/02/19/leetcode%E6%95%B0%E7%BB%84%E7%B1%BB/</url>
-    <content><![CDATA[<p><em>使用C/C++做法</em></p>
-<h3 id="主要元素"><a href="#主要元素" class="headerlink" title="主要元素"></a>主要元素</h3><p><a href="https://leetcode-cn.com/problems/find-majority-element-lcci/" target="_blank" rel="noopener">https://leetcode-cn.com/problems/find-majority-element-lcci/</a></p>
-<p>快排</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i + k &lt; numsSize ;i++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(nums[i] == nums[i+k])</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> nums[i];</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>超时</p>
-<blockquote>
-<p><strong>摩尔投票算法</strong>是基于这个事实：每次从序列里选择两个不相同的数字删除掉（或称为“抵消”），最后剩下一个数字或几个相同的数字，就是出现次数大于总数一半的那个。<br>核心就是<strong>对拼消耗</strong>。<br>知乎讲解：<a href="https://www.zhihu.com/question/49973163" target="_blank" rel="noopener">https://www.zhihu.com/question/49973163</a></p>
-</blockquote>
-<h2 id="消失的数字"><a href="#消失的数字" class="headerlink" title="消失的数字"></a>消失的数字</h2><p><a href="https://leetcode-cn.com/problems/missing-number-lcci/" target="_blank" rel="noopener">https://leetcode-cn.com/problems/missing-number-lcci/</a></p>
-<blockquote>
-<p>M：<br>构建一个辅助数组，遇到了就是0，没有遇到就是1，最后再找到那个值</p>
-</blockquote>
-<ol>
-<li><p>第一种方法：<br>1）计算总和<br>2）用数列公式 - 总和</p>
-</li>
-<li><p>第二种方法：<br>1）边加边减</p>
-</li>
-</ol>
-<h2 id="合并排序的数组"><a href="#合并排序的数组" class="headerlink" title="合并排序的数组"></a>合并排序的数组</h2><p><a href="https://leetcode-cn.com/problems/sorted-merge-lcci/" target="_blank" rel="noopener">https://leetcode-cn.com/problems/sorted-merge-lcci/</a></p>
-<blockquote>
-<p>方法 1: 直接合并后排序<br>方法 2: 双指针<br>方法3：逆向双指针 （不需要额外开辟空间，但前提是前一个的容量要足够大）</p>
-</blockquote>
-<h2 id="连续数列"><a href="#连续数列" class="headerlink" title="连续数列"></a>连续数列</h2><p><a href="https://leetcode-cn.com/problems/contiguous-sequence-lcci/" target="_blank" rel="noopener">https://leetcode-cn.com/problems/contiguous-sequence-lcci/</a></p>
-<blockquote>
-<p>题的关键是要理解这么一层含义：对于数组 nums = [5, -9, 6, -2, 3]，5 是否要加 -9，取决于 -9 后面的正数是否能抵消 -9 并还有剩余。<br>一般称这种为贪心问题</p>
-</blockquote>
-<p><strong>动态规划</strong></p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxSubArray</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> b = nums[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">int</span> sum = b;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i&lt;nums.length;i++)&#123;</span><br><span class="line">			<span class="comment">//b = b&lt;0? nums[i]:b+nums[i];</span></span><br><span class="line">            <span class="keyword">if</span>(b&lt;<span class="number">0</span>)&#123;</span><br><span class="line">                b=nums[i];</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                b+=nums[i];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(b&gt;sum)&#123;</span><br><span class="line">                sum=b;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sum;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>分治算法</strong></p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 分治法</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxSubArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(nums.size() == <span class="number">0</span>) <span class="keyword">return</span> INT_MIN;</span><br><span class="line">    <span class="keyword">return</span> divide(nums,<span class="number">0</span>,nums.size()<span class="number">-1</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">divide</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> left, <span class="keyword">int</span> right)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(left == right) <span class="keyword">return</span> nums[left];</span><br><span class="line">    <span class="keyword">int</span> mid = (left + right) / <span class="number">2</span>;</span><br><span class="line">    <span class="comment">// 1. 最大数列和在左边</span></span><br><span class="line">    <span class="keyword">int</span> sumLeft = divide(nums,left,mid);</span><br><span class="line">    <span class="comment">// 2. 最大数列和在右边</span></span><br><span class="line">    <span class="keyword">int</span> sumRight = divide(nums,mid+<span class="number">1</span>,right);</span><br><span class="line">    <span class="comment">// 3. 最大数列和在中间</span></span><br><span class="line">    <span class="comment">// 先求左边的最大和</span></span><br><span class="line">    <span class="keyword">int</span> leftSum = <span class="number">0</span>,leftMaxSum = INT_MIN;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = mid; i &gt;= left; i--)</span><br><span class="line">    &#123;</span><br><span class="line">        leftSum += nums[i];</span><br><span class="line">        leftMaxSum = max(leftMaxSum,leftSum);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 求右边的最大和</span></span><br><span class="line">    <span class="keyword">int</span> rightSum = <span class="number">0</span>,rightMaxSum = INT_MIN;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = mid + <span class="number">1</span>; i &lt;= right; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        rightSum += nums[i];</span><br><span class="line">        rightMaxSum = max(rightMaxSum,rightSum);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> max(max(sumLeft,sumRight),leftMaxSum+rightMaxSum);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="在排序数组中查找数字-I"><a href="#在排序数组中查找数字-I" class="headerlink" title="在排序数组中查找数字 I"></a>在排序数组中查找数字 I</h2><p><a href="https://leetcode-cn.com/problems/zai-pai-xu-shu-zu-zhong-cha-zhao-shu-zi-lcof/" target="_blank" rel="noopener">https://leetcode-cn.com/problems/zai-pai-xu-shu-zu-zhong-cha-zhao-shu-zi-lcof/</a></p>
-<p><strong>二分查找法找到第一次出现的位置和最后一次出现的位置</strong></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">search</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">0</span>, j = nums.length - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span>(i &lt;= j) &#123;</span><br><span class="line">            <span class="keyword">int</span> m = (i + j) / <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span>(nums[m] &lt;= target) i = m + <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">else</span> j = m - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> right = i;</span><br><span class="line"></span><br><span class="line">        i = <span class="number">0</span>; j = nums.length - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span>(i &lt;= j) &#123;</span><br><span class="line">            <span class="keyword">int</span> m = (i + j) / <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span>(nums[m] &lt; target) i = m + <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">else</span> j = m - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> left = j;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> right - left - <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>leetcode</category>
-      </categories>
-      <tags>
-        <tag>leetcode</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>pandas读取excel</title>
     <url>/2020/02/17/pandas%E8%AF%BB%E5%8F%96excel/</url>
     <content><![CDATA[<h4 id="pandas处理excel数据非常便捷"><a href="#pandas处理excel数据非常便捷" class="headerlink" title="pandas处理excel数据非常便捷"></a>pandas处理excel数据非常便捷</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">df = pd.read_excel(<span class="string">r'F:\C\train_01.xlsx'</span>)</span><br><span class="line">data=df.loc[:,[<span class="string">'留言详情'</span>,<span class="string">'一级分类'</span>]].values<span class="comment">#读所有行的title以及data列的值，这里需要嵌套列表</span></span><br><span class="line"><span class="comment"># data=df.loc[:,['留言详情']].values</span></span><br><span class="line">print(<span class="string">"读取指定行的数据：\n&#123;0&#125;"</span>.format(data))</span><br><span class="line"></span><br><span class="line"><span class="comment"># &lt;class 'numpy.ndarray'&gt; 将此转化成列表</span></span><br><span class="line">x = df.stack().tolist()</span><br><span class="line"></span><br><span class="line">data_01=[]</span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> x:</span><br><span class="line">    sentence = line.strip().replace(<span class="string">u'\u3000'</span>, <span class="string">u' '</span>).replace(<span class="string">u'\xa0'</span>, <span class="string">u' '</span>).replace(<span class="string">" "</span>, <span class="string">""</span>).replace(<span class="string">"\r"</span>, <span class="string">""</span>).replace(<span class="string">"\n"</span>, <span class="string">""</span>)</span><br><span class="line">    data_01.append(sentence) </span><br><span class="line">    </span><br><span class="line"><span class="comment"># \u3000 是全角的空白符</span></span><br><span class="line"><span class="comment"># 终于把\n和\r给换掉了</span></span><br></pre></td></tr></table></figure>
 
 ]]></content>
-  </entry>
-  <entry>
-    <title>python爬取网易云音乐歌词</title>
-    <url>/2019/12/08/python%E7%88%AC%E5%8F%96%E7%BD%91%E6%98%93%E4%BA%91%E9%9F%B3%E4%B9%90%E6%AD%8C%E8%AF%8D/</url>
-    <content><![CDATA[<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># encoding: utf-8</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取网页源代码</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_page</span><span class="params">(url)</span>:</span></span><br><span class="line">    headers = &#123;</span><br><span class="line">        <span class="string">'User-Agent'</span>: <span class="string">'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36'</span></span><br><span class="line">    &#125;</span><br><span class="line">    response = requests.get(url, headers=headers)</span><br><span class="line">    <span class="keyword">return</span> response.text</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获得歌曲ID</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_id</span><span class="params">(url_list)</span>:</span></span><br><span class="line">    text = get_page(url_list)</span><br><span class="line">    ids = re.findall(<span class="string">r'&lt;li&gt;&lt;a href=".*?id=(\d+)"&gt;.*?&lt;/a&gt;&lt;/li&gt;'</span>, text, re.DOTALL)</span><br><span class="line">    <span class="keyword">return</span> ids</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取歌曲名</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_name</span><span class="params">(url_song)</span>:</span></span><br><span class="line">    text = get_page(url_song)</span><br><span class="line">    song_name = re.findall(<span class="string">r'&lt;meta name="description" content="歌曲名《(.*?)》.*?由 .*? 演唱.*?"/&gt;'</span>, text, re.DOTALL)</span><br><span class="line">    song_authors = re.findall(<span class="string">r'&lt;meta name="description" content="歌曲名《.*?》.*?由 (.*?) 演唱.*?"/&gt;'</span>, text, re.DOTALL)</span><br><span class="line">    name = song_name[<span class="number">0</span>] + <span class="string">' - '</span> + song_authors[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">return</span> name</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获得歌曲图</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_img</span><span class="params">(url_song, name)</span>:</span></span><br><span class="line">    text = get_page(url_song)</span><br><span class="line">    url_img = re.findall(<span class="string">r'&lt;meta property="og:image" content="(.*?)" /&gt;'</span>, text, re.DOTALL)[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    root = <span class="string">"D:/"</span></span><br><span class="line">    path = root + name + <span class="string">'.jpg'</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(root):</span><br><span class="line">            os.mkdir(root)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(path):</span><br><span class="line">            r = requests.get(url_img)</span><br><span class="line">            <span class="keyword">with</span> open(path, <span class="string">'wb'</span>) <span class="keyword">as</span> f:</span><br><span class="line">                f.write(r.content)</span><br><span class="line">                f.close()</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取歌词</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_lyric</span><span class="params">(id, name)</span>:</span></span><br><span class="line">    url_lyric = <span class="string">"http://music.163.com/api/song/lyric?id="</span> + id + <span class="string">"&amp;lv=1&amp;kv=1&amp;tv=-1"</span></span><br><span class="line">    text = get_page(url_lyric)</span><br><span class="line"></span><br><span class="line">    judge_lyric = re.findall(<span class="string">r'&#123;"nolyric":true,.*?&#125;'</span>, text, re.DOTALL)</span><br><span class="line">    <span class="keyword">if</span> judge_lyric:</span><br><span class="line">        print(str(name) + <span class="string">'无歌词\n'</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="comment"># 用json获取歌词</span></span><br><span class="line">        json_obj = json.loads(text)</span><br><span class="line">        initial_lyric = json_obj[<span class="string">'lrc'</span>][<span class="string">'lyric'</span>]</span><br><span class="line"></span><br><span class="line">        root = <span class="string">"D://lyric//"</span></span><br><span class="line">        <span class="comment"># path = root + name + '.lrc'</span></span><br><span class="line">        <span class="comment"># 改成txt会方便看很多</span></span><br><span class="line">        path = root + name + <span class="string">'.txt'</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(root):</span><br><span class="line">                os.mkdir(root)</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(path):</span><br><span class="line">                <span class="keyword">with</span> open(path, <span class="string">'w'</span>) <span class="keyword">as</span> f:</span><br><span class="line">                    f.write(initial_lyric)</span><br><span class="line">                    f.close()</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 爬不到数据！</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    url = <span class="string">'https://music.163.com/playlist?id=3185999809'</span></span><br><span class="line">    <span class="comment"># url = 'https://music.163.com/playlist?id=391228182' # 歌单url</span></span><br><span class="line">    ids = get_id(url)</span><br><span class="line">    names = []</span><br><span class="line"></span><br><span class="line">    fns_num = <span class="number">1</span></span><br><span class="line">    num = len(ids)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> id <span class="keyword">in</span> ids:</span><br><span class="line">        url_song = <span class="string">'https://music.163.com/song?id=%s'</span> % id</span><br><span class="line">        name = get_name(url_song)</span><br><span class="line">        get_img(url_song, name)</span><br><span class="line">        get_lyric(id, name)</span><br><span class="line">        names.append(name)</span><br><span class="line"></span><br><span class="line">        print(<span class="string">"\r完成进度: &#123;:.2f&#125;%"</span>.format(fns_num * <span class="number">100</span> / num), end=<span class="string">""</span>)</span><br><span class="line">        fns_num += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    print(<span class="string">'\n\n完成名单：'</span>)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> names:</span><br><span class="line">        print(i)</span><br><span class="line">    print(<span class="string">'\n\n查找到的数量:'</span> + str(num))</span><br><span class="line">    print(<span class="string">'\n最终完成的数量:'</span> + str(len(names)))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br><span class="line"></span><br><span class="line"><span class="comment"># <span class="doctag">TODO:</span>把前面的时长处理掉吧</span></span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Python爬虫</category>
-      </categories>
-      <tags>
-        <tag>Python爬虫</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>python爬取网易云音乐下载到本地</title>
-    <url>/2019/12/07/python%E7%88%AC%E5%8F%96%E7%BD%91%E6%98%93%E4%BA%91%E9%9F%B3%E4%B9%90%E4%B8%8B%E8%BD%BD%E5%88%B0%E6%9C%AC%E5%9C%B0/</url>
-    <content><![CDATA[<figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="comment"># encoding=utf8</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"><span class="keyword">import</span> urllib.request</span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">'Referer'</span>: <span class="string">'http://music.163.com/'</span>,</span><br><span class="line">    <span class="string">'Host'</span>: <span class="string">'music.163.com'</span>,</span><br><span class="line">    <span class="string">'User-Agent'</span>: <span class="string">'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.75 Safari/537.36'</span>,</span><br><span class="line">    <span class="string">'Accept'</span>: <span class="string">'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8'</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 歌单的url地址，如果存在一个#就不行，现在的网址都存在一个#号</span></span><br><span class="line">play_url = <span class="string">'http://music.163.com/playlist?id=3204486765'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取页面内容</span></span><br><span class="line">s = requests.session()</span><br><span class="line">response = s.get(play_url, headers=headers).content</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用bs4匹配出对应的歌曲名称和地址</span></span><br><span class="line">s = BeautifulSoup(response, <span class="string">'lxml'</span>)</span><br><span class="line">main = s.find(<span class="string">'ul'</span>, &#123;<span class="string">'class'</span>: <span class="string">'f-hide'</span>&#125;)</span><br><span class="line"></span><br><span class="line">lists = []</span><br><span class="line"><span class="keyword">for</span> music <span class="keyword">in</span> main.find_all(<span class="string">'a'</span>):</span><br><span class="line">    list = []</span><br><span class="line">    <span class="comment"># print('&#123;&#125; : &#123;&#125;'.format(music.text, music['href']))</span></span><br><span class="line">    musicUrl = <span class="string">'http://music.163.com/song/media/outer/url'</span> + music[<span class="string">'href'</span>][<span class="number">5</span>:] + <span class="string">'.mp3'</span></span><br><span class="line">    musicName = music.text</span><br><span class="line">    <span class="comment"># 单首歌曲的名字和地址放在list列表中</span></span><br><span class="line">    list.append(musicName)</span><br><span class="line">    list.append(musicUrl)</span><br><span class="line">    <span class="comment"># 全部歌曲信息放在lists列表中</span></span><br><span class="line">    lists.append(list)</span><br><span class="line"></span><br><span class="line">print(lists)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 下载列表中的全部歌曲，并以歌曲名命名下载后的文件，文件位置为当前文件夹</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> lists:</span><br><span class="line">    url = i[<span class="number">1</span>]</span><br><span class="line">    name = i[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        print(<span class="string">'正在下载'</span>, name)</span><br><span class="line">        urllib.request.urlretrieve(url, <span class="string">'./%s.mp3'</span> % name)</span><br><span class="line">        print(<span class="string">'下载成功'</span>)</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        print(<span class="string">'下载失败'</span>)</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>Python爬虫</category>
-      </categories>
-      <tags>
-        <tag>Python爬虫</tag>
-      </tags>
   </entry>
   <entry>
     <title>Springboot实战项目——短链接设计</title>
@@ -836,6 +812,17 @@
       </tags>
   </entry>
   <entry>
+    <title>python爬取网易云音乐歌词</title>
+    <url>/2019/12/08/python%E7%88%AC%E5%8F%96%E7%BD%91%E6%98%93%E4%BA%91%E9%9F%B3%E4%B9%90%E6%AD%8C%E8%AF%8D/</url>
+    <content><![CDATA[<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># encoding: utf-8</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取网页源代码</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_page</span><span class="params">(url)</span>:</span></span><br><span class="line">    headers = &#123;</span><br><span class="line">        <span class="string">'User-Agent'</span>: <span class="string">'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36'</span></span><br><span class="line">    &#125;</span><br><span class="line">    response = requests.get(url, headers=headers)</span><br><span class="line">    <span class="keyword">return</span> response.text</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获得歌曲ID</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_id</span><span class="params">(url_list)</span>:</span></span><br><span class="line">    text = get_page(url_list)</span><br><span class="line">    ids = re.findall(<span class="string">r'&lt;li&gt;&lt;a href=".*?id=(\d+)"&gt;.*?&lt;/a&gt;&lt;/li&gt;'</span>, text, re.DOTALL)</span><br><span class="line">    <span class="keyword">return</span> ids</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取歌曲名</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_name</span><span class="params">(url_song)</span>:</span></span><br><span class="line">    text = get_page(url_song)</span><br><span class="line">    song_name = re.findall(<span class="string">r'&lt;meta name="description" content="歌曲名《(.*?)》.*?由 .*? 演唱.*?"/&gt;'</span>, text, re.DOTALL)</span><br><span class="line">    song_authors = re.findall(<span class="string">r'&lt;meta name="description" content="歌曲名《.*?》.*?由 (.*?) 演唱.*?"/&gt;'</span>, text, re.DOTALL)</span><br><span class="line">    name = song_name[<span class="number">0</span>] + <span class="string">' - '</span> + song_authors[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">return</span> name</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获得歌曲图</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_img</span><span class="params">(url_song, name)</span>:</span></span><br><span class="line">    text = get_page(url_song)</span><br><span class="line">    url_img = re.findall(<span class="string">r'&lt;meta property="og:image" content="(.*?)" /&gt;'</span>, text, re.DOTALL)[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    root = <span class="string">"D:/"</span></span><br><span class="line">    path = root + name + <span class="string">'.jpg'</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(root):</span><br><span class="line">            os.mkdir(root)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(path):</span><br><span class="line">            r = requests.get(url_img)</span><br><span class="line">            <span class="keyword">with</span> open(path, <span class="string">'wb'</span>) <span class="keyword">as</span> f:</span><br><span class="line">                f.write(r.content)</span><br><span class="line">                f.close()</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取歌词</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_lyric</span><span class="params">(id, name)</span>:</span></span><br><span class="line">    url_lyric = <span class="string">"http://music.163.com/api/song/lyric?id="</span> + id + <span class="string">"&amp;lv=1&amp;kv=1&amp;tv=-1"</span></span><br><span class="line">    text = get_page(url_lyric)</span><br><span class="line"></span><br><span class="line">    judge_lyric = re.findall(<span class="string">r'&#123;"nolyric":true,.*?&#125;'</span>, text, re.DOTALL)</span><br><span class="line">    <span class="keyword">if</span> judge_lyric:</span><br><span class="line">        print(str(name) + <span class="string">'无歌词\n'</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="comment"># 用json获取歌词</span></span><br><span class="line">        json_obj = json.loads(text)</span><br><span class="line">        initial_lyric = json_obj[<span class="string">'lrc'</span>][<span class="string">'lyric'</span>]</span><br><span class="line"></span><br><span class="line">        root = <span class="string">"D://lyric//"</span></span><br><span class="line">        <span class="comment"># path = root + name + '.lrc'</span></span><br><span class="line">        <span class="comment"># 改成txt会方便看很多</span></span><br><span class="line">        path = root + name + <span class="string">'.txt'</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(root):</span><br><span class="line">                os.mkdir(root)</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(path):</span><br><span class="line">                <span class="keyword">with</span> open(path, <span class="string">'w'</span>) <span class="keyword">as</span> f:</span><br><span class="line">                    f.write(initial_lyric)</span><br><span class="line">                    f.close()</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 爬不到数据！</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    url = <span class="string">'https://music.163.com/playlist?id=3185999809'</span></span><br><span class="line">    <span class="comment"># url = 'https://music.163.com/playlist?id=391228182' # 歌单url</span></span><br><span class="line">    ids = get_id(url)</span><br><span class="line">    names = []</span><br><span class="line"></span><br><span class="line">    fns_num = <span class="number">1</span></span><br><span class="line">    num = len(ids)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> id <span class="keyword">in</span> ids:</span><br><span class="line">        url_song = <span class="string">'https://music.163.com/song?id=%s'</span> % id</span><br><span class="line">        name = get_name(url_song)</span><br><span class="line">        get_img(url_song, name)</span><br><span class="line">        get_lyric(id, name)</span><br><span class="line">        names.append(name)</span><br><span class="line"></span><br><span class="line">        print(<span class="string">"\r完成进度: &#123;:.2f&#125;%"</span>.format(fns_num * <span class="number">100</span> / num), end=<span class="string">""</span>)</span><br><span class="line">        fns_num += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    print(<span class="string">'\n\n完成名单：'</span>)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> names:</span><br><span class="line">        print(i)</span><br><span class="line">    print(<span class="string">'\n\n查找到的数量:'</span> + str(num))</span><br><span class="line">    print(<span class="string">'\n最终完成的数量:'</span> + str(len(names)))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br><span class="line"></span><br><span class="line"><span class="comment"># <span class="doctag">TODO:</span>把前面的时长处理掉吧</span></span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Python爬虫</category>
+      </categories>
+      <tags>
+        <tag>Python爬虫</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>SpringCloud</title>
     <url>/2020/02/15/springcloud/</url>
     <content><![CDATA[<p>纯洁的微笑关于springcloud的知识是2017年的</p>
@@ -859,21 +846,17 @@
       </tags>
   </entry>
   <entry>
-    <title>Web小项目(react调试和部署)</title>
-    <url>/2020/02/26/web%E5%B0%8F%E9%A1%B9%E7%9B%AE/</url>
-    <content><![CDATA[<h2 id="如何在本地调试react项目"><a href="#如何在本地调试react项目" class="headerlink" title="如何在本地调试react项目"></a>如何在本地调试react项目</h2><blockquote>
-<p>在项目终端下(pycharm)运行 <figure class="highlight plain"><figcaption><span>install```**安装依赖**</span></figcaption><table><tr><td class="code"><pre><span class="line">项目会生成**node_modules**目录</span><br><span class="line"></span><br><span class="line">我们在在项目终端下(pycharm)运行</span><br></pre></td></tr></table></figure></p>
-</blockquote>
-<p>npm start</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">浏览器会自动打开http://localhost:3000运行调试</span><br><span class="line"></span><br><span class="line">## 如何将本地的react项目部署到云服务器上</span><br><span class="line">我们在在项目终端下(pycharm)运行</span><br></pre></td></tr></table></figure>
+    <title>python爬取网易云音乐下载到本地</title>
+    <url>/2019/12/07/python%E7%88%AC%E5%8F%96%E7%BD%91%E6%98%93%E4%BA%91%E9%9F%B3%E4%B9%90%E4%B8%8B%E8%BD%BD%E5%88%B0%E6%9C%AC%E5%9C%B0/</url>
+    <content><![CDATA[<figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="comment"># encoding=utf8</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"><span class="keyword">import</span> urllib.request</span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">'Referer'</span>: <span class="string">'http://music.163.com/'</span>,</span><br><span class="line">    <span class="string">'Host'</span>: <span class="string">'music.163.com'</span>,</span><br><span class="line">    <span class="string">'User-Agent'</span>: <span class="string">'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.75 Safari/537.36'</span>,</span><br><span class="line">    <span class="string">'Accept'</span>: <span class="string">'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8'</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 歌单的url地址，如果存在一个#就不行，现在的网址都存在一个#号</span></span><br><span class="line">play_url = <span class="string">'http://music.163.com/playlist?id=3204486765'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取页面内容</span></span><br><span class="line">s = requests.session()</span><br><span class="line">response = s.get(play_url, headers=headers).content</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用bs4匹配出对应的歌曲名称和地址</span></span><br><span class="line">s = BeautifulSoup(response, <span class="string">'lxml'</span>)</span><br><span class="line">main = s.find(<span class="string">'ul'</span>, &#123;<span class="string">'class'</span>: <span class="string">'f-hide'</span>&#125;)</span><br><span class="line"></span><br><span class="line">lists = []</span><br><span class="line"><span class="keyword">for</span> music <span class="keyword">in</span> main.find_all(<span class="string">'a'</span>):</span><br><span class="line">    list = []</span><br><span class="line">    <span class="comment"># print('&#123;&#125; : &#123;&#125;'.format(music.text, music['href']))</span></span><br><span class="line">    musicUrl = <span class="string">'http://music.163.com/song/media/outer/url'</span> + music[<span class="string">'href'</span>][<span class="number">5</span>:] + <span class="string">'.mp3'</span></span><br><span class="line">    musicName = music.text</span><br><span class="line">    <span class="comment"># 单首歌曲的名字和地址放在list列表中</span></span><br><span class="line">    list.append(musicName)</span><br><span class="line">    list.append(musicUrl)</span><br><span class="line">    <span class="comment"># 全部歌曲信息放在lists列表中</span></span><br><span class="line">    lists.append(list)</span><br><span class="line"></span><br><span class="line">print(lists)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 下载列表中的全部歌曲，并以歌曲名命名下载后的文件，文件位置为当前文件夹</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> lists:</span><br><span class="line">    url = i[<span class="number">1</span>]</span><br><span class="line">    name = i[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        print(<span class="string">'正在下载'</span>, name)</span><br><span class="line">        urllib.request.urlretrieve(url, <span class="string">'./%s.mp3'</span> % name)</span><br><span class="line">        print(<span class="string">'下载成功'</span>)</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        print(<span class="string">'下载失败'</span>)</span><br></pre></td></tr></table></figure>
 
-<p>npm run build</p>
-<pre><code>项目会生成了一个**build**目录
-
-打开宝塔服务器页面，到相关网站下，将build页面下==static上传，以及和static平行的文件上传。==
-
-至此，大功告成！
-tips:感觉网上的教程大多数很复杂，暂时也不太明白他们做的原理(TODO)</code></pre>]]></content>
+]]></content>
+      <categories>
+        <category>Python爬虫</category>
+      </categories>
+      <tags>
+        <tag>Python爬虫</tag>
+      </tags>
   </entry>
   <entry>
     <title>srf之论文汇报流程</title>
@@ -963,6 +946,69 @@ tips:感觉网上的教程大多数很复杂，暂时也不太明白他们做的
       </tags>
   </entry>
   <entry>
+    <title>Web小项目(react调试和部署)</title>
+    <url>/2020/02/26/web%E5%B0%8F%E9%A1%B9%E7%9B%AE/</url>
+    <content><![CDATA[<h2 id="如何在本地调试react项目"><a href="#如何在本地调试react项目" class="headerlink" title="如何在本地调试react项目"></a>如何在本地调试react项目</h2><blockquote>
+<p>在项目终端下(pycharm)运行 <figure class="highlight plain"><figcaption><span>install```**安装依赖**</span></figcaption><table><tr><td class="code"><pre><span class="line">项目会生成**node_modules**目录</span><br><span class="line"></span><br><span class="line">我们在在项目终端下(pycharm)运行</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<p>npm start</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">浏览器会自动打开http://localhost:3000运行调试</span><br><span class="line"></span><br><span class="line">## 如何将本地的react项目部署到云服务器上</span><br><span class="line">我们在在项目终端下(pycharm)运行</span><br></pre></td></tr></table></figure>
+
+<p>npm run build</p>
+<pre><code>项目会生成了一个**build**目录
+
+打开宝塔服务器页面，到相关网站下，将build页面下==static上传，以及和static平行的文件上传。==
+
+至此，大功告成！
+tips:感觉网上的教程大多数很复杂，暂时也不太明白他们做的原理(TODO)</code></pre>]]></content>
+  </entry>
+  <entry>
+    <title>做一个简单的操作系统和相关知识理解</title>
+    <url>/2019/10/14/%E4%B8%80%E4%B8%AA%E9%9D%9E%E5%B8%B8%E7%AE%80%E5%8D%95%E7%9A%84%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</url>
+    <content><![CDATA[<p>下载：nasm，VMware<br>NASM是一个为可移植性与模块化而设计的一个80x86的汇编器</p>
+<blockquote>
+<p>汇编器（Assembler）是将汇编语言翻译为机器语言的程序。一般而言，汇编生成的是目标代码，需要经链接器（Linker）生成可执行代码才可以执行。</p>
+</blockquote>
+<h3 id="原理性："><a href="#原理性：" class="headerlink" title="原理性："></a>原理性：</h3><p>操作系统如何被启动？</p>
+<ul>
+<li>第一步：读取BIOS<br>按下电源按钮后，计算机首先读取一块ROM芯片，这块芯片里的程序是”基本输入输出系統”<strong>（Basic Input/Output System）</strong>，即BIOS.</li>
+<li>第二步：<strong>硬件</strong>自检<br>BIOS会检查计算机硬件是否满足运行条件，如果硬件出现问题，主板会发出不同含义的蜂鸣，启动中止。</li>
+<li>第三步：启动顺序<br>硬件检查完成后，BIOS会将控制权交给下一阶段的启动程序，注意，“下一阶段的启动程序”可能存放在硬盘中，也可能存放在CD/DVD中，或者软盘中等等，可以设置BIOS选择从哪个设备启动。</li>
+<li>第四步：主引导记录<br>BIOS找到了“下一阶段的启动程序”所在设备，会读取该设备的第一个扇区，即读取最前面的512字节，称为主引导记录。主引导记录会告诉计算机下一步到哪里去找操作系统。</li>
+<li>第五步：bootloader<br>计算机读取”主引导记录”前面446字节的机器码之后，运行事先安装的“启动管理器”bootloader，由用户选择启动哪个操作系统。如果你安装了多个操作系统，那么就要从这步做出选择了。</li>
+<li>第六步：加载内核<br>好了，选择操作系统（内核）后，会加载内核，下面就交给内核去处理了。</li>
+</ul>
+<hr>
+<p>我们使用虚拟机来启动操作系统，上面的第一步和第二步我们不做，由虚拟机去完成；第三步“启动顺序”我们选择从软盘启动（我们用镜像代替，并不是真的软盘），需要对虚拟机做下设置，选择从软盘启动。下面重点来看第四步，我们写一下“主引导记录”，让BIOS读取我们写的主引导记录。</p>
+<hr>
+<h2 id="实践性"><a href="#实践性" class="headerlink" title="实践性"></a>实践性</h2><p>nasm下载地址：// 可能是老版本了</p>
+<blockquote>
+<p><a href="http://www.nasm.us/pub/nasm/releasebuilds/2.11.02/win32/nasm-2.11.02-installer.exe" target="_blank" rel="noopener">http://www.nasm.us/pub/nasm/releasebuilds/2.11.02/win32/nasm-2.11.02-installer.exe</a></p>
+</blockquote>
+<p>文件名  boot.asm</p>
+<blockquote>
+<p> org 7c00h               ; BIOS读入MBR后，从0x7c00h处开始执行<br>; 下面部分和10h有关中断，10h中断用来显示字符<br>mov ax, cs<br>mov es, ax<br>mov ax, msg<br>mov bp, ax                    ; ES:BP表示显示字符串的地址<br>mov cx, msgLen                ; CX存字符长度<br>mov ax, 1301h                 ; AH=13h表示向TTY显示字符，AL=01h表示显示方式（字符串是否包含显示属性，01h表示不包含）<br>mov bx, 000fh                 ; BH=00h表示页号，BL=0fh表示颜色<br>mov dl, 0                     ; 列<br>int 10h<br>msg: db “hello world, welcome to OS!”<br>msgLen: equ $ - msg           ; 字符串长度<br>times 510 - ($ - $$) db 0     ; 填充剩余部分<br>dw 0aa55h                     ; 魔数，必须有这两个字节BIOS才确认是MBR</p>
+</blockquote>
+<p>在nasm中编译</p>
+<blockquote>
+<p>nasm boot.asm -o boot.bin<br>生成 Boot.img文件</p>
+</blockquote>
+<p>在VM上创建新的虚拟机，其余都一样，在软盘驱动器（添加），选择文件，启动便可。</p>
+<p><img src="C:%5CUsers%5CAdministrator%5CDesktop%5CJava%5Chello.png" alt="avatar"></p>
+<p>something：</p>
+<ol>
+<li>底层的计算机语言</li>
+<li>软盘</li>
+</ol>
+]]></content>
+      <categories>
+        <category>操作系统</category>
+      </categories>
+      <tags>
+        <tag>sth.interesting</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>yc的聊天器（NIO）</title>
     <url>/2020/02/05/yc%E7%9A%84%E8%81%8A%E5%A4%A9%E5%99%A8%EF%BC%88Ubuntu%EF%BC%89/</url>
     <content><![CDATA[<h3 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 本机client编号</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">int</span> thisClientNumber = -<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 客户端多路选择器</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> Selector selector;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 客户端和服务端连接channel</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> SocketChannel socketChannel;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 聊天工具类</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> ChartUtil chartUtil;</span><br></pre></td></tr></table></figure>
@@ -1005,6 +1051,52 @@ tips:感觉网上的教程大多数很复杂，暂时也不太明白他们做的
       </categories>
       <tags>
         <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>大数据学习的基本框架</title>
+    <url>/2019/11/09/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A1%86%E6%9E%B6/</url>
+    <content><![CDATA[<ol>
+<li><p><strong>数据收集</strong> ： </p>
+<blockquote>
+<p>多种日志收集工具，如 Flume 、Logstash、Kibana 等</p>
+</blockquote>
+</li>
+<li><p><strong>数据存储</strong></p>
+<blockquote>
+<p>解决海量半结构化和非结构化数据的存储，衍生了 Hadoop HDFS 、KFS、GFS 等<strong>分布式文件系统</strong><br>一个优秀的数据存储系统需要同时考虑<strong>数据存储和访问</strong>两方面的问题<br>比如你希望能够对数据进行随机访问，这是传统的关系型数据库所擅长的，但却不是分布式文件系统所擅长的，那么有没有一种存储方案能够同时兼具分布式文件系统和关系型数据库的优点，基于这种需求，就产生了 <strong>HBase、MongoDB</strong>。</p>
+</blockquote>
+</li>
+<li><p><strong>数据分析</strong>（最关键的部分）</p>
+</li>
+</ol>
+<blockquote>
+<ul>
+<li>批处理：对一段时间内海量的离线数据进行统一的处理，对应的处理框架有 Hadoop MapReduce、Spark、Flink 等；</li>
+<li>流处理：对运动中的数据进行处理，即在接收数据的同时就对其进行处理，对应的处理框架有 Storm、Spark Streaming、Flink Streaming 等。</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>批处理和流处理各有其适用的场景，<strong>时间不敏感或者硬件资源有限</strong>，可以采用批处理；时间敏感和及时性要求高就可以采用流处理。随着服务器硬件的价格越来越低和大家对及时性的要求越来越高，<strong>流处理</strong>越来越普遍，如股票价格预测和电商运营数据分析等。</p>
+</blockquote>
+<blockquote>
+<p>上面的框架都是需要通过编程来进行数据分析，那么如果你不是一个后台工程师，是不是就不能进行数据的分析了？当然不是，<em>大数据是一个非常完善的生态圈，有需求就有解决方案。</em> 为了能够让熟悉 SQL 的人员也能够进行数据的分析，查询分析框架应运而生，常用的有 <strong>Hive 、Spark SQL 、Flink SQL、 Pig、Phoenix</strong> 等。</p>
+</blockquote>
+<ol start="4">
+<li><strong>数据应用</strong><blockquote>
+<p>这取决于你实际的业务需求。比如你可以将数据进行<strong>可视化展现</strong>，或者将数据用于<strong>优化你的推荐算法</strong>，比如短视频个性化推荐、电商商品推荐、头条新闻推荐等。当然你也可以将数据用于训练你的<strong>机器学习模型</strong></p>
+</blockquote>
+</li>
+</ol>
+<blockquote>
+<p>建议：Scala 确实足够的精简和灵活，但其在语言复杂度上略大于 Java，例如隐式转换和隐式参数等概念在初次涉及时会比较难以理解，所以你可以在了解Spark 后再去学习 Scala ，因为类似隐式转换等概念在 Spark 源码中有大量的运用。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">日志收集框架：Flume 、Logstash、Kibana</span><br><span class="line">分布式文件存储系统：Hadoop HDFS</span><br><span class="line">数据库系统：Mongodb、HBase</span><br><span class="line">分布式计算框架：</span><br><span class="line">批处理框架：Hadoop MapReduce</span><br><span class="line">流处理框架：Storm</span><br><span class="line">混合处理框架：Spark、Flink</span><br><span class="line">查询分析框架：Hive 、Spark SQL 、Flink SQL、 Pig、Phoenix</span><br><span class="line">集群资源管理器：Hadoop YARN</span><br><span class="line">分布式协调服务：Zookeeper</span><br><span class="line">数据迁移工具：Sqoop</span><br><span class="line">任务调度框架：Azkaban、Oozie</span><br><span class="line">集群部署和监控：Ambari、Cloudera Manager</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>大数据</category>
+      </categories>
+      <tags>
+        <tag>大数据</tag>
       </tags>
   </entry>
   <entry>
@@ -1087,98 +1179,6 @@ tips:感觉网上的教程大多数很复杂，暂时也不太明白他们做的
       </tags>
   </entry>
   <entry>
-    <title>做一个简单的操作系统和相关知识理解</title>
-    <url>/2019/10/14/%E4%B8%80%E4%B8%AA%E9%9D%9E%E5%B8%B8%E7%AE%80%E5%8D%95%E7%9A%84%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</url>
-    <content><![CDATA[<p>下载：nasm，VMware<br>NASM是一个为可移植性与模块化而设计的一个80x86的汇编器</p>
-<blockquote>
-<p>汇编器（Assembler）是将汇编语言翻译为机器语言的程序。一般而言，汇编生成的是目标代码，需要经链接器（Linker）生成可执行代码才可以执行。</p>
-</blockquote>
-<h3 id="原理性："><a href="#原理性：" class="headerlink" title="原理性："></a>原理性：</h3><p>操作系统如何被启动？</p>
-<ul>
-<li>第一步：读取BIOS<br>按下电源按钮后，计算机首先读取一块ROM芯片，这块芯片里的程序是”基本输入输出系統”<strong>（Basic Input/Output System）</strong>，即BIOS.</li>
-<li>第二步：<strong>硬件</strong>自检<br>BIOS会检查计算机硬件是否满足运行条件，如果硬件出现问题，主板会发出不同含义的蜂鸣，启动中止。</li>
-<li>第三步：启动顺序<br>硬件检查完成后，BIOS会将控制权交给下一阶段的启动程序，注意，“下一阶段的启动程序”可能存放在硬盘中，也可能存放在CD/DVD中，或者软盘中等等，可以设置BIOS选择从哪个设备启动。</li>
-<li>第四步：主引导记录<br>BIOS找到了“下一阶段的启动程序”所在设备，会读取该设备的第一个扇区，即读取最前面的512字节，称为主引导记录。主引导记录会告诉计算机下一步到哪里去找操作系统。</li>
-<li>第五步：bootloader<br>计算机读取”主引导记录”前面446字节的机器码之后，运行事先安装的“启动管理器”bootloader，由用户选择启动哪个操作系统。如果你安装了多个操作系统，那么就要从这步做出选择了。</li>
-<li>第六步：加载内核<br>好了，选择操作系统（内核）后，会加载内核，下面就交给内核去处理了。</li>
-</ul>
-<hr>
-<p>我们使用虚拟机来启动操作系统，上面的第一步和第二步我们不做，由虚拟机去完成；第三步“启动顺序”我们选择从软盘启动（我们用镜像代替，并不是真的软盘），需要对虚拟机做下设置，选择从软盘启动。下面重点来看第四步，我们写一下“主引导记录”，让BIOS读取我们写的主引导记录。</p>
-<hr>
-<h2 id="实践性"><a href="#实践性" class="headerlink" title="实践性"></a>实践性</h2><p>nasm下载地址：// 可能是老版本了</p>
-<blockquote>
-<p><a href="http://www.nasm.us/pub/nasm/releasebuilds/2.11.02/win32/nasm-2.11.02-installer.exe" target="_blank" rel="noopener">http://www.nasm.us/pub/nasm/releasebuilds/2.11.02/win32/nasm-2.11.02-installer.exe</a></p>
-</blockquote>
-<p>文件名  boot.asm</p>
-<blockquote>
-<p> org 7c00h               ; BIOS读入MBR后，从0x7c00h处开始执行<br>; 下面部分和10h有关中断，10h中断用来显示字符<br>mov ax, cs<br>mov es, ax<br>mov ax, msg<br>mov bp, ax                    ; ES:BP表示显示字符串的地址<br>mov cx, msgLen                ; CX存字符长度<br>mov ax, 1301h                 ; AH=13h表示向TTY显示字符，AL=01h表示显示方式（字符串是否包含显示属性，01h表示不包含）<br>mov bx, 000fh                 ; BH=00h表示页号，BL=0fh表示颜色<br>mov dl, 0                     ; 列<br>int 10h<br>msg: db “hello world, welcome to OS!”<br>msgLen: equ $ - msg           ; 字符串长度<br>times 510 - ($ - $$) db 0     ; 填充剩余部分<br>dw 0aa55h                     ; 魔数，必须有这两个字节BIOS才确认是MBR</p>
-</blockquote>
-<p>在nasm中编译</p>
-<blockquote>
-<p>nasm boot.asm -o boot.bin<br>生成 Boot.img文件</p>
-</blockquote>
-<p>在VM上创建新的虚拟机，其余都一样，在软盘驱动器（添加），选择文件，启动便可。</p>
-<p><img src="C:%5CUsers%5CAdministrator%5CDesktop%5CJava%5Chello.png" alt="avatar"></p>
-<p>something：</p>
-<ol>
-<li>底层的计算机语言</li>
-<li>软盘</li>
-</ol>
-]]></content>
-      <categories>
-        <category>操作系统</category>
-      </categories>
-      <tags>
-        <tag>sth.interesting</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>大数据学习的基本框架</title>
-    <url>/2019/11/09/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A1%86%E6%9E%B6/</url>
-    <content><![CDATA[<ol>
-<li><p><strong>数据收集</strong> ： </p>
-<blockquote>
-<p>多种日志收集工具，如 Flume 、Logstash、Kibana 等</p>
-</blockquote>
-</li>
-<li><p><strong>数据存储</strong></p>
-<blockquote>
-<p>解决海量半结构化和非结构化数据的存储，衍生了 Hadoop HDFS 、KFS、GFS 等<strong>分布式文件系统</strong><br>一个优秀的数据存储系统需要同时考虑<strong>数据存储和访问</strong>两方面的问题<br>比如你希望能够对数据进行随机访问，这是传统的关系型数据库所擅长的，但却不是分布式文件系统所擅长的，那么有没有一种存储方案能够同时兼具分布式文件系统和关系型数据库的优点，基于这种需求，就产生了 <strong>HBase、MongoDB</strong>。</p>
-</blockquote>
-</li>
-<li><p><strong>数据分析</strong>（最关键的部分）</p>
-</li>
-</ol>
-<blockquote>
-<ul>
-<li>批处理：对一段时间内海量的离线数据进行统一的处理，对应的处理框架有 Hadoop MapReduce、Spark、Flink 等；</li>
-<li>流处理：对运动中的数据进行处理，即在接收数据的同时就对其进行处理，对应的处理框架有 Storm、Spark Streaming、Flink Streaming 等。</li>
-</ul>
-</blockquote>
-<blockquote>
-<p>批处理和流处理各有其适用的场景，<strong>时间不敏感或者硬件资源有限</strong>，可以采用批处理；时间敏感和及时性要求高就可以采用流处理。随着服务器硬件的价格越来越低和大家对及时性的要求越来越高，<strong>流处理</strong>越来越普遍，如股票价格预测和电商运营数据分析等。</p>
-</blockquote>
-<blockquote>
-<p>上面的框架都是需要通过编程来进行数据分析，那么如果你不是一个后台工程师，是不是就不能进行数据的分析了？当然不是，<em>大数据是一个非常完善的生态圈，有需求就有解决方案。</em> 为了能够让熟悉 SQL 的人员也能够进行数据的分析，查询分析框架应运而生，常用的有 <strong>Hive 、Spark SQL 、Flink SQL、 Pig、Phoenix</strong> 等。</p>
-</blockquote>
-<ol start="4">
-<li><strong>数据应用</strong><blockquote>
-<p>这取决于你实际的业务需求。比如你可以将数据进行<strong>可视化展现</strong>，或者将数据用于<strong>优化你的推荐算法</strong>，比如短视频个性化推荐、电商商品推荐、头条新闻推荐等。当然你也可以将数据用于训练你的<strong>机器学习模型</strong></p>
-</blockquote>
-</li>
-</ol>
-<blockquote>
-<p>建议：Scala 确实足够的精简和灵活，但其在语言复杂度上略大于 Java，例如隐式转换和隐式参数等概念在初次涉及时会比较难以理解，所以你可以在了解Spark 后再去学习 Scala ，因为类似隐式转换等概念在 Spark 源码中有大量的运用。</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">日志收集框架：Flume 、Logstash、Kibana</span><br><span class="line">分布式文件存储系统：Hadoop HDFS</span><br><span class="line">数据库系统：Mongodb、HBase</span><br><span class="line">分布式计算框架：</span><br><span class="line">批处理框架：Hadoop MapReduce</span><br><span class="line">流处理框架：Storm</span><br><span class="line">混合处理框架：Spark、Flink</span><br><span class="line">查询分析框架：Hive 、Spark SQL 、Flink SQL、 Pig、Phoenix</span><br><span class="line">集群资源管理器：Hadoop YARN</span><br><span class="line">分布式协调服务：Zookeeper</span><br><span class="line">数据迁移工具：Sqoop</span><br><span class="line">任务调度框架：Azkaban、Oozie</span><br><span class="line">集群部署和监控：Ambari、Cloudera Manager</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>大数据</category>
-      </categories>
-      <tags>
-        <tag>大数据</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>惩罚线性回归模型</title>
     <url>/2020/02/10/%E6%83%A9%E7%BD%9A%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92%E6%A8%A1%E5%9E%8B/</url>
     <content><![CDATA[<h1 id="惩罚线性回归"><a href="#惩罚线性回归" class="headerlink" title="惩罚线性回归"></a>惩罚线性回归</h1><p>产生背景：<br>线性回归可以理解为“拟合”，一般采用普通最小二乘方法OLS（ordinary least square），但是对于拟合问题存在一个过拟合的问题，为了避免这种现象，提出了惩罚线性回归模型，要求模型对于训练数据具有较好的<strong>学习能力</strong>，同时也要<strong>平衡系数参数的惯性能量</strong></p>
@@ -1191,6 +1191,30 @@ tips:感觉网上的教程大多数很复杂，暂时也不太明白他们做的
       </categories>
       <tags>
         <tag>Dropouts课题(刘世超老师)</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>爬取人民日报新闻文章（根据日期）</title>
+    <url>/2019/12/06/%E7%88%AC%E5%8F%96%E4%BA%BA%E6%B0%91%E6%97%A5%E6%8A%A5%E6%96%B0%E9%97%BB%E6%96%87%E7%AB%A0%EF%BC%88%E6%A0%B9%E6%8D%AE%E6%97%A5%E6%9C%9F%EF%BC%89/</url>
+    <content><![CDATA[<figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> bs4</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fetchUrl</span><span class="params">(url)</span>:</span></span><br><span class="line">    <span class="string">''' 发起网络请求，它可以访问目标 url ，获取目标网页的 html 内容并返回</span></span><br><span class="line"><span class="string">    :param url:</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    headers = &#123;</span><br><span class="line">        <span class="string">'accept'</span>: <span class="string">'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8'</span>,</span><br><span class="line">        <span class="string">'user-agent'</span>: <span class="string">'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36'</span>,</span><br><span class="line">    &#125;</span><br><span class="line">    r = requests.get(url, headers=headers)</span><br><span class="line">    r.raise_for_status() <span class="comment"># 获取状态码</span></span><br><span class="line">    r.encoding = r.apparent_encoding <span class="comment"># 编码</span></span><br><span class="line">    <span class="keyword">return</span> r.text</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getPageList</span><span class="params">(year, month, day)</span>:</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    获取当天报纸的各版面的链接列表</span></span><br><span class="line"><span class="string">    :param year:</span></span><br><span class="line"><span class="string">    :param month:</span></span><br><span class="line"><span class="string">    :param day:</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    url = <span class="string">'http://paper.people.com.cn/rmrb/html/'</span> + year + <span class="string">'-'</span> + month + <span class="string">'/'</span> + day + <span class="string">'/nbs.D110000renmrb_01.htm'</span></span><br><span class="line">    html = fetchUrl(url)</span><br><span class="line">    bsobj = bs4.BeautifulSoup(html, <span class="string">'html.parser'</span>)</span><br><span class="line">    pageList = bsobj.find(<span class="string">'div'</span>, attrs=&#123;<span class="string">'id'</span>: <span class="string">'pageList'</span>&#125;).ul.find_all(<span class="string">'div'</span>, attrs=&#123;<span class="string">'class'</span>: <span class="string">'right_title-name'</span>&#125;)</span><br><span class="line">    linkList = []</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> page <span class="keyword">in</span> pageList:</span><br><span class="line">        link = page.a[<span class="string">"href"</span>]</span><br><span class="line">        url = <span class="string">'http://paper.people.com.cn/rmrb/html/'</span> + year + <span class="string">'-'</span> + month + <span class="string">'/'</span> + day + <span class="string">'/'</span> + link</span><br><span class="line">        linkList.append(url)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> linkList</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getTitleList</span><span class="params">(year, month, day, pageUrl)</span>:</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    获取报纸某一版面的文章链接列表</span></span><br><span class="line"><span class="string">    :param year:</span></span><br><span class="line"><span class="string">    :param month:</span></span><br><span class="line"><span class="string">    :param day:</span></span><br><span class="line"><span class="string">    :param pageUrl:</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    html = fetchUrl(pageUrl)</span><br><span class="line">    bsobj = bs4.BeautifulSoup(html, <span class="string">'html.parser'</span>)</span><br><span class="line">    titleList = bsobj.find(<span class="string">'div'</span>, attrs=&#123;<span class="string">'id'</span>: <span class="string">'titleList'</span>&#125;).ul.find_all(<span class="string">'li'</span>)</span><br><span class="line">    linkList = []</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> title <span class="keyword">in</span> titleList:</span><br><span class="line">        tempList = title.find_all(<span class="string">'a'</span>)</span><br><span class="line">        <span class="keyword">for</span> temp <span class="keyword">in</span> tempList:</span><br><span class="line">            link = temp[<span class="string">"href"</span>]</span><br><span class="line">            <span class="keyword">if</span> <span class="string">'nw.D110000renmrb'</span> <span class="keyword">in</span> link:</span><br><span class="line">                url = <span class="string">'http://paper.people.com.cn/rmrb/html/'</span> + year + <span class="string">'-'</span> + month + <span class="string">'/'</span> + day + <span class="string">'/'</span> + link</span><br><span class="line">                linkList.append(url)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> linkList</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getContent</span><span class="params">(html)</span>:</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    解析 HTML 网页，获取新闻的文章内容</span></span><br><span class="line"><span class="string">    :param html:</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    bsobj = bs4.BeautifulSoup(html, <span class="string">'html.parser'</span>)</span><br><span class="line">    <span class="comment"># 获取文章 标题</span></span><br><span class="line">    title = bsobj.h3.text + <span class="string">'\n'</span> + bsobj.h1.text + <span class="string">'\n'</span> + bsobj.h2.text + <span class="string">'\n'</span></span><br><span class="line">    <span class="comment"># 获取文章 内容</span></span><br><span class="line">    pList = bsobj.find(<span class="string">'div'</span>, attrs=&#123;<span class="string">'id'</span>: <span class="string">'ozoom'</span>&#125;).find_all(<span class="string">'p'</span>)</span><br><span class="line">    content = <span class="string">''</span></span><br><span class="line">    <span class="keyword">for</span> p <span class="keyword">in</span> pList:</span><br><span class="line">        content += p.text + <span class="string">'\n'</span></span><br><span class="line">    <span class="comment"># 返回结果 标题+内容</span></span><br><span class="line">    resp = title + content</span><br><span class="line">    <span class="keyword">return</span> resp</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">saveFile</span><span class="params">(content, path, filename)</span>:</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    保存文件</span></span><br><span class="line"><span class="string">    :param content: 内容</span></span><br><span class="line"><span class="string">    :param path: 路径</span></span><br><span class="line"><span class="string">    :param filename: 文件名</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(path):</span><br><span class="line">        os.makedirs(path)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">with</span> open(path + filename, <span class="string">'w'</span>, encoding=<span class="string">'utf-8'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        f.write(content)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">download_rmrb</span><span class="params">(year, month, day, destdir)</span>:</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    爬取的日子</span></span><br><span class="line"><span class="string">    :param year:</span></span><br><span class="line"><span class="string">    :param month:</span></span><br><span class="line"><span class="string">    :param day:</span></span><br><span class="line"><span class="string">    :param destdir: 目录</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    pageList = getPageList(year, month, day)</span><br><span class="line">    <span class="keyword">for</span> page <span class="keyword">in</span> pageList:</span><br><span class="line">        titleList = getTitleList(year, month, day, page)</span><br><span class="line">        <span class="keyword">for</span> url <span class="keyword">in</span> titleList:</span><br><span class="line">            <span class="comment"># 获取新闻文章内容</span></span><br><span class="line">            html = fetchUrl(url)</span><br><span class="line">            content = getContent(html)</span><br><span class="line"></span><br><span class="line">            <span class="comment"># 生成保存的文件路径及文件名</span></span><br><span class="line">            temp = url.split(<span class="string">'_'</span>)[<span class="number">2</span>].split(<span class="string">'.'</span>)[<span class="number">0</span>].split(<span class="string">'-'</span>)</span><br><span class="line">            pageNo = temp[<span class="number">1</span>]</span><br><span class="line">            titleNo = temp[<span class="number">0</span>] <span class="keyword">if</span> int(temp[<span class="number">0</span>]) &gt;= <span class="number">10</span> <span class="keyword">else</span> <span class="string">'0'</span> + temp[<span class="number">0</span>]</span><br><span class="line">            path = destdir + <span class="string">'/'</span> + year + month + day + <span class="string">'/'</span></span><br><span class="line">            fileName = year + month + day + <span class="string">'-'</span> + pageNo + <span class="string">'-'</span> + titleNo + <span class="string">'.txt'</span></span><br><span class="line"></span><br><span class="line">            <span class="comment"># 保存文件</span></span><br><span class="line">            saveFile(content, path, fileName)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 设定日期，爬取当日的</span></span><br><span class="line">    year = <span class="string">"2020"</span></span><br><span class="line">    month = <span class="string">"01"</span></span><br><span class="line">    day = <span class="string">"06"</span></span><br><span class="line">    <span class="comment"># 路径</span></span><br><span class="line">    destdir = <span class="string">"D:/data"</span></span><br><span class="line"></span><br><span class="line">    download_rmrb(year, month, day, destdir)</span><br><span class="line">    print(<span class="string">"爬取完成："</span> + year + month + day)</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Python爬虫</category>
+      </categories>
+      <tags>
+        <tag>Python爬虫</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>爬取网易新闻排行榜</title>
+    <url>/2019/12/05/%E7%88%AC%E5%8F%96%E7%BD%91%E6%98%93%E6%96%B0%E9%97%BB%E6%8E%92%E8%A1%8C%E6%A6%9C/</url>
+    <content><![CDATA[<figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">StringListSave</span><span class="params">(save_path, filename, slist)</span>:</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    文件保存位置</span></span><br><span class="line"><span class="string">    :param save_path: 地址</span></span><br><span class="line"><span class="string">    :param filename: 文件名</span></span><br><span class="line"><span class="string">    :param slist:</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(save_path):</span><br><span class="line">        os.makedirs(save_path)</span><br><span class="line">    <span class="comment"># 以txt存</span></span><br><span class="line">    path = save_path+<span class="string">"/"</span>+filename+<span class="string">".txt"</span></span><br><span class="line">    <span class="keyword">with</span> open(path, <span class="string">"w+"</span>) <span class="keyword">as</span> fp:</span><br><span class="line">        <span class="keyword">for</span> s <span class="keyword">in</span> slist:</span><br><span class="line">            fp.write(<span class="string">"%s\t\t%s\n"</span> % (s[<span class="number">0</span>].encode(<span class="string">"utf8"</span>).decode(<span class="string">'utf-8'</span>), s[<span class="number">1</span>].encode(<span class="string">"utf8"</span>).decode(<span class="string">'utf-8'</span>)))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Page_Info</span><span class="params">(myPage)</span>:</span></span><br><span class="line">    <span class="string">'''Regex'''</span></span><br><span class="line">    mypage_Info = re.findall(<span class="string">r'&lt;div class="titleBar" id=".*?"&gt;&lt;h2&gt;(.*?)&lt;/h2&gt;&lt;div class="more"&gt;&lt;a href="(.*?)"&gt;.*?&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;'</span>, myPage, re.S)</span><br><span class="line">    <span class="keyword">return</span> mypage_Info</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">New_Page_Info</span><span class="params">(new_page)</span>:</span></span><br><span class="line">    dom = etree.HTML(new_page)</span><br><span class="line">    new_items = dom.xpath(<span class="string">'//tr/td/a/text()'</span>)</span><br><span class="line">    new_urls = dom.xpath(<span class="string">'//tr/td/a/@href'</span>)</span><br><span class="line">    <span class="keyword">assert</span>(len(new_items) == len(new_urls))</span><br><span class="line">    <span class="keyword">return</span> zip(new_items, new_urls)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Spider</span><span class="params">(url)</span>:</span></span><br><span class="line">    i = <span class="number">0</span></span><br><span class="line">    print(<span class="string">"下载中 "</span>, url)</span><br><span class="line">    myPage = requests.get(url).content.decode(<span class="string">"gbk"</span>)</span><br><span class="line">    myPageResults = Page_Info(myPage)</span><br><span class="line">    save_path = <span class="string">u"网易新闻抓取"</span></span><br><span class="line">    filename = str(i)+<span class="string">"_"</span>+<span class="string">u"新闻排行榜"</span></span><br><span class="line">    StringListSave(save_path, filename, myPageResults)</span><br><span class="line">    i += <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> item, url <span class="keyword">in</span> myPageResults:</span><br><span class="line">        print(<span class="string">"下载中 "</span>, url)</span><br><span class="line">        new_page = requests.get(url).content.decode(<span class="string">"gbk"</span>)</span><br><span class="line">        newPageResults = New_Page_Info(new_page)</span><br><span class="line">        filename = str(i)+<span class="string">"_"</span>+item</span><br><span class="line">        StringListSave(save_path, filename, newPageResults)</span><br><span class="line">        i += <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    print(<span class="string">"开始"</span>)</span><br><span class="line">    start_url = <span class="string">"http://news.163.com/rank/"</span></span><br><span class="line">    Spider(start_url)</span><br><span class="line">    print(<span class="string">"结束"</span>)</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>Python爬虫</category>
+      </categories>
+      <tags>
+        <tag>Python爬虫</tag>
       </tags>
   </entry>
   <entry>
@@ -1226,30 +1250,6 @@ tips:感觉网上的教程大多数很复杂，暂时也不太明白他们做的
       </tags>
   </entry>
   <entry>
-    <title>爬取人民日报新闻文章（根据日期）</title>
-    <url>/2019/12/06/%E7%88%AC%E5%8F%96%E4%BA%BA%E6%B0%91%E6%97%A5%E6%8A%A5%E6%96%B0%E9%97%BB%E6%96%87%E7%AB%A0%EF%BC%88%E6%A0%B9%E6%8D%AE%E6%97%A5%E6%9C%9F%EF%BC%89/</url>
-    <content><![CDATA[<figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> bs4</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fetchUrl</span><span class="params">(url)</span>:</span></span><br><span class="line">    <span class="string">''' 发起网络请求，它可以访问目标 url ，获取目标网页的 html 内容并返回</span></span><br><span class="line"><span class="string">    :param url:</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    headers = &#123;</span><br><span class="line">        <span class="string">'accept'</span>: <span class="string">'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8'</span>,</span><br><span class="line">        <span class="string">'user-agent'</span>: <span class="string">'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36'</span>,</span><br><span class="line">    &#125;</span><br><span class="line">    r = requests.get(url, headers=headers)</span><br><span class="line">    r.raise_for_status() <span class="comment"># 获取状态码</span></span><br><span class="line">    r.encoding = r.apparent_encoding <span class="comment"># 编码</span></span><br><span class="line">    <span class="keyword">return</span> r.text</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getPageList</span><span class="params">(year, month, day)</span>:</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    获取当天报纸的各版面的链接列表</span></span><br><span class="line"><span class="string">    :param year:</span></span><br><span class="line"><span class="string">    :param month:</span></span><br><span class="line"><span class="string">    :param day:</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    url = <span class="string">'http://paper.people.com.cn/rmrb/html/'</span> + year + <span class="string">'-'</span> + month + <span class="string">'/'</span> + day + <span class="string">'/nbs.D110000renmrb_01.htm'</span></span><br><span class="line">    html = fetchUrl(url)</span><br><span class="line">    bsobj = bs4.BeautifulSoup(html, <span class="string">'html.parser'</span>)</span><br><span class="line">    pageList = bsobj.find(<span class="string">'div'</span>, attrs=&#123;<span class="string">'id'</span>: <span class="string">'pageList'</span>&#125;).ul.find_all(<span class="string">'div'</span>, attrs=&#123;<span class="string">'class'</span>: <span class="string">'right_title-name'</span>&#125;)</span><br><span class="line">    linkList = []</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> page <span class="keyword">in</span> pageList:</span><br><span class="line">        link = page.a[<span class="string">"href"</span>]</span><br><span class="line">        url = <span class="string">'http://paper.people.com.cn/rmrb/html/'</span> + year + <span class="string">'-'</span> + month + <span class="string">'/'</span> + day + <span class="string">'/'</span> + link</span><br><span class="line">        linkList.append(url)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> linkList</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getTitleList</span><span class="params">(year, month, day, pageUrl)</span>:</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    获取报纸某一版面的文章链接列表</span></span><br><span class="line"><span class="string">    :param year:</span></span><br><span class="line"><span class="string">    :param month:</span></span><br><span class="line"><span class="string">    :param day:</span></span><br><span class="line"><span class="string">    :param pageUrl:</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    html = fetchUrl(pageUrl)</span><br><span class="line">    bsobj = bs4.BeautifulSoup(html, <span class="string">'html.parser'</span>)</span><br><span class="line">    titleList = bsobj.find(<span class="string">'div'</span>, attrs=&#123;<span class="string">'id'</span>: <span class="string">'titleList'</span>&#125;).ul.find_all(<span class="string">'li'</span>)</span><br><span class="line">    linkList = []</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> title <span class="keyword">in</span> titleList:</span><br><span class="line">        tempList = title.find_all(<span class="string">'a'</span>)</span><br><span class="line">        <span class="keyword">for</span> temp <span class="keyword">in</span> tempList:</span><br><span class="line">            link = temp[<span class="string">"href"</span>]</span><br><span class="line">            <span class="keyword">if</span> <span class="string">'nw.D110000renmrb'</span> <span class="keyword">in</span> link:</span><br><span class="line">                url = <span class="string">'http://paper.people.com.cn/rmrb/html/'</span> + year + <span class="string">'-'</span> + month + <span class="string">'/'</span> + day + <span class="string">'/'</span> + link</span><br><span class="line">                linkList.append(url)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> linkList</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getContent</span><span class="params">(html)</span>:</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    解析 HTML 网页，获取新闻的文章内容</span></span><br><span class="line"><span class="string">    :param html:</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    bsobj = bs4.BeautifulSoup(html, <span class="string">'html.parser'</span>)</span><br><span class="line">    <span class="comment"># 获取文章 标题</span></span><br><span class="line">    title = bsobj.h3.text + <span class="string">'\n'</span> + bsobj.h1.text + <span class="string">'\n'</span> + bsobj.h2.text + <span class="string">'\n'</span></span><br><span class="line">    <span class="comment"># 获取文章 内容</span></span><br><span class="line">    pList = bsobj.find(<span class="string">'div'</span>, attrs=&#123;<span class="string">'id'</span>: <span class="string">'ozoom'</span>&#125;).find_all(<span class="string">'p'</span>)</span><br><span class="line">    content = <span class="string">''</span></span><br><span class="line">    <span class="keyword">for</span> p <span class="keyword">in</span> pList:</span><br><span class="line">        content += p.text + <span class="string">'\n'</span></span><br><span class="line">    <span class="comment"># 返回结果 标题+内容</span></span><br><span class="line">    resp = title + content</span><br><span class="line">    <span class="keyword">return</span> resp</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">saveFile</span><span class="params">(content, path, filename)</span>:</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    保存文件</span></span><br><span class="line"><span class="string">    :param content: 内容</span></span><br><span class="line"><span class="string">    :param path: 路径</span></span><br><span class="line"><span class="string">    :param filename: 文件名</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(path):</span><br><span class="line">        os.makedirs(path)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">with</span> open(path + filename, <span class="string">'w'</span>, encoding=<span class="string">'utf-8'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        f.write(content)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">download_rmrb</span><span class="params">(year, month, day, destdir)</span>:</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    爬取的日子</span></span><br><span class="line"><span class="string">    :param year:</span></span><br><span class="line"><span class="string">    :param month:</span></span><br><span class="line"><span class="string">    :param day:</span></span><br><span class="line"><span class="string">    :param destdir: 目录</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    pageList = getPageList(year, month, day)</span><br><span class="line">    <span class="keyword">for</span> page <span class="keyword">in</span> pageList:</span><br><span class="line">        titleList = getTitleList(year, month, day, page)</span><br><span class="line">        <span class="keyword">for</span> url <span class="keyword">in</span> titleList:</span><br><span class="line">            <span class="comment"># 获取新闻文章内容</span></span><br><span class="line">            html = fetchUrl(url)</span><br><span class="line">            content = getContent(html)</span><br><span class="line"></span><br><span class="line">            <span class="comment"># 生成保存的文件路径及文件名</span></span><br><span class="line">            temp = url.split(<span class="string">'_'</span>)[<span class="number">2</span>].split(<span class="string">'.'</span>)[<span class="number">0</span>].split(<span class="string">'-'</span>)</span><br><span class="line">            pageNo = temp[<span class="number">1</span>]</span><br><span class="line">            titleNo = temp[<span class="number">0</span>] <span class="keyword">if</span> int(temp[<span class="number">0</span>]) &gt;= <span class="number">10</span> <span class="keyword">else</span> <span class="string">'0'</span> + temp[<span class="number">0</span>]</span><br><span class="line">            path = destdir + <span class="string">'/'</span> + year + month + day + <span class="string">'/'</span></span><br><span class="line">            fileName = year + month + day + <span class="string">'-'</span> + pageNo + <span class="string">'-'</span> + titleNo + <span class="string">'.txt'</span></span><br><span class="line"></span><br><span class="line">            <span class="comment"># 保存文件</span></span><br><span class="line">            saveFile(content, path, fileName)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 设定日期，爬取当日的</span></span><br><span class="line">    year = <span class="string">"2020"</span></span><br><span class="line">    month = <span class="string">"01"</span></span><br><span class="line">    day = <span class="string">"06"</span></span><br><span class="line">    <span class="comment"># 路径</span></span><br><span class="line">    destdir = <span class="string">"D:/data"</span></span><br><span class="line"></span><br><span class="line">    download_rmrb(year, month, day, destdir)</span><br><span class="line">    print(<span class="string">"爬取完成："</span> + year + month + day)</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Python爬虫</category>
-      </categories>
-      <tags>
-        <tag>Python爬虫</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>爬取网易新闻排行榜</title>
-    <url>/2019/12/05/%E7%88%AC%E5%8F%96%E7%BD%91%E6%98%93%E6%96%B0%E9%97%BB%E6%8E%92%E8%A1%8C%E6%A6%9C/</url>
-    <content><![CDATA[<figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">StringListSave</span><span class="params">(save_path, filename, slist)</span>:</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    文件保存位置</span></span><br><span class="line"><span class="string">    :param save_path: 地址</span></span><br><span class="line"><span class="string">    :param filename: 文件名</span></span><br><span class="line"><span class="string">    :param slist:</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(save_path):</span><br><span class="line">        os.makedirs(save_path)</span><br><span class="line">    <span class="comment"># 以txt存</span></span><br><span class="line">    path = save_path+<span class="string">"/"</span>+filename+<span class="string">".txt"</span></span><br><span class="line">    <span class="keyword">with</span> open(path, <span class="string">"w+"</span>) <span class="keyword">as</span> fp:</span><br><span class="line">        <span class="keyword">for</span> s <span class="keyword">in</span> slist:</span><br><span class="line">            fp.write(<span class="string">"%s\t\t%s\n"</span> % (s[<span class="number">0</span>].encode(<span class="string">"utf8"</span>).decode(<span class="string">'utf-8'</span>), s[<span class="number">1</span>].encode(<span class="string">"utf8"</span>).decode(<span class="string">'utf-8'</span>)))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Page_Info</span><span class="params">(myPage)</span>:</span></span><br><span class="line">    <span class="string">'''Regex'''</span></span><br><span class="line">    mypage_Info = re.findall(<span class="string">r'&lt;div class="titleBar" id=".*?"&gt;&lt;h2&gt;(.*?)&lt;/h2&gt;&lt;div class="more"&gt;&lt;a href="(.*?)"&gt;.*?&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;'</span>, myPage, re.S)</span><br><span class="line">    <span class="keyword">return</span> mypage_Info</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">New_Page_Info</span><span class="params">(new_page)</span>:</span></span><br><span class="line">    dom = etree.HTML(new_page)</span><br><span class="line">    new_items = dom.xpath(<span class="string">'//tr/td/a/text()'</span>)</span><br><span class="line">    new_urls = dom.xpath(<span class="string">'//tr/td/a/@href'</span>)</span><br><span class="line">    <span class="keyword">assert</span>(len(new_items) == len(new_urls))</span><br><span class="line">    <span class="keyword">return</span> zip(new_items, new_urls)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Spider</span><span class="params">(url)</span>:</span></span><br><span class="line">    i = <span class="number">0</span></span><br><span class="line">    print(<span class="string">"下载中 "</span>, url)</span><br><span class="line">    myPage = requests.get(url).content.decode(<span class="string">"gbk"</span>)</span><br><span class="line">    myPageResults = Page_Info(myPage)</span><br><span class="line">    save_path = <span class="string">u"网易新闻抓取"</span></span><br><span class="line">    filename = str(i)+<span class="string">"_"</span>+<span class="string">u"新闻排行榜"</span></span><br><span class="line">    StringListSave(save_path, filename, myPageResults)</span><br><span class="line">    i += <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> item, url <span class="keyword">in</span> myPageResults:</span><br><span class="line">        print(<span class="string">"下载中 "</span>, url)</span><br><span class="line">        new_page = requests.get(url).content.decode(<span class="string">"gbk"</span>)</span><br><span class="line">        newPageResults = New_Page_Info(new_page)</span><br><span class="line">        filename = str(i)+<span class="string">"_"</span>+item</span><br><span class="line">        StringListSave(save_path, filename, newPageResults)</span><br><span class="line">        i += <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    print(<span class="string">"开始"</span>)</span><br><span class="line">    start_url = <span class="string">"http://news.163.com/rank/"</span></span><br><span class="line">    Spider(start_url)</span><br><span class="line">    print(<span class="string">"结束"</span>)</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>Python爬虫</category>
-      </categories>
-      <tags>
-        <tag>Python爬虫</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>爬虫之selenium报错——Chromedriver</title>
     <url>/2020/02/25/%E7%88%AC%E8%99%AB%E4%B9%8Bselenium%E6%8A%A5%E9%94%99%E2%80%94%E2%80%94Chromedriver/</url>
     <content><![CDATA[<p><strong>报错信息：</strong></p>
@@ -1273,6 +1273,52 @@ tips:感觉网上的教程大多数很复杂，暂时也不太明白他们做的
   <script id="hbeData" type="hbeData" data-hmacdigest="bb1e67510c3778568b9929b05c754084948324123e27d36657e6cde0222ab35e">ff97108b41fe8a58044d22451acc7fc5f5615f5013ef8af5c1e71328629f8f5572488f63dfb2dc116af3e7c8a6a774b06d053331ba1b272a05f0fb8d055afa1d6120fcabca3b1a85efc102d27f346739441442af8b5ff936c008582013935ef466ef0295c198b302acca0eb815777ccaa2235e12e13bfb9bba0df090b870903d67df0b61bac99157a8824205ec575dcd5233fe8e8f36a775b4f6002de039294369f0c2570375ed77ce43b01227cb6d8357572bdfc4c986f769436b866886a52c2789e2d49c2485f29b1670fd01666a7fe4634f92b708dbcb9f76ccaaa5a88b3309094780b5eea3cd822d4d872a810070ac54cf495d7fc41c15d40b915a81679a6bff608a9695cb9f11e931f57ed5e1e5ed565335b834ed303a0e0baa06f159c4d882ef7ac611e5d661fa87564625284e9de2276379e1c2fe0739cd9dd4820d8869f5bd2c7aefc3a966db07924ec98dd1c94d276014dae65d7d4e8346007e8c14c0b53022c31548037be09e0d650c434c79b6672f08b829c4337692d2fc2ef429c8699d9cef79fdfb6512cfc5a83d660681d524f0374c9f38a2d83eef7f7c058ca3503c88898c26064d000e7f1012243c4ca665bede251b51c15ad14d344c412be8c290845860f50823a0ada5f007957d85b3777c20302e522d44e640579790579ee2b4ce267b0141365d449d59979b61df92358276394a300b57eec4e6de3c654223e9e8c147dcb40dda0f1d8a58b777a471f69e555d8e18a401625fce7c89ef9eb9bd2255ac7410e8fa9b8be02517114abf0c8c2386ab5942cd8f00b4ee42b064cee9ee85d1f21ff524acb4b7f1ee06a944a0efa1a642f2d80554c4edaedab3bb5c47eab1e28ae4b7888e1cfa4b5519fab2cf12d455d86761c2bf317d2b114f23b7ec45c79c28b67bf0ed13633594db21a6b625bc7975dd32ec104ef392093222ffd93d31a62f0cbb45b71297c640da9ca40d3eaef6f430e650b23d48179aeaa303718046e40b188410ad2d741e9bf0ac0353a384f775ae7dcb4f95a5b219cb61bea77362bdc5c1baeb5f28dc9352c60c51080eebc07ccbc56ee7f6658ec81d9ef7256827cee6307cef8f8fec756496b04e4757aa1afab6e66dcba6227e6d8aaf7e0e43fe45ae812e13dd0d607e28edd20e8b3c1b146829a9f6a9952c2aa7617555c0c710c7cb799ae0121283e06ff1bdf1b4fa9b7cfb7bc7c32ca971e0b30c6d7f1487bf55ae883b089a3f4faf3fd821e18e5763ec3c9ccef96376f17e6f1c78a8f81694e5f4f5cb8e58afda242b9bda333eaa4af815341680090cf4e1d4eeaae2b531f1c4df6b5514d3d295071eb37f3be7489b4214568ab8039d02651d8be7c3c43383d600925b6cb81fa51eb7c2b16ef7ddcdb387fb7cd73432f09c99ec49160d0ba9e673f052ce6c7e69361d746ca51ab4e9d472164991f2e93fe915c611432dcb04f8f70907ed9788e8b063cf1b84704e26face686af2f61c37339de4a09d75c296be6f904ff3b7b4103d9f4db80a2c1ade75e22dfcb5759a1c23077b621b1471edd11136092904461b70988edcedf83ec698d694f58fb40399cb393ae2d9143af61088ea21d3017c5dc1fac016cf807700684fd671645b0db3fdcc367a1eb70ce2b1f739ca887c55005e87125ac750d3d7d928f16e8966a8f143ea4e8ad36c2518630cc06683950a4155dc9c5a598948058b56ae7defb8c3333b1372b1d07765047cfbb5c147a5d843316e2904c2532d1d4409c0ce09329a5f485cbb8f79282f0bcfab27902d3f5eba49b9bd7db5de3d4257162e0c56d9cb1fe43fb09d7ef72d48c5097a806a67d0c738de43daae993deabf69511190b23347909311ddc534d202ac1015e335339f110426f260b6243352abcf562d7fd898d3bd33728667bec167c15e314e21b1a43a241f7e0eab2eb7743827da4de1a1bc4113013631627d1819b09e91ce6a305d98bbec9856ff9d48444481eb5f027057d804d7f47ad3beba7c1909ee8cffe0f0616fb559462924bdb7f9ad547eb070e055753063d5d3adf01c91b7df82b268969ae1956ea8496ab443271be88861ccc50279d2632d48260006cffe5369e2dde481bdc42e848308b6686c4fd56b0776d55fd1869d4c9ea7701f95752be8c328c6c1a6c170017ec43675e89644717db3b39ff5c9b559d541fd343f897351740947c16ab516cba55a2a7966cdff0b528b714e10afecf4ae35d528e1194841d621554abfc9b15495f3b549a89bb573b0f01f5b4e4d0ed374996a487613e69127c4a70da56a53e87b79420bf08c8e7fe576bfb56ebcccde6a95e2a08afd119c615f7dc0cf270fc93edd4d05635cd0ab1ee49bcf5518d6347f270eb897adecd6ea182a003fe0c450ef413ef5a9a924d5a7788d18c89f19db75c5781374d72d1c13412536ad0dcb21346ba1c8467395a8ed3d457f692a6815fa8182af1710edbb3010b7b905f0078afd51e91af1ac146c08fa95075aa2a1624eb63a5d50162aa5598d8f39b6ad7ae6e96bcc68d1f7e45e0c5b60ee3e45e3b06bc20218be82de35baba68b9ed483b3ba251b0766402085272784a6013eda1e58cdf06c0f873a15ec7888545f870ce947af7566652e2595a7c2a692b1ea10d7083cb873d4ca378addda8a17b7af5822c4d4a1f301fe39e7bff0e9ecba6591fd681c4c973a9ff86b5e337253768fe89bc05a9df1e89f6bd61ebbec0e96f8f8a8360e0bd4e6000f65fd91d41b799b5c3c4fea8133bc759a92d39b1f8b863e05379d9d45da51dbfcc90da9ce3ca666652b32e3ca80babe0b98226a656ad2b4ea9537c2b7339fc9560ec2daf340964e1a4f19df05b4e00783fef1e478530caad588c2ca066f9b6a5dc821d4afa26f0dec5aafa2133b2b85a9d8c129961c93e236cb2298b6cff6f77ac2c93dcf2fe2742165b806cfd83aa81e3b73854a8b57b45f2b6b601db7c1ca391c123c59af7e87505b1fcfed670cd5a92530dd848548b1a0432cf3bed9a7ac059613457dec2c5b69a26d29921d9abe6581a270d113056f349337556d494c439fde335653df69195c4ce19c97797af615a10050c0e9bd9670d88e5e407b7b36b2b560e00ab7ff691a8e87ccd5cb65585c00f169d67eaf517298d34010d5f5697986a5f072a71bee9452742efe27c9fb808503a2a5c7e9b8758212b5f7176a8d87a9f65afd920db0e048bae25a0bf1d86a348652d73f5a56cd1afde3408269e84cbb4cb0ca80c537572f03027737147ca82233237d29721bae7d7994ebd2489de7e0b5aaeb510934e5509968ac0ffb75c69a6e7ab083ab8351c9046dff369a1050ee0a6fefbe36fa38d3220e2e949b69fe09c0cdc7c4378d0b8cee437ea7835ce25dba391607cf48fc6cae66b60f99c721f1320e3639af13743ce1ec31beceff7813bf4195d5f88ad775c74cf8418997ba99651a7bbb75ef4dfc90129dde5f559bf177ba745d117cb3d4049fe52c52976cea2929386bff535d4e5ee504c4bf8890d9dc2530e7506b1c879aac6ad09ed132d42d558a6b78f4dc91ca52d7bf83f293c55e99abd1c67579a846eab7529492f041c53ee517a9b1f41803a9d972bcf01854fdd986390b6e02c6f1e55a67b9a4501c02ce570ebf0795d04f2b16b16386f20840dd6510f149c69a2f9dc3e6d4cb24fdfc3c94110eb0fd2c7039be849ed46dc2c77cffba3e8096d5affc4343482a980ecc0e98807c6acdf98346e19ab40df4b727360dccd66966f4b97203524136adcd28602a3cc285203</script>
 </div>
 <script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">]]></content>
+  </entry>
+  <entry>
+    <title>系统架构设计大纲</title>
+    <url>/2020/02/10/%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E5%A4%A7%E7%BA%B2%20/</url>
+    <content><![CDATA[<h3 id="练习题"><a href="#练习题" class="headerlink" title="练习题"></a>练习题</h3><ol>
+<li>设计一个<strong>压测工具</strong></li>
+<li>设计一个<strong>分布式ID生成器</strong></li>
+<li>设计一个<strong>论坛</strong></li>
+<li>设计一个<strong>微博</strong></li>
+<li>你将如何实现<strong>谷歌搜索</strong>？</li>
+<li>设计一个<strong>C/S应用程序，允许人们互相下棋</strong>。</li>
+<li>如何将<strong>关系存储</strong>在Facebook这样的社交网络中呢？并实现一个当用户的朋友喜欢与他们一样的东西时，用户会收到通知的功能。</li>
+<li>设计<strong>网关</strong>（<a href="https://www.cnblogs.com/rjzheng/p/9220437.html）" target="_blank" rel="noopener">https://www.cnblogs.com/rjzheng/p/9220437.html）</a></li>
+<li>如何设计数据库系统，具体地，可以是设计 taobao/Facebook 或是任何公司的<strong>员工数据库</strong>等；</li>
+<li>如何设计<strong>用户系统</strong>，具体地，可以是 Netflix/Youtube 的用户系统等；</li>
+<li>如何设计<strong>支付系统</strong>，具体地，可以是 alipay 等；</li>
+<li>如何设计<strong>短网址系统</strong>，具体地，可以是新浪的短网址等；</li>
+<li>如何设计<strong>“秒杀”系统</strong>，具体地，可以是淘宝双十一系统等；</li>
+<li><strong>OOD 面向对象系统设计</strong>，具体地，可以是电梯问题、停车问题等；</li>
+<li>如何设计<strong>分布式文件系统</strong>，具体地，可以是 google 的文件分布系统 GFS 等；</li>
+</ol>
+<h2 id="常见方案"><a href="#常见方案" class="headerlink" title="常见方案"></a>常见方案</h2><ul>
+<li>最简单粗暴也是实践中最常用的应对方案就是：升级机器、加机器(所以架构的时候要考虑好水平扩展) </li>
+<li>大多数应用都是<strong>读大于写</strong>，解决方案很简单：<strong>加缓存+读写分离</strong></li>
+<li>对于写大于读的方案，见 (关系型)数据库优化总结</li>
+<li><strong>Nginx：</strong>能轻松的处理c100k问题，内存越大，能处理的并发量越高</li>
+<li><strong>Redis:</strong> <a href="https://redis.io/topics/benchmarks" target="_blank" rel="noopener">https://redis.io/topics/benchmarks</a> 表明，对于GET/SET来说，QPS 10-100k没啥大问题</li>
+<li><strong>MySQL:</strong> <a href="https://www.mysql.com/why-mysql/benchmarks/" target="_blank" rel="noopener">https://www.mysql.com/why-mysql/benchmarks/</a> 表明，对于只读，QPS 几百k没啥问题，<em>对于写，MySQL 5.7 QPS 100k 几乎是上限</em></li>
+<li>PG: <a href="https://www.percona.com/blog/2017/01/06/millions-queries-per-second-postgresql-and-mysql-peaceful-battle-at-modern-demanding-workloads/" target="_blank" rel="noopener">https://www.percona.com/blog/2017/01/06/millions-queries-per-second-postgresql-and-mysql-peaceful-battle-at-modern-demanding-workloads/</a> 也是差不多</li>
+<li>B, M, G, T, PB之间的关系换算要清楚</li>
+<li>需要长时间处理的任务或者是强依赖网络(而网络不确定性大的问题)，妥妥的用队列，例如消息推送</li>
+<li>性能优化套路：<strong>加机器 - 加缓存 - 优化数据库索引 - 垂直拆数据库表 - 水平拆数据库表 - 垂直分库 - 水平分库</strong></li>
+</ul>
+]]></content>
+      <categories>
+        <category>后台开发</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>解决IDEA和Pycharm中Vim插件不能与外界粘贴复制</title>
+    <url>/2020/02/22/%E8%A7%A3%E5%86%B3IDEA%E5%92%8CPycharm%E4%B8%ADVim%E6%8F%92%E4%BB%B6%E4%B8%8D%E8%83%BD%E4%B8%8E%E5%A4%96%E7%95%8C%E7%B2%98%E8%B4%B4%E5%A4%8D%E5%88%B6/</url>
+    <content><![CDATA[<h3 id="原因："><a href="#原因：" class="headerlink" title="原因："></a>原因：</h3><ul>
+<li><strong>vim 缓冲区</strong>和<strong>系统剪贴板</strong><br>vim 里面粘贴复制实际上是在vim 缓冲区 存取数据，而系统的ctry+c ctry+v 是与系统剪贴板之间的交互<h3 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h3></li>
+<li>tools工具下点<strong>vim emulation</strong>，再<strong>重新复制</strong><br>（<em>感觉这的确还是很麻烦，但是暂时没有找到更好的办法了</em>）</li>
+</ul>
+]]></content>
   </entry>
   <entry>
     <title>聚类的评估指标</title>
@@ -1332,52 +1378,6 @@ tips:感觉网上的教程大多数很复杂，暂时也不太明白他们做的
       <tags>
         <tag>Dropouts课题(刘世超老师)</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>系统架构设计大纲</title>
-    <url>/2020/02/10/%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E5%A4%A7%E7%BA%B2%20/</url>
-    <content><![CDATA[<h3 id="练习题"><a href="#练习题" class="headerlink" title="练习题"></a>练习题</h3><ol>
-<li>设计一个<strong>压测工具</strong></li>
-<li>设计一个<strong>分布式ID生成器</strong></li>
-<li>设计一个<strong>论坛</strong></li>
-<li>设计一个<strong>微博</strong></li>
-<li>你将如何实现<strong>谷歌搜索</strong>？</li>
-<li>设计一个<strong>C/S应用程序，允许人们互相下棋</strong>。</li>
-<li>如何将<strong>关系存储</strong>在Facebook这样的社交网络中呢？并实现一个当用户的朋友喜欢与他们一样的东西时，用户会收到通知的功能。</li>
-<li>设计<strong>网关</strong>（<a href="https://www.cnblogs.com/rjzheng/p/9220437.html）" target="_blank" rel="noopener">https://www.cnblogs.com/rjzheng/p/9220437.html）</a></li>
-<li>如何设计数据库系统，具体地，可以是设计 taobao/Facebook 或是任何公司的<strong>员工数据库</strong>等；</li>
-<li>如何设计<strong>用户系统</strong>，具体地，可以是 Netflix/Youtube 的用户系统等；</li>
-<li>如何设计<strong>支付系统</strong>，具体地，可以是 alipay 等；</li>
-<li>如何设计<strong>短网址系统</strong>，具体地，可以是新浪的短网址等；</li>
-<li>如何设计<strong>“秒杀”系统</strong>，具体地，可以是淘宝双十一系统等；</li>
-<li><strong>OOD 面向对象系统设计</strong>，具体地，可以是电梯问题、停车问题等；</li>
-<li>如何设计<strong>分布式文件系统</strong>，具体地，可以是 google 的文件分布系统 GFS 等；</li>
-</ol>
-<h2 id="常见方案"><a href="#常见方案" class="headerlink" title="常见方案"></a>常见方案</h2><ul>
-<li>最简单粗暴也是实践中最常用的应对方案就是：升级机器、加机器(所以架构的时候要考虑好水平扩展) </li>
-<li>大多数应用都是<strong>读大于写</strong>，解决方案很简单：<strong>加缓存+读写分离</strong></li>
-<li>对于写大于读的方案，见 (关系型)数据库优化总结</li>
-<li><strong>Nginx：</strong>能轻松的处理c100k问题，内存越大，能处理的并发量越高</li>
-<li><strong>Redis:</strong> <a href="https://redis.io/topics/benchmarks" target="_blank" rel="noopener">https://redis.io/topics/benchmarks</a> 表明，对于GET/SET来说，QPS 10-100k没啥大问题</li>
-<li><strong>MySQL:</strong> <a href="https://www.mysql.com/why-mysql/benchmarks/" target="_blank" rel="noopener">https://www.mysql.com/why-mysql/benchmarks/</a> 表明，对于只读，QPS 几百k没啥问题，<em>对于写，MySQL 5.7 QPS 100k 几乎是上限</em></li>
-<li>PG: <a href="https://www.percona.com/blog/2017/01/06/millions-queries-per-second-postgresql-and-mysql-peaceful-battle-at-modern-demanding-workloads/" target="_blank" rel="noopener">https://www.percona.com/blog/2017/01/06/millions-queries-per-second-postgresql-and-mysql-peaceful-battle-at-modern-demanding-workloads/</a> 也是差不多</li>
-<li>B, M, G, T, PB之间的关系换算要清楚</li>
-<li>需要长时间处理的任务或者是强依赖网络(而网络不确定性大的问题)，妥妥的用队列，例如消息推送</li>
-<li>性能优化套路：<strong>加机器 - 加缓存 - 优化数据库索引 - 垂直拆数据库表 - 水平拆数据库表 - 垂直分库 - 水平分库</strong></li>
-</ul>
-]]></content>
-      <categories>
-        <category>后台开发</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>解决IDEA和Pycharm中Vim插件不能与外界粘贴复制</title>
-    <url>/2020/02/22/%E8%A7%A3%E5%86%B3IDEA%E5%92%8CPycharm%E4%B8%ADVim%E6%8F%92%E4%BB%B6%E4%B8%8D%E8%83%BD%E4%B8%8E%E5%A4%96%E7%95%8C%E7%B2%98%E8%B4%B4%E5%A4%8D%E5%88%B6/</url>
-    <content><![CDATA[<h3 id="原因："><a href="#原因：" class="headerlink" title="原因："></a>原因：</h3><ul>
-<li><strong>vim 缓冲区</strong>和<strong>系统剪贴板</strong><br>vim 里面粘贴复制实际上是在vim 缓冲区 存取数据，而系统的ctry+c ctry+v 是与系统剪贴板之间的交互<h3 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h3></li>
-<li>tools工具下点<strong>vim emulation</strong>，再<strong>重新复制</strong><br>（<em>感觉这的确还是很麻烦，但是暂时没有找到更好的办法了</em>）</li>
-</ul>
-]]></content>
   </entry>
   <entry>
     <title>解析二级域名后看是否生效</title>
