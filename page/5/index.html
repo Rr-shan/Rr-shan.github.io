@@ -16,7 +16,42 @@ if (isPassword) {
     error: '复制错误',
     noSupport: '浏览器不支持'
   }
-}</script></head><body><canvas id="universe"></canvas><!--#body--><div id="sidebar"><div class="author-info"><div class="author-info-avatar"><img class="author-info-avatar-img" src="/avatar.png"></div><div class="author-info-name">Rr-shan</div><div class="author-info-description"></div><div class="links-buttons"><a class="links-button button-hover" href="https://github.com/Rr-shan" target="_blank">GitHub<i class="icon-dot bg-color2"></i></a><a class="links-button button-hover" href="mailto:1224559633@qq.com" target="_blank">E-Mail<i class="icon-dot bg-color5"></i></a></div><div class="author-info-articles"><a class="author-info-articles-archives article-meta" href="../../archives"><span class="pull-top">日志</span><span class="pull-bottom">42</span></a><a class="author-info-articles-tags article-meta" href="../../tags"><span class="pull-top">标签</span><span class="pull-bottom">12</span></a><a class="author-info-articles-categories article-meta" href="../../categories"><span class="pull-top">分类</span><span class="pull-bottom">12</span></a></div><div class="friend-link"><a class="friend-link-text" href="https://chao-yin-github.github.io/" target="_blank">yccccc~~~~~~~~</a><a class="friend-link-text" href="https://sanzzi.cn" target="_blank">Mywebsite</a></div></div></div><div id="main-container"><header><div id="menu-outer"><i class="menu-list-icon fas fa-bars"></i><nav id="menu-inner"><a class="menu-item" href="/">首页</a><a class="menu-item" href="/tags">标签</a><a class="menu-item" href="/categories">分类</a><a class="menu-item" href="/archives">归档</a><a class="menu-item" href="/about">关于</a></nav><div class="right-info"><a class="title-name" href="/">Sanzzi</a><span id="now-time"></span></div></div></header><div id="content-outer"><div id="content-inner"><div id="recent-posts"><!-- each post in page.posts.sort('date', -1).limit(10).toArray()--><!-- config中配置按照什么排序--><div class="recent-post-item"><a class="post-title" href="../../2019/10/20/COF23/">GOF23</a><div class="container"><time class="button-hover post-date"><i class="fas fa-calendar-alt article-icon" aria-hidden="true"></i> 更新于 2020-04-03</time><div class="button-hover categories"><i class="fa fa-inbox article-icon" aria-hidden="true"></i><a class="link-a" href="../../categories/后台开发/">后台开发</a></div></div><div class="post-content"><div class="main-content content"><p><font color="yellow"> <strong>创建型模式：</strong> 单例模式、工厂模式、抽象工厂模式、建造者模式、原型模式</font></p>
+}</script></head><body><canvas id="universe"></canvas><!--#body--><div id="sidebar"><div class="author-info"><div class="author-info-avatar"><img class="author-info-avatar-img" src="/avatar.png"></div><div class="author-info-name">Rr-shan</div><div class="author-info-description"></div><div class="links-buttons"><a class="links-button button-hover" href="https://github.com/Rr-shan" target="_blank">GitHub<i class="icon-dot bg-color9"></i></a><a class="links-button button-hover" href="mailto:1224559633@qq.com" target="_blank">E-Mail<i class="icon-dot bg-color5"></i></a></div><div class="author-info-articles"><a class="author-info-articles-archives article-meta" href="../../archives"><span class="pull-top">日志</span><span class="pull-bottom">43</span></a><a class="author-info-articles-tags article-meta" href="../../tags"><span class="pull-top">标签</span><span class="pull-bottom">12</span></a><a class="author-info-articles-categories article-meta" href="../../categories"><span class="pull-top">分类</span><span class="pull-bottom">12</span></a></div><div class="friend-link"><a class="friend-link-text" href="https://chao-yin-github.github.io/" target="_blank">yccccc~~~~~~~~</a><a class="friend-link-text" href="https://sanzzi.cn" target="_blank">Mywebsite</a></div></div></div><div id="main-container"><header><div id="menu-outer"><i class="menu-list-icon fas fa-bars"></i><nav id="menu-inner"><a class="menu-item" href="/">首页</a><a class="menu-item" href="/tags">标签</a><a class="menu-item" href="/categories">分类</a><a class="menu-item" href="/archives">归档</a><a class="menu-item" href="/about">关于</a></nav><div class="right-info"><a class="title-name" href="/">Sanzzi</a><span id="now-time"></span></div></div></header><div id="content-outer"><div id="content-inner"><div id="recent-posts"><!-- each post in page.posts.sort('date', -1).limit(10).toArray()--><!-- config中配置按照什么排序--><div class="recent-post-item"><a class="post-title" href="../../2019/11/09/大数据学习的基本框架/">大数据学习的基本框架</a><div class="container"><time class="button-hover post-date"><i class="fas fa-calendar-alt article-icon" aria-hidden="true"></i> 更新于 2020-04-03</time><div class="button-hover categories"><i class="fa fa-inbox article-icon" aria-hidden="true"></i><a class="link-a" href="../../categories/大数据/">大数据</a></div><div class="button-hover tags"><i class="fa fa-tag article-icon" aria-hidden="true"></i><a class="link-a" href="../../tags/大数据/">大数据</a></div></div><div class="post-content"><div class="main-content content"><ol>
+<li><p><strong>数据收集</strong> ： </p>
+<blockquote>
+<p>多种日志收集工具，如 Flume 、Logstash、Kibana 等</p>
+</blockquote>
+</li>
+<li><p><strong>数据存储</strong></p>
+<blockquote>
+<p>解决海量半结构化和非结构化数据的存储，衍生了 Hadoop HDFS 、KFS、GFS 等<strong>分布式文件系统</strong><br>一个优秀的数据存储系统需要同时考虑<strong>数据存储和访问</strong>两方面的问题<br>比如你希望能够对数据进行随机访问，这是传统的关系型数据库所擅长的，但却不是分布式文件系统所擅长的，那么有没有一种存储方案能够同时兼具分布式文件系统和关系型数据库的优点，基于这种需求，就产生了 <strong>HBase、MongoDB</strong>。</p>
+</blockquote>
+</li>
+<li><p><strong>数据分析</strong>（最关键的部分）</p>
+</li>
+</ol>
+<blockquote>
+<ul>
+<li>批处理：对一段时间内海量的离线数据进行统一的处理，对应的处理框架有 Hadoop MapReduce、Spark、Flink 等；</li>
+<li>流处理：对运动中的数据进行处理，即在接收数据的同时就对其进行处理，对应的处理框架有 Storm、Spark Streaming、Flink Streaming 等。</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>批处理和流处理各有其适用的场景，<strong>时间不敏感或者硬件资源有限</strong>，可以采用批处理；时间敏感和及时性要求高就可以采用流处理。随着服务器硬件的价格越来越低和大家对及时性的要求越来越高，<strong>流处理</strong>越来越普遍，如股票价格预测和电商运营数据分析等。</p>
+</blockquote>
+<blockquote>
+<p>上面的框架都是需要通过编程来进行数据分析，那么如果你不是一个后台工程师，是不是就不能进行数据的分析了？当然不是，<em>大数据是一个非常完善的生态圈，有需求就有解决方案。</em> 为了能够让熟悉 SQL 的人员也能够进行数据的分析，查询分析框架应运而生，常用的有 <strong>Hive 、Spark SQL 、Flink SQL、 Pig、Phoenix</strong> 等。</p>
+</blockquote>
+<ol start="4">
+<li><strong>数据应用</strong><blockquote>
+<p>这取决于你实际的业务需求。比如你可以将数据进行<strong>可视化展现</strong>，或者将数据用于<strong>优化你的推荐算法</strong>，比如短视频个性化推荐、电商商品推荐、头条新闻推荐等。当然你也可以将数据用于训练你的<strong>机器学习模型</strong></p>
+</blockquote>
+</li>
+</ol>
+<blockquote>
+<p>建议：Scala 确实足够的精简和灵活，但其在语言复杂度上略大于 Java，例如隐式转换和隐式参数等概念在初次涉及时会比较难以理解，所以你可以在了解Spark 后再去学习 Scala ，因为类似隐式转换等概念在 Spark 源码中有大量的运用。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">日志收集框架：Flume 、Logstash、Kibana</span><br><span class="line">分布式文件存储系统：Hadoop HDFS</span><br><span class="line">数据库系统：Mongodb、HBase</span><br><span class="line">分布式计算框架：</span><br><span class="line">批处理框架：Hadoop MapReduce</span><br><span class="line">流处理框架：Storm</span><br><span class="line">混合处理框架：Spark、Flink</span><br><span class="line">查询分析框架：Hive 、Spark SQL 、Flink SQL、 Pig、Phoenix</span><br><span class="line">集群资源管理器：Hadoop YARN</span><br><span class="line">分布式协调服务：Zookeeper</span><br><span class="line">数据迁移工具：Sqoop</span><br><span class="line">任务调度框架：Azkaban、Oozie</span><br><span class="line">集群部署和监控：Ambari、Cloudera Manager</span><br></pre></td></tr></table></figure></div></div><a class="button-hover more" href="../../2019/11/09/大数据学习的基本框架/#more">阅读全文</a></div><div class="recent-post-item"><a class="post-title" href="../../2019/10/20/COF23/">GOF23</a><div class="container"><time class="button-hover post-date"><i class="fas fa-calendar-alt article-icon" aria-hidden="true"></i> 更新于 2020-04-03</time><div class="button-hover categories"><i class="fa fa-inbox article-icon" aria-hidden="true"></i><a class="link-a" href="../../categories/后台开发/">后台开发</a></div></div><div class="post-content"><div class="main-content content"><p><font color="yellow"> <strong>创建型模式：</strong> 单例模式、工厂模式、抽象工厂模式、建造者模式、原型模式</font></p>
 <p><font color="yellow"> <strong>结构型模式：</strong> 适配器模式、桥接模式、装饰模式、组合模式、外观模式、享元模式、代理模式</font></p>
 <p><font color="yellow"> <strong>行为型模式：</strong> 板块方法模块、命令模式、迭代器模式、观察者模式、中介者模式、备忘录模式、解释器模式、状态模式、策略模式、职责链模式、访问者模式</font></p>
 <ul>
